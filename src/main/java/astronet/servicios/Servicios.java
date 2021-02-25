@@ -246,11 +246,10 @@ public class Servicios {
 		List<EquipoServicio> listaServicios = new ArrayList<EquipoServicio>();
 
 		listaServicios = eqSerOn.getWinbox();
-
 		for (EquipoServicio equipoServicio : listaServicios) {
 			Empleado empleado = new Empleado();
 			empleado = empon.getEmepleadoByEmail(equipoServicio.getUserEmpleado());
-			map.add(empleado.getEmail() + "," + empleado.getPassword() + "," + equipoServicio.getIp());
+			map.add(empleado.getEmail() + "," + empleado.getPassword() + "," + equipoServicio.getIp() + "," + equipoServicio.getPassword());
 
 		}
 
