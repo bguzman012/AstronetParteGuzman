@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import astronet.ec.dao.VisitaDAO;
+import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Visita;
 
 @Stateless
@@ -38,6 +39,10 @@ public class VisitaON {
 
 	public void setListadoVisita(List<Visita> listadoVisita) {
 		this.listadoVisita = VisitaDao.find();
+	}
+	public List<Registro>getVisitaByTecnico(String empleado){
+		return VisitaDao.getVisitaByTecnico(empleado);
+		
 	}
 
 }

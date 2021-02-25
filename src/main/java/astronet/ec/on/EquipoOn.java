@@ -55,6 +55,13 @@ public class EquipoOn {
 	public void setListadoEquiposFibra(List<Equipo> listadoEquiposFibra) {
 		this.listadoEquiposFibra = listadoEquiposFibra;
 	}
+	public List<String>findAntenasRadio(){
+		return equipoDao.findAntenasRadio();
+				
+	}
+	public List<String> nombreAntenas(){
+		return equipoDao.nombreAntenas();
+	}
 
 
 

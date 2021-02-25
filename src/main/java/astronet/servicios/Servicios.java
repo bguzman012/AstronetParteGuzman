@@ -19,50 +19,85 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.primefaces.json.JSONObject;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import astronet.ec.modelo.Agendamiento;
 
 import astronet.ec.modelo.Cliente;
+import astronet.ec.modelo.ClienteTemporal;
 import astronet.ec.modelo.Empleado;
+import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.EquipoServicio;
 import astronet.ec.modelo.Instalacion;
+import astronet.ec.modelo.Plan;
 import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
+import astronet.ec.modelo.Telefono;
+import astronet.ec.modelo.Visita;
 import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
+import astronet.ec.on.ClienteTemporalON;
 import astronet.ec.on.EmpleadoON;
+import astronet.ec.on.EquipoOn;
 import astronet.ec.on.EquipoServicioON;
 import astronet.ec.on.InstalacionON;
+import astronet.ec.on.PlanON;
 import astronet.ec.on.RegistroON;
 import astronet.ec.on.ServicioON;
+import astronet.ec.on.TelefonoON;
+import astronet.ec.on.VisitaON;
 import astronet.ec.util.SessionUtils;
+import astronet.ec.vista.ClienteController;
 
 @Path("/astronet")
 public class Servicios {
-	
+
 	@Inject
 	private EmpleadoON empon;
-	
+
 	@Inject
 	private InstalacionON inson;
-	
+
 	@Inject
 	private AgendamientoON agon;
-	
+
 	@Inject
 	private RegistroON regon;
 	@Inject
 	private EquipoServicioON eqSerOn;
 	@Inject
 	private ServicioON seron;
-	
+
 	@Inject
 	private ClienteON clion;
+	@Inject
+	private VisitaON vison;
+
+	// CLASS TO RECOVER DATA FROM TEMPORAL CLIENTS
+	@Inject
+	private ClienteTemporalON clitempon;
+
+	@Inject
+	private TelefonoON telon;
+	@Inject
+	private EquipoOn eqOn;
+	@Inject
+	private PlanON planOn;
+	@Inject
+	private EquipoServicioON eqServOn;
+
+	@Inject
+	private ClienteController clienteController;
 	
 
-
 	Registro registro;
+
 	/**
 	 * Metodo del login
+	 * 
 	 * @param un
 	 * @param pass
 	 * @return
@@ -82,15 +117,16 @@ public class Servicios {
 			u.setNombre(empleado.getNombre());
 			u.setDepartamento(empleado.getDepartamento());
 			u.setCelular(empleado.getCelular());
-			
+
 		} catch (Exception e) {
 			u.setEmail(e.getMessage());
 		}
 		return u;
 	}
-	
+
 	/**
-	 *Metodo para listar todas las visitas tecnicas 
+	 * Metodo para listar todas las visitas tecnicas
+	 * 
 	 * @return
 	 */
 	@GET
@@ -99,20 +135,107 @@ public class Servicios {
 	public List<String> getIp() {
 		List<String> map = new ArrayList<String>();
 		List<EquipoServicio> listaServicios = new ArrayList<EquipoServicio>();
-		
+
 		listaServicios = eqSerOn.getPing();
-		
+
 		for (EquipoServicio equipoServicio : listaServicios) {
 			Empleado empleado = new Empleado();
 			empleado = empon.getEmepleadoByEmail(equipoServicio.getUserEmpleado());
 			map.add(empleado.getEmail() + "," + empleado.getPassword() + "," + equipoServicio.getIp());
-			
+
 		}
-		
+
 		return map;
 	}
+
 	/**
-	 *Metodo para listar todas las visitas tecnicas 
+	 * Method temporal to install clients
+	 */
+	@GET
+	@Path("/instalaciones")
+	@Produces("application/json")
+	public List<ClienteTemporal> getInstalacionesTecnico(@QueryParam("id") String id) {
+		System.out.println("ID IONIC " + id);
+		List<ClienteTemporal> clientestemp = new ArrayList<ClienteTemporal>();
+		clientestemp = clitempon.filtradoLista(id);
+		return clientestemp;
+
+	}
+
+	@GET
+	@Path("/NombreAntenas")
+	@Produces("application/json")
+	public List<String> listarNombres() {
+		List<String> listfinal = eqOn.nombreAntenas();
+		return listfinal;
+	}
+
+	@POST
+	@Path("/crearCliente")
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response AddUser(ClienteTemporal cli) {
+		System.out.println("INGRESO A GUARDAR CLIENTE");
+
+		return Response.ok().build();
+	}
+
+	@POST
+	@Path("/usuario")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Map<String, String> crearUsuario(String data) {
+		JSONObject recoData = new JSONObject(data);
+		System.out.println(recoData);
+		Cliente cliN = new Cliente();
+		Telefono tele = new Telefono();
+		cliN.setCedula(recoData.getString("cedula"));
+		cliN.setApellidos(recoData.getString("apellidos"));
+		cliN.setNombre(recoData.getString("nombre"));
+		cliN.setDireccionPrincipal(recoData.getString("direccionPrincipal"));
+		cliN.setDireccionSecundaria(recoData.getString("direccionSecundaria"));
+		cliN.setDireccionReferencia(recoData.getString("direccionReferencia"));
+		cliN.setEmail(recoData.getString("email"));
+		clion.guardar(cliN);
+		// AVOID BUG OF UNSAVED CLIENT
+		Cliente clisaved = clion.getClienteCedula(recoData.getString("cedula"));
+		// SAVING NUMBERS OF CLIENT
+		tele.setTipoTelefono("Convencional");
+		tele.setTelNumero(recoData.getString("telefono"));
+		tele.setCliente(clisaved);
+		telon.guardar(tele);
+		
+		Plan planTmp = new Plan();
+		Equipo antenaTmp = new Equipo();
+		EquipoServicio eqServicio = new EquipoServicio();
+
+		antenaTmp = eqOn.getAntenaByName(recoData.getString("antena"));
+		System.out.println("ANTENA ENCONTRADA "+antenaTmp.getNombre());
+		planTmp = planOn.buscarPlan(Integer.parseInt(recoData.getString("plan")));
+		Servicio servicioTmp= new Servicio();
+		servicioTmp.setTipoServicio("radio");
+		servicioTmp.setNumeroContrato(recoData.getString("numerocontrato"));
+		servicioTmp.setCliente(clisaved);
+		servicioTmp.setFechaContrato(recoData.getString("fecha"));
+		servicioTmp.setRouterVendido(recoData.getString("routervendido"));
+		servicioTmp.setObservaciones(recoData.getString("observaciones"));
+		servicioTmp.setPlan(planTmp);
+		seron.guardar(servicioTmp);
+
+		eqServicio.setSerial(recoData.getString("serial"));
+		eqServicio.setPassword(recoData.getString("contrasena"));
+		eqServicio.setIp(recoData.getString("ip"));
+		eqServicio.setUserEmpleado("no");
+		eqServicio.setPing("off");
+		eqServicio.setEquipo(antenaTmp);
+		eqServicio.setServicio(servicioTmp);
+		eqServOn.crearI(eqServicio);
+		return null;
+	}
+
+	/**
+	 * Metodo para listar todas las visitas tecnicas
+	 * 
 	 * @return
 	 */
 	@GET
@@ -121,25 +244,26 @@ public class Servicios {
 	public List<String> getIpWinbox() {
 		List<String> map = new ArrayList<String>();
 		List<EquipoServicio> listaServicios = new ArrayList<EquipoServicio>();
-		
+
 		listaServicios = eqSerOn.getWinbox();
-		
+
 		for (EquipoServicio equipoServicio : listaServicios) {
 			Empleado empleado = new Empleado();
 			empleado = empon.getEmepleadoByEmail(equipoServicio.getUserEmpleado());
 			map.add(empleado.getEmail() + "," + empleado.getPassword() + "," + equipoServicio.getIp());
-			
+
 		}
-		
+
 		return map;
 	}
-	
-	@POST 
+
+	@POST
 	@Path("/notificar")
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response createUser(EquipoServicio equipo) {
-		if(equipo!=null) {
+		if (equipo != null) {
+
 			System.out.println(equipo.getIp());
 			System.out.println(equipo.getUserEmpleado());
 			EquipoServicio serviEquipo = new EquipoServicio();
@@ -148,209 +272,184 @@ public class Servicios {
 			serviEquipo.setUserEmpleado("no");
 			eqSerOn.actualizar(serviEquipo);
 		}
-		
+
 		return Response.ok(equipo).build();
 	}
-	
-	
-	
+
 	/**
 	 * Metodo para ver el listado de todas las instalaciones
+	 * 
 	 * @return
 	 */
 	@GET
 	@Path("listInst")
 	@Produces("application/json")
-	
-	public List<Instalacion> listarInstalacion(){
+
+	public List<Instalacion> listarInstalacion() {
 		return inson.getListadoInstalacion();
 	}
-	
+
 	/**
-	 *Metodo para listar todas las visitas tecnicas 
+	 * Metodo para listar todas las visitas tecnicas
+	 * 
 	 * @return
 	 */
 	@GET
 	@Path("listRgVT")
 	@Produces("application/json")
-	public List<Registro> listarRgVT(){
+	public List<Registro> listarRgVT() {
 		return regon.listadoRegistrosVT();
 	}
-	
-		
+
 	@GET
 	@Path("listAG")
 	@Produces("application/json")
-	public List<Agendamiento> listarAgendamiento(@QueryParam("nombre") String nombre){
-		return  agon.getAgendamiento(nombre);
+	public List<Registro> listarAgendamiento(@QueryParam("nombre") String nombre) {
+		System.out.println("nombre IONIC " + nombre);
+		return vison.getVisitaByTecnico(nombre);
 	}
-	
+
 	@GET
 	@Path("listIns")
 	@Produces("application/json")
-	public List<Instalacion> listarInstalacion(@QueryParam("nombre") String nombre){
+	public List<Instalacion> listarInstalacion(@QueryParam("nombre") String nombre) {
 		return inson.getInstalacion(nombre);
 	}
+
 	/**
-	 * @GET
-	@Path("/listarAn")
-	@Produces("application/json")
-	public List<Antena> getAntena(){
-			return anton.getListadoAntena();
-		}
+	 * @GET @Path("/listarAn") @Produces("application/json") public List<Antena>
+	 *      getAntena(){ return anton.getListadoAntena(); }
 	 * @return
 	 */
-	
-	
+
 	@GET
 	@Path("/buscarIdVis")
 	@Produces("application/json")
-	public Registro getBuscarVis(@QueryParam("id") int id){
-		//registro=regon.getListadoClienteId(id);
-			System.out.println("id"+id);
-			return regon.getListadoClienteId(id);
-		}
-	
+	public Registro getBuscarVis(@QueryParam("id") int id) {
+		// registro=regon.getListadoClienteId(id);
+		System.out.println("id" + id);
+		return regon.getListadoClienteId(id);
+	}
 
 	@GET
 	@Path("/buscarInsId")
 	@Produces("application/json")
-	public Instalacion getBuscarInsId(@QueryParam("id") int id){
-			return inson.getListadoInstalacionId(id);
-		}
-	
+	public Instalacion getBuscarInsId(@QueryParam("id") int id) {
+		return inson.getListadoInstalacionId(id);
+	}
+
 	/**
 	 * 
 	 * @param cliente
 	 * @return
-	 
-	@PUT
-	@Path("/actualizar")
-	@Produces("application/json")
-	@Consumes("application/json")
-	public  Response update(Cliente cliente) {
-			
-			Response.ResponseBuilder builder = null;
-			Map<String, String> data = new HashMap<>();
-			Servicio ser=new Servicio();
-			Registro reg=new Registro();
-			reg.setCliente(cliente);
-			
-			
+	 * 
+	 * @PUT @Path("/actualizar") @Produces("application/json") @Consumes("application/json")
+	 *      public Response update(Cliente cliente) {
+	 * 
+	 *      Response.ResponseBuilder builder = null; Map<String, String> data = new
+	 *      HashMap<>(); Servicio ser=new Servicio(); Registro reg=new Registro();
+	 *      reg.setCliente(cliente);
+	 * 
+	 * 
+	 * 
+	 * 
+	 *      try {
+	 * 
+	 *      ser.setId(cliente.getServicio().get(0).getId());
+	 *      ser.setNumeroContrato(cliente.getServicio().get(0).getNumeroContrato());
+	 *      ser.setFechaContrato(cliente.getServicio().get(0).getFechaContrato());
+	 *      ser.setPlan(cliente.getServicio().get(0).getPlan());
+	 *      ser.setIp(cliente.getServicio().get(0).getIp());
+	 *      ser.setPassword(cliente.getServicio().get(0).getPassword());
+	 *      ser.setObservaciones(cliente.getServicio().get(0).getObservaciones());
+	 * 
+	 * 
+	 *      ser.setId(ser.getId()); ser.setNumeroContrato(ser.getNumeroContrato());
+	 *      ser.setFechaContrato(ser.getFechaContrato());
+	 *      ser.setPlan(ser.getPlan()); ser.setIp(ser.getIp());
+	 *      ser.setPassword(ser.getPassword());
+	 *      ser.setObservaciones(ser.getObservaciones()); System.out.println("hola
+	 *      funciona "+cliente.getId() +" hola 2 "+cliente);
+	 *      //ser.getCliente().setId(cliente.getId());
+	 * 
+	 * 
+	 *      seron.actualizar(ser); //regon.actualizar(reg);
+	 *      clion.actualizar(cliente); //regon.actualizar(reg);
+	 * 
+	 *      System.out.println(cliente.getNombre()); data.put("Mensaje: ", "Dato
+	 *      actualizado"); builder =
+	 *      Response.status(Response.Status.OK).entity(data); } catch (Exception e)
+	 *      { // TODO Auto-generated catch block e.printStackTrace();
+	 *      data.put("Mensaje: ", e.getMessage()); builder =
+	 *      Response.status(Response.Status.BAD_REQUEST).entity(data); }
+	 * 
+	 *      return builder.build();
+	 * 
+	 * 
+	 *      }
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * @PUT @Path("/actualizarVisita") @Produces("application/json") @Consumes("application/json")
+	 *      public Response updateReg(Agendamiento agendamiento) {
+	 * 
+	 *      Response.ResponseBuilder builder = null; Map<String, String> data = new
+	 *      HashMap<>();
+	 * 
+	 * 
+	 *      try {
+	 * 
+	 *      agon.actualizar(agendamiento);
+	 *      System.out.println(agendamiento.isRealizado()); data.put("Mensaje: ",
+	 *      "Dato actualizado"); builder =
+	 *      Response.status(Response.Status.OK).entity(data); } catch (Exception e)
+	 *      { // TODO Auto-generated catch block e.printStackTrace();
+	 *      data.put("Mensaje: ", e.getMessage()); builder =
+	 *      Response.status(Response.Status.BAD_REQUEST).entity(data); }
+	 * 
+	 *      return builder.build();
+	 * 
+	 * 
+	 *      }
+	 */
 
-			
-			try {
-							
-				ser.setId(cliente.getServicio().get(0).getId());
-				ser.setNumeroContrato(cliente.getServicio().get(0).getNumeroContrato());
-				ser.setFechaContrato(cliente.getServicio().get(0).getFechaContrato());
-				ser.setPlan(cliente.getServicio().get(0).getPlan());
-				ser.setIp(cliente.getServicio().get(0).getIp());
-				ser.setPassword(cliente.getServicio().get(0).getPassword());
-				ser.setObservaciones(cliente.getServicio().get(0).getObservaciones());
-				
-				
-				ser.setId(ser.getId());
-				ser.setNumeroContrato(ser.getNumeroContrato());
-				ser.setFechaContrato(ser.getFechaContrato());
-				ser.setPlan(ser.getPlan());
-				ser.setIp(ser.getIp());
-				ser.setPassword(ser.getPassword());
-				ser.setObservaciones(ser.getObservaciones());
-				System.out.println("hola funciona "+cliente.getId() +" hola 2 "+cliente);
-				//ser.getCliente().setId(cliente.getId());
-				
-				
-				seron.actualizar(ser);
-				//regon.actualizar(reg);
-					clion.actualizar(cliente);
-					//regon.actualizar(reg);
-			
-				System.out.println(cliente.getNombre());
-				data.put("Mensaje: ", "Dato actualizado");
-				builder = Response.status(Response.Status.OK).entity(data);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				data.put("Mensaje: ", e.getMessage());
-				builder = Response.status(Response.Status.BAD_REQUEST).entity(data);
-			}
-			
-			return builder.build();
-			
-			
-		}
-	
-	
-	
-	
-	
-	@PUT
-	@Path("/actualizarVisita")
-	@Produces("application/json")
-	@Consumes("application/json")
-	public  Response updateReg(Agendamiento agendamiento) {
-			
-			Response.ResponseBuilder builder = null;
-			Map<String, String> data = new HashMap<>();
-						
-						
-			try {
-						
-				agon.actualizar(agendamiento);
-				System.out.println(agendamiento.isRealizado());
-				data.put("Mensaje: ", "Dato actualizado");
-				builder = Response.status(Response.Status.OK).entity(data);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				data.put("Mensaje: ", e.getMessage());
-				builder = Response.status(Response.Status.BAD_REQUEST).entity(data);
-			}
-			
-			return builder.build();
-			
-			
-		}
-		*/
-	
 	@PUT
 	@Path("/actualizarInstalacion")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public  Response updateIns(Instalacion ins) {
-			
-			Response.ResponseBuilder builder = null;
-			Map<String, String> data = new HashMap<>();
-						
-				Empleado empleado= new Empleado();		
-			try {
-				
-				empleado.setId(ins.getEmpleado().getId());	
-				empleado.setCedula(ins.getEmpleado().getCedula());
-				empleado.setNombre(ins.getEmpleado().getNombre());
-				empleado.setCelular(ins.getEmpleado().getCelular());
-				empleado.setEmail(ins.getEmpleado().getEmail());
-				empleado.setPassword(ins.getEmpleado().getPassword());
-				empleado.setDepartamento(ins.getEmpleado().getDepartamento());
-				System.out.println("empleado id "+empleado.getId());
-				ins.getEmpleado().setId(empleado.getId());
-				//empon.actualizar(empleado);
-				inson.actualizar(ins);
-				System.out.println(ins.isRealizado());
-				data.put("Mensaje: ", "Dato actualizado");
-				builder = Response.status(Response.Status.OK).entity(data);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				data.put("Mensaje: ", e.getMessage());
-				builder = Response.status(Response.Status.BAD_REQUEST).entity(data);
-			}
-			
-			return builder.build();
-			
-			
+	public Response updateIns(Instalacion ins) {
+
+		Response.ResponseBuilder builder = null;
+		Map<String, String> data = new HashMap<>();
+
+		Empleado empleado = new Empleado();
+		try {
+
+			empleado.setId(ins.getEmpleado().getId());
+			empleado.setCedula(ins.getEmpleado().getCedula());
+			empleado.setNombre(ins.getEmpleado().getNombre());
+			empleado.setCelular(ins.getEmpleado().getCelular());
+			empleado.setEmail(ins.getEmpleado().getEmail());
+			empleado.setPassword(ins.getEmpleado().getPassword());
+			empleado.setDepartamento(ins.getEmpleado().getDepartamento());
+			System.out.println("empleado id " + empleado.getId());
+			ins.getEmpleado().setId(empleado.getId());
+			// empon.actualizar(empleado);
+			inson.actualizar(ins);
+			System.out.println(ins.isRealizado());
+			data.put("Mensaje: ", "Dato actualizado");
+			builder = Response.status(Response.Status.OK).entity(data);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			data.put("Mensaje: ", e.getMessage());
+			builder = Response.status(Response.Status.BAD_REQUEST).entity(data);
 		}
 
+		return builder.build();
+
+	}
 
 }

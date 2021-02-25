@@ -7,9 +7,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
@@ -50,13 +52,12 @@ public class EquipoDAO {
 		em.persist(equipo);
 
 	}
+
 	public List<Equipo> find(){
 		String tipoEquipo = "Antena";
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Equipo> criteriaQuery = criteriaBuilder.createQuery(Equipo.class);
-		// Se establece la clausula FROM
 		Root<Equipo> root = criteriaQuery.from(Equipo.class);
-
 		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("tipoEquipo"), tipoEquipo)); // criteriaQuery.multiselect(root.get(atr))
 		return em.createQuery(criteriaQuery).getResultList();
 	}
@@ -85,5 +86,28 @@ public class EquipoDAO {
 		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("tipoEquipo"), tipoEquipo)); // criteriaQuery.multiselect(root.get(atr))
 		return em.createQuery(criteriaQuery).getResultList();
 	}
+	//Scorpion code
+	public List<String> findAntenasRadio(){
+		
+		String jpql = "SELECT an.nombre FROM Equipo an";
+		Query q = em.createQuery(jpql,String.class);
+		
+		List<String>antenasradio = q.getResultList();
+		
+		return antenasradio;
+
+		
+	}
+	
+	public List<String> nombreAntenas(){
+		String antena="Antena";
+		String jpql = "SELECT equi.modelo FROM Equipo equi WHERE equi.tipoEquipo = :a";
+		Query q = em.createQuery(jpql);
+		q.setParameter("a", antena);
+		List<String> list=q.getResultList();
+		return list;
+	}
+	
+	
 
 }

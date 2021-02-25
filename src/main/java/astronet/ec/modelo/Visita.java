@@ -53,7 +53,7 @@ public class Visita implements Serializable {
 	@OneToOne
 	@JoinColumn(name="empvis_fk")
 	//@JsonIgnore
-	private Empleado empleado;
+	public Empleado empleado;
 	
 	
 	

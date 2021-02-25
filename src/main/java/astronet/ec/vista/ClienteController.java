@@ -577,6 +577,7 @@ public class ClienteController implements Serializable {
 	}
 
 	public void setTelOn(TelefonoON telOn) {
+		
 		this.telOn = telOn;
 	}
 

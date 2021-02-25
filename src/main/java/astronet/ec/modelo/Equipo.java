@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -60,7 +61,9 @@ public class Equipo implements Serializable{
 	/*
 	 * Relacion Equipo Nodo
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn
 	private List<EquipoServicio> equipoServicio;
 

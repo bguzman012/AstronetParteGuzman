@@ -79,7 +79,7 @@ public class Servicio implements Serializable {
 	/*
 	 * Relacion Servicio con EquipoServicio
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn
 	@JsonIgnore
 	private List<EquipoServicio> equipoServicios;
@@ -87,7 +87,7 @@ public class Servicio implements Serializable {
 	/*
 	 * Relacion Servicio con ServicioFibra
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn
 	@JsonIgnore
 	private List<ServicioFibra> serviciosFibra;

@@ -22,14 +22,14 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "Cliente")
+@Table(name = "ClienteTemporal")
 @SequenceGenerator(
 	    name="ClienteSeq",
 	    sequenceName = "Cliente_SEQ",
 	    initialValue = 6000,
 	    allocationSize = 1
 )
-public class Cliente implements Serializable {
+public class ClienteTemporal implements Serializable {
 
 	/**
 	 * HolaMundo
@@ -42,20 +42,14 @@ public class Cliente implements Serializable {
 	@NotNull
 	private int id;
 
-	@Column(name = "cli_cedula")
-	private String cedula;
 
 	@Column(name = "cli_nombres")
 	private  String nombre;
 
 
 	@Column(name = "cli_apellidos")
-
 	private  String apellidos;
 
-
-	@Column(name = "cli_email")
-	private String email;
 
 	@Column(name = "cli_dirPrincipal")
 	private String direccionPrincipal;
@@ -65,53 +59,54 @@ public class Cliente implements Serializable {
 
 	@Column(name = "cli_dirReferencia")
 	private String direccionReferencia;
-
-	@Column(name = "cli_latitud")
-	private String latitud;
-
-	@Column(name = "cli_longitud")
-	private String longitud;
-
-	/*
-	 * Relacion Cliente con Servicio
-	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "cliservicio_fk")
-	private List<Servicio> servicios;
-
-	/*
-	 * Relacion Cliente con Registro
-	 */
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cliregsitro_fk")
-	@JsonIgnore
-	private List<Registro> registros;
-
-	/*
-	 * Relacion Cliente con Telefono
-	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "clitel_fk")
-	@JsonIgnore
-	private List<Telefono> telefonos;
-
+	
+	@Column(name = "cli_fecha")
+	private String fecha;
+	@Column(name = "cli_Telefono")
+	private String telefono;
 	
 	
-	/*
-	 * RElacion Cliente con Visita
-	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "clivis_fk")
-	@JsonIgnore
-	private List<Visita> visistas;
 	
-
-	public List<Visita> getVisistas() {
-		return visistas;
+	public String getTelefono() {
+		return telefono;
 	}
 
-	public void setVisistas(List<Visita> visistas) {
-		this.visistas = visistas;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	@Column(name = "cli_estado")
+	private boolean estado;
+	
+	@Column(name = "cli_fkempleado")
+	private String fk_empleado;
+
+
+	
+
+
+	public String getFk_empleado() {
+		return fk_empleado;
+	}
+
+	public void setFk_empleado(String fk_empleado) {
+		this.fk_empleado = fk_empleado;
 	}
 
 	public int getId() {
@@ -122,13 +117,7 @@ public class Cliente implements Serializable {
 		this.id = id;
 	}
 
-	public String getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
+	
 
 	public String getNombre() {
 		return nombre;
@@ -138,13 +127,7 @@ public class Cliente implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	
 
 	public String getApellidos() {
 		return apellidos;
@@ -178,55 +161,6 @@ public class Cliente implements Serializable {
 		this.direccionReferencia = direccionReferencia;
 	}
 
-	public String getLatitud() {
-		return latitud;
-	}
-
-	public void setLatitud(String latitud) {
-		this.latitud = latitud;
-	}
-
-	public String getLongitud() {
-		return longitud;
-	}
-
-	public void setLongitud(String longitud) {
-		this.longitud = longitud;
-	}
-
-	public List<Servicio> getServicios() {
-		return servicios;
-	}
-
-	public void setServicios(List<Servicio> servicios) {
-		this.servicios = servicios;
-	}
-
-	public List<Registro> getRegistros() {
-		return registros;
-	}
-
-	public void setRegistros(List<Registro> registros) {
-		this.registros = registros;
-	}
-
-
-
-	public List<Telefono> getTelefonos() {
-		return telefonos;
-	}
-
-	public void setTelefonos(List<Telefono> telefonos) {
-		this.telefonos = telefonos;
-	}
-
-
-	public void addTelefonos(Telefono telefono) {
-		this.telefonos.add(telefono);
-	}
-
-
-
 
 
 
@@ -247,7 +181,7 @@ public class Cliente implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cliente other = (Cliente) obj;
+		ClienteTemporal other = (ClienteTemporal) obj;
 		if (id != other.id)
 			return false;
 		return true;
