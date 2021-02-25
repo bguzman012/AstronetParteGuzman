@@ -75,7 +75,7 @@ public class Cliente implements Serializable {
 	/*
 	 * Relacion Cliente con Servicio
 	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliservicio_fk")
 	private List<Servicio> servicios;
 

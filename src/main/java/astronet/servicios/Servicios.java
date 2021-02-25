@@ -300,12 +300,28 @@ public class Servicios {
 		return regon.listadoRegistrosVT();
 	}
 
+//	@GET
+//	@Path("listAG")
+//	@Produces("application/json")
+//	public List<Registro> listarAgendamiento(@QueryParam("nombre") String nombre) {
+//		System.out.println("nombre IONIC " + nombre);
+//		return vison.getVisitaByTecnico(nombre);
+//	}
 	@GET
 	@Path("listAG")
 	@Produces("application/json")
-	public List<Registro> listarAgendamiento(@QueryParam("nombre") String nombre) {
+	public List<String> listarAgendamiento(@QueryParam("nombre") String nombre) {
+		List<String> map = new ArrayList<String>();
+		List<Registro> listaServicios = new ArrayList<Registro>();
+		listaServicios = vison.getVisitaByTecnico(nombre);
 		System.out.println("nombre IONIC " + nombre);
-		return vison.getVisitaByTecnico(nombre);
+		
+		for (Registro registro : listaServicios) {
+			map.add(registro.getCliente().getNombre() + "," + registro.getCliente().getApellidos() + "," + registro.getProblema() + "," + registro.getCliente().getDireccionPrincipal() + "," + registro.getCliente().getDireccionSecundaria() + "," + 
+		registro.getCliente().getDireccionReferencia() + "," + registro.getCliente().getLatitud() + "," + registro.getCliente().getLongitud());
+		}
+		
+		return map;
 	}
 
 	@GET
