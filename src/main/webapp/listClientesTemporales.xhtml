@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<h:head>
+	<f:metadata>
+		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>		
+		<f:viewAction action="#{empleadoControllerBean.init()}" />
+	</f:metadata>
+	<title>Lista Clientes Temporales</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="resources/assets/css/table2.css" />
+	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+
+	
+</h:head>
+
+
+<body>
+
+
+
+	<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
+			<h:form class="navbar-brand">
+				<h:link outcome="viewUser">
+					<h:graphicImage value="resources/assets/img/logo.png" />
+					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
+				</h:link>
+			</h:form>
+		</div>
+
+						
+		
+		
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#">Clientes<span
+					class="caret"></span></a>
+				<ul class="dropdown-menu">
+
+					<li><h:link outcome="listCliente" value="Listar Clientes">
+							<f:param name="id" value="#{empleadoControllerBean.idUser}" />
+						</h:link></li>
+
+				</ul></li>
+
+		</ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
+			<li><a id="dep">
+					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
+			<li><h:form>
+					<a> <h:commandButton class="btnExit"
+							action="#{loginBean.logout()}" value="Exit"
+							image="./resources/assets/img/exit.png" />
+					</a>
+				</h:form></li>
+
+		</ul>
+
+	</div>
+	</nav>
+	<div class="form-group col-md-12"></div>
+	<div class="form-group col-md-12"></div>
+	<div class="form-group col-md-12"></div>
+	<div class="form-group col-md-12"></div>
+	     
+	
+	<!-- Creacion Tabla y muestreo de Datos del cliente Temporal -->
+	<h:form id="text">
+		<p:dataTable style="text-align:center;"
+			value="#{clienteTemController.listaClinetesTemporales}" var="cliente"
+			paginator="true" rows="10"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="10,50,100" widgetVar="cliTable"
+			emptyMessage="No hay clientes con esas concidencias">
+			
+			 <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        	</p:messages>
+			
+
+			<p:column headerText="Nombres" filterBy="#{cliente.nombre}"
+				filterMatchMode="contains">
+				<h:outputText value="#{cliente.nombre}" />
+			</p:column>
+
+			<p:column headerText="Apellidos" filterBy="#{cliente.apellidos}"
+				filterMatchMode="contains">
+				<h:outputText value="#{cliente.apellidos}" />
+			</p:column>
+			
+			<p:column headerText="Fecha">
+				<h:outputText value="#{cliente.fecha}" />
+			</p:column>
+
+			<p:column headerText="Direccion Principal">
+				<h:outputText value="#{cliente.direccionPrincipal}" />
+			</p:column>
+
+			<p:column headerText="Direccion Secundaria">
+				<h:outputText value="#{cliente.direccionSecundaria}" />
+			</p:column>
+
+			<p:column headerText="Direccion Referencia">
+				<h:outputText value="#{cliente.direccionReferencia}" />
+			</p:column>
+			<p:column headerText="Telefono" >
+				<h:outputText value="#{cliente.telefono}" />
+			</p:column>
+			<p:column headerText="Id_Tecnico_Asignacion" >
+				<h:outputText value="#{cliente.fk_empleado}" />
+			</p:column>
+			
+			
+			<p:column headerText="Tecnico Asignar" > 
+               <p:selectOneMenu id="tecnico" value="#{clienteTemController.tecnicoElegido}">
+               <f:selectItem itemLabel="Seleccionar" itemValue="SinAsignar" />
+               <f:selectItems value="#{clienteController.tecnicos}" />
+               <p:ajax listener="#{clienteTemController.actualizarAsignacion(cliente.id,clienteTemController.tecnicoElegido)}" />
+        	</p:selectOneMenu>
+			</p:column>
+			
+			<p:column>
+			<h:commandButton value="Guardar" render="text"
+				styleClass="btn btn-success"
+				action="#{clienteTemController.actualizar()}">
+				</h:commandButton>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+	
+
+
+
+
+</body>
+</html>
+	

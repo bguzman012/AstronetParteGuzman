@@ -43,6 +43,14 @@ public class ClienteTemporal implements Serializable {
 	private int id;
 
 
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
 	@Column(name = "cli_nombres")
 	private  String nombre;
 
@@ -62,19 +70,11 @@ public class ClienteTemporal implements Serializable {
 	
 	@Column(name = "cli_fecha")
 	private String fecha;
+	
 	@Column(name = "cli_Telefono")
 	private String telefono;
 	
 	
-	
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
 	public String getFecha() {
 		return fecha;
 	}
@@ -187,8 +187,12 @@ public class ClienteTemporal implements Serializable {
 		return true;
 	}
 
-
-
-
+	@Override
+	public String toString() {
+		return "ClienteTemporal [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", direccionPrincipal="
+				+ direccionPrincipal + ", direccionSecundaria=" + direccionSecundaria + ", direccionReferencia="
+				+ direccionReferencia + ", fecha=" + fecha + ", telefono=" + telefono + ", estado=" + estado
+				+ ", fk_empleado=" + fk_empleado + "]";
+	}
 
 }

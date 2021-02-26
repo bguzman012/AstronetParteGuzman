@@ -98,6 +98,16 @@
 							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'TECNICO OFICINA' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR'}">
 							<f:param name="id" value="#{usuarioBean.empleadoUser.id}" />
 						</h:link></li>
+						
+											<li><h:link outcome="crearInstalacionTemporal" value="clienteTemporalInstalacion"
+							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'TECNICO OFICINA' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+							<f:param name="id" value="#{usuarioBean.empleadoUser.id}" />
+						</h:link></li>
+						
+											<li><h:link outcome="listClientesTemporales" value="AsignarTecnicoInstalaciones"
+							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'TECNICO OFICINA' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+							<f:param name="id" value="#{usuarioBean.empleadoUser.id}" />
+						</h:link></li>
 				</ul></li>
 
 		</ul>
