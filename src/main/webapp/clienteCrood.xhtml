@@ -106,6 +106,16 @@
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
 
 						</h:link></li>
+
+					<li><h:link outcome="listCliente" value="Listar Clientes"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="listClientesTemporales" value="Listar Clientes Temporales"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
 				</ul></li>
 
 		</ul>

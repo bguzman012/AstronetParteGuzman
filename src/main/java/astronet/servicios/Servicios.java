@@ -167,12 +167,20 @@ public class Servicios {
 		return clientestemp;
 
 	}
-
+	//ANTENAS RADIO
 	@GET
 	@Path("/NombreAntenas")
 	@Produces("application/json")
 	public List<String> listarNombres() {
 		List<String> listfinal = eqOn.nombreAntenas();
+		return listfinal;
+	}
+	//EQUIPOS FIBRA
+	@GET
+	@Path("/NombreAntenasFibra")
+	@Produces("application/json")
+	public List<String> listarNombresFibra(){
+		List<String> listfinal=eqOn.nombreAntenasFibra();
 		return listfinal;
 	}
 
@@ -191,6 +199,7 @@ public class Servicios {
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Map<String, String> crearUsuario(String data) {
+		
 		JSONObject recoData = new JSONObject(data);
 		System.out.println(recoData);
 		Cliente cliN = new Cliente();
@@ -214,28 +223,62 @@ public class Servicios {
 		Plan planTmp = new Plan();
 		Equipo antenaTmp = new Equipo();
 		EquipoServicio eqServicio = new EquipoServicio();
+		if (recoData.getString("servicio").equals("Radio")) {
+			System.out.println("Essss radioooo");
+			antenaTmp = eqOn.getAntenaByName(recoData.getString("antena"));
+			System.out.println("ANTENA ENCONTRADA "+antenaTmp.getNombre());
+			planTmp = planOn.buscarPlan(Integer.parseInt(recoData.getString("plan")));
+			Servicio servicioTmp= new Servicio();
+			servicioTmp.setTipoServicio("radio");
+			servicioTmp.setNumeroContrato(recoData.getString("numerocontrato"));
+			servicioTmp.setCliente(clisaved);
+			servicioTmp.setFechaContrato(recoData.getString("fecha"));
+			servicioTmp.setRouterVendido(recoData.getString("routervendido"));
+			servicioTmp.setObservaciones(recoData.getString("observaciones"));
+			servicioTmp.setPlan(planTmp);
+			seron.guardar(servicioTmp);
 
-		antenaTmp = eqOn.getAntenaByName(recoData.getString("antena"));
-		System.out.println("ANTENA ENCONTRADA "+antenaTmp.getNombre());
-		planTmp = planOn.buscarPlan(Integer.parseInt(recoData.getString("plan")));
-		Servicio servicioTmp= new Servicio();
-		servicioTmp.setTipoServicio("radio");
-		servicioTmp.setNumeroContrato(recoData.getString("numerocontrato"));
-		servicioTmp.setCliente(clisaved);
-		servicioTmp.setFechaContrato(recoData.getString("fecha"));
-		servicioTmp.setRouterVendido(recoData.getString("routervendido"));
-		servicioTmp.setObservaciones(recoData.getString("observaciones"));
-		servicioTmp.setPlan(planTmp);
-		seron.guardar(servicioTmp);
+			eqServicio.setSerial(recoData.getString("serial"));
+			eqServicio.setPassword(recoData.getString("contrasena"));
+			eqServicio.setIp(recoData.getString("ip"));
+			eqServicio.setUserEmpleado("no");
+			eqServicio.setPing("off");
+			eqServicio.setEquipo(antenaTmp);
+			eqServicio.setServicio(servicioTmp);
+			eqServOn.crearI(eqServicio);
+		}else {
+			System.out.println("es fibraaaaaa");
+			antenaTmp = eqOn.getAntenaByName(recoData.getString("antena"));
+			int planok=Integer.parseInt(recoData.getString("plan"));
+			if(planok==1){
+				planok=4;
+			}else if(planok==2) {
+				planok=5;
+			}else if(planok==3) {
+				planok=6;
+			}
+			planTmp = planOn.buscarPlan(planok);
+			Servicio servicioTmp= new Servicio();
+			servicioTmp.setTipoServicio("fibra");
+			servicioTmp.setNumeroContrato(recoData.getString("numerocontrato"));
+			servicioTmp.setCliente(cliN);
+			servicioTmp.setFechaContrato(recoData.getString("fecha"));
+			servicioTmp.setRouterVendido(recoData.getString("routervendido"));
+			servicioTmp.setObservaciones(recoData.getString("observaciones"));
+			servicioTmp.setPlan(planTmp);
+			seron.guardar(servicioTmp);
 
-		eqServicio.setSerial(recoData.getString("serial"));
-		eqServicio.setPassword(recoData.getString("contrasena"));
-		eqServicio.setIp(recoData.getString("ip"));
-		eqServicio.setUserEmpleado("no");
-		eqServicio.setPing("off");
-		eqServicio.setEquipo(antenaTmp);
-		eqServicio.setServicio(servicioTmp);
-		eqServOn.crearI(eqServicio);
+			eqServicio.setSerial(recoData.getString("serial"));
+			eqServicio.setPassword(recoData.getString("contrasena"));
+			eqServicio.setIp(recoData.getString("ip"));
+			eqServicio.setUserEmpleado("no");
+			eqServicio.setPing("off");
+			eqServicio.setEquipo(antenaTmp);
+			eqServicio.setServicio(servicioTmp);
+			eqServOn.crearI(eqServicio);
+		}
+		
+		
 		return null;
 	}
 
@@ -367,6 +410,7 @@ public class Servicios {
 			
 		for (Visita vis : listaServicios) {
 			mapRegistro = new HashMap<>(); 
+			
 			mapRegistro.put("nombre",vis.getCliente().getNombre()); 
 				mapRegistro.put("apellido",vis.getCliente().getApellidos());
 				mapRegistro.put("problema",vis.getRegistro().getProblema());
@@ -377,6 +421,8 @@ public class Servicios {
 				mapRegistro.put("longitud",vis.getCliente().getLongitud());
 				mapRegistro.put("idvisita", String.valueOf(vis.getId()));
 				mapRegistro.put("idregistro", String.valueOf(String.valueOf(vis.getRegistro().getId())));
+				mapRegistro.put("observaciones",String.valueOf(vis.getObservaciones()));
+
 				array.add(mapRegistro);
 			  
 
@@ -423,7 +469,7 @@ public class Servicios {
 	public String ActualizarTemporal(String data) {
 		JSONObject recoData = new JSONObject(data);
 		System.out.println(recoData);
-		ClienteTemporal temp=clitempon.getClienteTemporal(recoData.getString("id"));
+		ClienteTemporal temp=clitempon.getClienteTemporal(recoData.getString("idclienttemp"));
 		temp.setEstado(true);
 		clitempon.actualizar(temp);
 		System.out.println("Se debe actualizar...");

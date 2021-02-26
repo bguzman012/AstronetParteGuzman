@@ -10,10 +10,7 @@
 	
 
 <h:head>
-	<f:metadata>
-		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>		
-		<f:viewAction action="#{empleadoControllerBean.init()}" />
-	</f:metadata>
+
 	<title>Lista Clientes Temporales</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,6 +18,28 @@
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="resources/assets/css/table2.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+	
+		<style>
+.menubar {
+	background-color: transparent;
+}
+
+/* primefaces override*/
+.ui-menubutton-transparent {
+	background-color: transparent !important;
+	background: transparent !important;
+}
+/* NO BORRAR */
+.styleGreen .ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-color: transparent !important;
+	background: transparent !important;
+	border: transparent !important;
+	height: 50px;
+	color: #E3E3E3;
+	font-weight: normal;
+}
+</style>
 
 	
 </h:head>
@@ -28,53 +47,85 @@
 
 <body>
 
+<div class="container">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="nav-header">
+				<h:form class="navbar-brand">
+					<h:link outcome="viewUser">
+						<h:graphicImage value="resources/assets/img/logo.png" />
+					</h:link>
+				</h:form>
+			</div>
 
 
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
-			<h:form class="navbar-brand">
-				<h:link outcome="viewUser">
-					<h:graphicImage value="resources/assets/img/logo.png" />
-					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
-				</h:link>
-			</h:form>
+
+			<div class="collapse navbar-collapse" id="otra">
+				<ul class="nav navbar-nav ">
+					<h:form>
+
+						<p:menuButton value="Call Center" styleClass="styleGreen">
+							<p:menuitem value="Call Center " outcome="callcenter"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Registro" outcome="registro"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Visitas Tecnicas"
+								outcome="listadoVisitaTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Tecnicos Asignados"
+								outcome="listadoTecnicosAsignados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Reclamos Solucionados"
+								outcome="listadoSolucionadoF"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+							<p:menuitem value="Emleados" outcome="listadoEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Clientes" outcome="clienteCrood"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Configuraciones" styleClass="styleGreen">
+							<p:menuitem value="Editar mis datos"
+								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
+							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton >
+
+
+					</h:form>
+
+				</ul>
+
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a> #{loginBean.empleado.nombre}</a></li>
+					<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+					<li><h:form>
+							<a> <h:commandButton class="btnExit"
+									action="#{loginBean.logout()}" value="Exit"
+									image="./resources/assets/img/exit.png" />
+							</a>
+						</h:form></li>
+				</ul>
+			</div>
 		</div>
-
-						
-		
-		
-		<ul class="nav navbar-nav">
-			
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#">Clientes<span
-					class="caret"></span></a>
-				<ul class="dropdown-menu">
-
-					<li><h:link outcome="listCliente" value="Listar Clientes">
-							<f:param name="id" value="#{empleadoControllerBean.idUser}" />
-						</h:link></li>
-
-				</ul></li>
-
-		</ul>
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
-			<li><a id="dep">
-					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
-			<li><h:form>
-					<a> <h:commandButton class="btnExit"
-							action="#{loginBean.logout()}" value="Exit"
-							image="./resources/assets/img/exit.png" />
-					</a>
-				</h:form></li>
-
-		</ul>
-
+		</nav>
 	</div>
-	</nav>
+
+	
 	<div class="form-group col-md-12"></div>
 	<div class="form-group col-md-12"></div>
 	<div class="form-group col-md-12"></div>

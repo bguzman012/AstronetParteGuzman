@@ -62,7 +62,9 @@ public class EquipoOn {
 	public List<String> nombreAntenas(){
 		return equipoDao.nombreAntenas();
 	}
-
+	public List<String> nombreAntenasFibra(){
+		return equipoDao.nombreAntenasFibra();
+	}
 
 
 }

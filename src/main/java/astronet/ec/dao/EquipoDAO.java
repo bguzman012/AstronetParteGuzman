@@ -107,6 +107,14 @@ public class EquipoDAO {
 		List<String> list=q.getResultList();
 		return list;
 	}
+	public List<String> nombreAntenasFibra(){
+		String antena="RouterFibra";
+		String jpql = "SELECT equi.modelo FROM Equipo equi WHERE equi.tipoEquipo = :a";
+		Query q = em.createQuery(jpql);
+		q.setParameter("a", antena);
+		List<String> list=q.getResultList();
+		return list;
+	}
 	
 	
 
