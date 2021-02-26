@@ -3,16 +3,17 @@ package astronet.ec.vista;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
+
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Registro;
@@ -32,7 +33,6 @@ public class EmpleadoController {
 	private int idUser;
 
 	private Empleado empleado;
-	private Empleado empUser;	
 	private Instalacion instalacion;
 	private Registro registro;
 	private List<Empleado> empleados;
@@ -44,26 +44,24 @@ public class EmpleadoController {
 	private List<RolEmpleado> listaRolesEmpleados;
 	private String rolSelected;
 
-	// @PostConstruct //importante que esto este comentado caso contrario genera
-	// errores
-	public void init() {
+	public EmpleadoController() {
+		// TODO Auto-generated constructor stub
+	}
 
+	@PostConstruct
+	public void init() {
+		System.out.println("###########CONSTRUIR!!!!!!!EmpleadoController");
 		try {
-			departamentosList.add("Administrador");
-			departamentosList.add("Contabilidad");
-			departamentosList.add("Tecnico Radio");
-			departamentosList.add("Tecnico Fibra");
-			departamentosList.add("Radio");
-			departamentosList.add("Fibra");
+			
 			this.listaRolesEmpleados = rolEmpOn.listarRoles();
-			cargarMapaRoles(this.listaRolesEmpleados);
-			empUser = empon.read(idUser);
+			this.cargarMapaRoles(this.listaRolesEmpleados);
+//			empUser = empon.read(idUser);
 			this.rolEmpleado = new RolEmpleado();
-			empleado = new Empleado();
-			instalacion = new Instalacion();
-			registro = new Registro();
+			this.instalacion = new Instalacion();
+			this.registro = new Registro();
 			// se cargar todos los empleados de la base de datos
-			empleados = empon.getEmpleado();
+			this.empleados = empon.getEmpleado();
+//			this.loadData();//cargar empleado seleccionado para editarlo
 		} catch (Exception e) {
 			System.out.println("CONTROL DE ERRORES EN EMPLEADOCONTROLLER");
 		}
@@ -76,16 +74,11 @@ public class EmpleadoController {
 		}
 	}
 
-	public void loadData() {
-		System.out.println("codigo editar " + id);
-		if (id == 0)
-			return;
-
-		empleado = empon.getEmpleado(id);
-	}
 
 	// ZONA GET/SET
 	public Empleado getEmpleado() {
+		if(empleado==null)
+			empleado=new Empleado();//ESTA HUEVADA HAY QUE PONERLA PARA EVITAR EL ERROR DE javax.el.PropertyNotFoundException: Target Unreachable, 'null' returned null
 		return empleado;
 	}
 
@@ -134,14 +127,6 @@ public class EmpleadoController {
 		this.idUser = idUser;
 	}
 
-	public Empleado getEmpUser() {
-		return empUser;
-	}
-
-	public void setEmpUser(Empleado empUser) {
-		this.empUser = empUser;
-	}
-
 	public List<String> getDepartamentosList() {
 		return departamentosList;
 	}
@@ -165,23 +150,18 @@ public class EmpleadoController {
 	public void setListaRolesEmpleados(List<RolEmpleado> listaRolesEmpleados) {
 		this.listaRolesEmpleados = listaRolesEmpleados;
 	}
+
 	public String getRolSelected() {
 		return rolSelected;
 	}
+
 	public void setRolSelected(String rolSelected) {
 		this.rolSelected = rolSelected;
 	}
 
 	// FIN ZONA GET/SET
 
-	
-
 //	ZONA METODOS BEAN
-
-	public String returnInit(int param) {
-		System.out.println("pedro: " + param);
-		return "viewAdmin?faces-redirect=true&id=" + param;
-	}
 
 	public boolean validadorDeCedula(String cedula) {
 		boolean cedulaCorrecta = false;
@@ -231,8 +211,30 @@ public class EmpleadoController {
 		return cedulaCorrecta;
 	}
 
-	public String editar(int idUser, int idEmpleado) {
-		return "editarEmpleado?faces-redirect=true&idUser=" + idUser + "&idEmpleado=" + idEmpleado;
+	public String editar(int id) {
+		if (id == 0)
+			return null;
+		empleado = empon.getEmpleado(id);
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		Map<String, Object> sessionMap = externalContext.getSessionMap();
+		sessionMap.put("empleadoLoad", empleado);        
+		return "editarEmpleado?faces-redirect=true";
+	}
+	
+	public void loadData() {//ESTE METODO SERA LLAMADO DESDE LA VISTA editarEmpleado.xhmtl		
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		Map<String, Object> sessionMap = externalContext.getSessionMap();
+        empleado = (Empleado) sessionMap.get("empleadoLoad");	        
+		System.out.println("######################EMPLEADO LOAD " + empleado.getNombre());				
+	}
+	
+	public String cargarEmpleadoEditar(int id) {		
+		Empleado em =empon.getEmpleado(id);
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		Map<String, Object> sessionMap = externalContext.getSessionMap();
+		sessionMap.put("empleadoLoad", em);	
+		System.out.println("############### "+em.getNombre());
+		return "editarEmpleado?faces-redirect=true";
 	}
 
 	public String eliminar(int codigo) {
@@ -241,6 +243,7 @@ public class EmpleadoController {
 		// return "registrarEmpleado?faces-redirect=true&id=" + codigo;
 		return null;
 	}
+
 	public String eliminarRol(int codigo) {
 		rolEmpOn.eliminar(codigo);
 		init();
@@ -255,11 +258,11 @@ public class EmpleadoController {
 
 	public String guardarEmpleado() {
 		try {
-			if (validadorDeCedula(empleado.getCedula())) {														
-				empleado.setRolEmpleado(rolEmpOn.read(mapaRoles.get(rolSelected)));	
-				empleado.setNombre(empleado.getNombre().toUpperCase());//Mayusculas
-				empon.guardar(empleado);				
-				return "listadoEmpleado?faces-redirect=true&id=" + this.idUser;
+			if (validadorDeCedula(empleado.getCedula())) {
+				empleado.setRolEmpleado(rolEmpOn.read(mapaRoles.get(rolSelected)));
+				empleado.setNombre(empleado.getNombre().toUpperCase());// Mayusculas
+				empon.guardar(empleado);
+				return "listadoEmpleado?faces-redirect=true";
 			} else {
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "La Cédula de indentidad es inválida."));
@@ -268,16 +271,17 @@ public class EmpleadoController {
 			System.out.println("ERROR Al Actualizar o Guardar empleado");
 			e.printStackTrace();
 		}
+		empleado=null;//esto hara que el recolector lo librere
 		return null;
 	}
 
 	public String guardarRol() {
-		this.rolEmpleado.setNombre(this.rolEmpleado.getNombre().toUpperCase());//poner en mayusculas
+		this.rolEmpleado.setNombre(this.rolEmpleado.getNombre().toUpperCase());// poner en mayusculas
 		this.rolEmpOn.guardar(this.rolEmpleado);
 		this.rolEmpleado = new RolEmpleado();// necesario para eliminar los campos
 		this.listaRolesEmpleados = null;
 		this.listaRolesEmpleados = this.rolEmpOn.listarRoles();// para volver a listar los roles
-		return "registrarRol?faces-redirect=true&id=" + this.idUser;
+		return "registrarRol?faces-redirect=true";
 	}
 
 	/*

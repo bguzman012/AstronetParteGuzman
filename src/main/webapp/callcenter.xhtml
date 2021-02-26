@@ -7,10 +7,7 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<f:metadata>
-		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>
-		<f:viewAction action="#{empleadoControllerBean.init()}" />
-	</f:metadata>
+
 	<title>Call Center</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,11 +17,6 @@
 	<link rel="stylesheet" href="resources/assets/css/table1.css" />
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
-
-
-
-
-
 
 	<style>
 .columnacontacto {
@@ -48,40 +40,117 @@ body .ui-staticmessage.ui-message {
 }
 </style>
 
+	<style>
+.menubar {
+	background-color: transparent;
+}
+
+/* primefaces override*/
+.ui-menubutton-transparent {
+	background-color: transparent !important;
+	background: transparent !important;
+}
+/* NO BORRAR */
+.styleGreen .ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-color: transparent !important;
+	background: transparent !important;
+	border: transparent !important;
+	height: 50px;
+	color: #E3E3E3;
+	font-weight: normal;
+}
+</style>
+
+
 
 </h:head>
 
 <body>
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
-			<h:form class="navbar-brand">
-				<h:link outcome="viewUser">
-					<h:graphicImage value="resources/assets/img/logo.png" />
-					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
-				</h:link>
-			</h:form>
+
+
+<div class="container">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="nav-header">
+				<h:form class="navbar-brand">
+					<h:link outcome="viewUser">
+						<h:graphicImage value="resources/assets/img/logo.png" />
+					</h:link>
+				</h:form>
+			</div>
+
+
+
+			<div class="collapse navbar-collapse" id="otra">
+				<ul class="nav navbar-nav ">
+					<h:form>
+
+						<p:menuButton value="Call Center" styleClass="styleGreen">
+							<p:menuitem value="Call Center " outcome="callcenter"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Registro" outcome="registro"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Visitas Tecnicas"
+								outcome="listadoVisitaTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Tecnicos Asignados"
+								outcome="listadoTecnicosAsignados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Reclamos Solucionados"
+								outcome="listadoSolucionadoF"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+							<p:menuitem value="Emleados" outcome="listadoEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Crear rol" outcome="clienteCrood"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Configuraciones" styleClass="styleGreen">
+							<p:menuitem value="Editar mis datos"
+								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
+							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton >
+
+
+					</h:form>
+
+				</ul>
+
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a> #{loginBean.empleado.nombre}</a></li>
+					<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+					<li><h:form>
+							<a> <h:commandButton class="btnExit"
+									action="#{loginBean.logout()}" value="Exit"
+									image="./resources/assets/img/exit.png" />
+							</a>
+						</h:form></li>
+				</ul>
+			</div>
 		</div>
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
-			<li><a id="dep">
-					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
-			<li><h:form>
-					<a> <h:commandButton class="btnExit"
-							action="#{loginBean.logout()}" value="Exit"
-							image="./resources/assets/img/exit.png" />
-					</a>
-				</h:form></li>
-		</ul>
+		</nav>
 	</div>
-	</nav>
-
-
 
 	<div class="centerTexto">
+	<br />
 		<h2>INGRESO DE RECLAMOS E INSTALACIONES NUEVAS</h2>
 	</div>
 
@@ -344,15 +413,12 @@ body .ui-staticmessage.ui-message {
 
 							<div class="btnsIngre_Agen">
 								<h:commandButton class="btn btn-primary btnIn"
-									action="#{clienteController.ping()}"
-									value="Ping" />
+									action="#{clienteController.ping()}" value="Ping" />
 							</div>
 							<div class="btnsIngre_Agen">
 								<h:commandButton class="btn btn-primary btnIn"
-									action="#{clienteController.pingWinbox()}"
-									value="WinBox" />
+									action="#{clienteController.pingWinbox()}" value="WinBox" />
 							</div>
-
 						</h:column>
 					</h:dataTable>
 
@@ -376,31 +442,16 @@ body .ui-staticmessage.ui-message {
 				</div>
 
 				<div class="form-group col-sm-5">
-					<div class="input-group marginBuscar">
-						<h:inputText class="form-control"
-							value="#{clienteController.registro.idClienteTemp}"
-							a:placeholder="clid" id="txtCliente1" rendered="">
-						</h:inputText>
-						<h:panelGroup id="datosPersona123">
-							<h:message for="txtCliente1" rendered="" />
-							#{clienteController.registro.cliente.nombre}
-					</h:panelGroup>
-					</div>
+					<div class="input-group marginBuscar"></div>
 				</div>
-
 
 				<div class="form-group col-sm-6">
-					<label for="sel1" class="etiquetas">Problema:</label>
+					  <label for="sel1" class="etiquetas">Problema:</label>     
 					<h:selectOneMenu class="form-control" id="sel1"
-						value="#{clienteController.registro.problema}">
-						<f:ajax execute="txtCliente1"
-							listener="#{clienteController.consultarCliente()}"
-							render="datosPersona123" />
-						<f:selectItems value="#{clienteController.problemas1}" var="pro1"
-							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
+						value="#{clienteController.problemaElegido}">
+						<f:selectItems value="#{clienteController.ejemploLista}" />
 					</h:selectOneMenu>
 				</div>
-
 
 				<div class="form-group col-sm-6">
 					<label for="sel1" class="etiquetas">Acción:</label>
@@ -410,6 +461,8 @@ body .ui-staticmessage.ui-message {
 							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
 					</h:selectOneMenu>
 				</div>
+
+
 				<div class="form-group cabecera">
 					<label for="exampleFormControlTextarea1">Observaciones</label>
 					<h:inputTextarea
@@ -419,18 +472,12 @@ body .ui-staticmessage.ui-message {
 				</div>
 				<div class="btnsIngre_Agen">
 					<p:commandButton
-						action="#{clienteController.cargarDatosRegistro1(empleadoControllerBean.idUser)}"
-						class="btn btn-primary btnIn" value="Ingresar" />
+						action="#{clienteController.cargarDatosRegistro1(empleadoControllerBean.idUser,clienteController.cliente.id)}"
+						class="btn btn-primary btnIn" value="Ingresar" render="text" />
 
 				</div>
-
-
 			</div>
-
 		</div>
-
-
-
 	</h:form>
 
 	<div></div>
@@ -506,6 +553,4 @@ body .ui-staticmessage.ui-message {
 		</p:dataTable>
 	</h:form>
 </body>
-
-
 </html>

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.json.Json;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,10 +20,15 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONObject;
+
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.mail.imap.Utility;
+
 
 import astronet.ec.modelo.Agendamiento;
 
@@ -39,7 +45,7 @@ import astronet.ec.modelo.Telefono;
 import astronet.ec.modelo.Visita;
 import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
-import astronet.ec.on.ClienteTemporalON;
+import astronet.ec.on.ClienteTemporalOn;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.EquipoOn;
 import astronet.ec.on.EquipoServicioON;
@@ -78,7 +84,7 @@ public class Servicios {
 
 	// CLASS TO RECOVER DATA FROM TEMPORAL CLIENTS
 	@Inject
-	private ClienteTemporalON clitempon;
+	private ClienteTemporalOn clitempon;
 
 	@Inject
 	private TelefonoON telon;
@@ -299,7 +305,7 @@ public class Servicios {
 	public List<Registro> listarRgVT() {
 		return regon.listadoRegistrosVT();
 	}
-
+//
 //	@GET
 //	@Path("listAG")
 //	@Produces("application/json")
@@ -307,22 +313,126 @@ public class Servicios {
 //		System.out.println("nombre IONIC " + nombre);
 //		return vison.getVisitaByTecnico(nombre);
 //	}
+//	@GET
+//	@Path("listAG")
+//	@Produces("application/json")
+//	public List<HashMap<String, String>> listarAgendamiento(@QueryParam("nombre") String nombre) {
+//		HashMap<String, String> mapRegistro ;
+//		List<HashMap<String, String>> array = new ArrayList<HashMap<String,String>>();
+//		
+//		
+//		
+//		
+//		List<String> map = new ArrayList<String>();
+//		List<Registro> listaServicios = new ArrayList<Registro>();
+//		listaServicios = vison.getVisitaByTecnico(nombre);
+//		System.out.println("nombre IONIC " + nombre);
+//		
+//		
+//	
+//		
+//		for (Registro registro : listaServicios) {
+//			mapRegistro = new HashMap<>(); 
+//			mapRegistro.put("nombre",registro.getCliente().getNombre()); 
+//				mapRegistro.put("apellido",registro.getCliente().getApellidos());
+//				mapRegistro.put("problema",registro.getProblema());
+//				mapRegistro.put("direccionPrincipal",registro.getCliente().getDireccionPrincipal());
+//				mapRegistro.put("direccionSecundaria",registro.getCliente().getDireccionSecundaria());		
+//				mapRegistro.put("direccionReferencia",registro.getCliente().getDireccionReferencia());
+//				mapRegistro.put("latitud",registro.getCliente().getLatitud());
+//				mapRegistro.put("longitud",registro.getCliente().getLongitud());
+//				mapRegistro.put("id", String.valueOf(registro.getId()));
+//				
+//				array.add(mapRegistro);
+//			  
+//
+//		}
+//		
+//		
+//		return array;
+//	}
+	
+	//SCORPION METHOD
 	@GET
-	@Path("listAG")
+	@Path("listVisTecnicos")
 	@Produces("application/json")
-	public List<String> listarAgendamiento(@QueryParam("nombre") String nombre) {
+	public List<HashMap<String, String>> listarAgendamientoTech(@QueryParam("nombre") String nombre) {
+		HashMap<String, String> mapRegistro ;
+		List<HashMap<String, String>> array = new ArrayList<HashMap<String,String>>();
+		
 		List<String> map = new ArrayList<String>();
-		List<Registro> listaServicios = new ArrayList<Registro>();
+		List<Visita> listaServicios = new ArrayList<Visita>();
 		listaServicios = vison.getVisitaByTecnico(nombre);
 		System.out.println("nombre IONIC " + nombre);
-		
-		for (Registro registro : listaServicios) {
-			map.add(registro.getCliente().getNombre() + "," + registro.getCliente().getApellidos() + "," + registro.getProblema() + "," + registro.getCliente().getDireccionPrincipal() + "," + registro.getCliente().getDireccionSecundaria() + "," + 
-		registro.getCliente().getDireccionReferencia() + "," + registro.getCliente().getLatitud() + "," + registro.getCliente().getLongitud());
+			
+		for (Visita vis : listaServicios) {
+			mapRegistro = new HashMap<>(); 
+			mapRegistro.put("nombre",vis.getCliente().getNombre()); 
+				mapRegistro.put("apellido",vis.getCliente().getApellidos());
+				mapRegistro.put("problema",vis.getRegistro().getProblema());
+				mapRegistro.put("direccionPrincipal",vis.getCliente().getDireccionPrincipal());
+				mapRegistro.put("direccionSecundaria",vis.getCliente().getDireccionSecundaria());		
+				mapRegistro.put("direccionReferencia",vis.getCliente().getDireccionReferencia());
+				mapRegistro.put("latitud",vis.getCliente().getLatitud());
+				mapRegistro.put("longitud",vis.getCliente().getLongitud());
+				mapRegistro.put("idvisita", String.valueOf(vis.getId()));
+				mapRegistro.put("idregistro", String.valueOf(String.valueOf(vis.getRegistro().getId())));
+				array.add(mapRegistro);
+			  
+
 		}
 		
-		return map;
+		
+		return array;
 	}
+	//SCORPIONMETHOD TO CHANGE STATE OF VISIT AND REGISTER MARKED BY ING
+	@POST
+	@Path("changeState")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String changeStateJob(String data) {
+		JSONObject recoData = new JSONObject(data);
+		System.out.println(recoData);
+		int idregister=Integer.valueOf(recoData.getString("idregistro"));
+		int idvisita=Integer.valueOf(recoData.getString("idvisita"));
+		try {
+			Registro re= regon.consultarRegistro(idregister);
+			re.setId(idregister);
+			re.setAccion("SOLUCIONADOF");
+			re.setChequeo(false);
+			Visita vi = vison.consultarVIsita(idvisita);
+			vi.setChequeo(true);		
+			
+			vison.guardar(vi);
+			regon.guardar(re);
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("si hizoooo");
+		//registro.setCliente(cliente);
+
+		return "Listo";
+	}
+	//Method to change state of client temp 
+	@POST
+	@Path("/ActualizarClienteTemporal")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String ActualizarTemporal(String data) {
+		JSONObject recoData = new JSONObject(data);
+		System.out.println(recoData);
+		ClienteTemporal temp=clitempon.getClienteTemporal(recoData.getString("id"));
+		temp.setEstado(true);
+		clitempon.actualizar(temp);
+		System.out.println("Se debe actualizar...");
+		return "Actualizado";
+		
+	}
+	
+
+	
 
 	@GET
 	@Path("listIns")

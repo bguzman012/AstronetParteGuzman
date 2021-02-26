@@ -6,13 +6,10 @@
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-	<f:metadata>
-		<f:viewParam name="idUser" value="#{empleadoControllerBean.idUser}"></f:viewParam>
-		<f:viewParam name="idEmpleado" value="#{empleadoControllerBean.id}"></f:viewParam>
-		<f:viewAction action="#{empleadoControllerBean.init()}" />
-		<!-- Para cargar la info del empleado a editar-->
-		<f:viewAction action="#{empleadoControllerBean.loadData()}" />
+	<f:metadata>		
+		<f:viewAction action="#{empleadoControllerBean.loadData()}" /><!-- PUTO METODO PARA CARGAR LA INFO DE EMPLEADO A EDITAR-->
 	</f:metadata>
+
 	<title>Editar datos Empleado</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,45 +34,82 @@
 			<h:form class="navbar-brand">
 				<h:link outcome="viewUser">
 					<h:graphicImage value="resources/assets/img/logo.png" />
-					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
 				</h:link>
 			</h:form>
 		</div>
 		<ul class="nav navbar-nav">
-		
-			<!-- <li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="callcenter.xhtml">Call Center <span
-					class="caret"></span></a>
+			<!-- DAÑOS DE PEDRO  -->
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#">Call Center<span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="registro.xhtml">Registros</a></li>
-					<li><a href="listadoInstalaciones.xhtml">Instalaciones</a></li>
+					<li><h:link outcome="callcenter" value="Call Center"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="registro" value="Registro"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+
+					<li><h:link outcome="listadoVerificar"
+							value="Verificar Listado"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="listadoVisitaTecnica"
+							value="Visitas Tecnicas"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="listadoTecnicosAsignados"
+							value="Verificar Tecnicos Asignados"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="listadoSolucionadoF"
+							value="Verificar Reclamos Solucionados"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
 
 				</ul></li>
 
 			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#" onclick="acceso()">Clientes/Empleados<span
+				data-toggle="dropdown" href="#">Clientes/Empleados<span
 					class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="clientes1.xhtml" id="boton">Clientes</a></li>
-					<li><a href="registrarEmpleado.xhtml" id="boton12">Empleado</a></li>
+
+					<li><h:link outcome="listadoEmpleado" value="Empleados"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="clienteCrood" value="Clientes"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
 				</ul></li>
- -->
+
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
-			<li><a id="dep">
-					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
+			<li><a> #{loginBean.empleado.nombre}</a></li>
+			<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
 			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{login.logout()}"
-							value="Exit" image="./resources/assets/img/exit.png" />
+					<a> <h:commandButton class="btnExit"
+							action="#{loginBean.logout()}" value="Exit"
+							image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
 		</ul>
-
 	</div>
 	</nav>
-
 	<div class="centerTexto">
 		<h2></h2>
 	</div>
@@ -95,7 +129,7 @@
 							<div class="col-sm-8">
 								<h:inputText type="text" class="form-control" id="Cedula"
 									value="#{empleadoControllerBean.empleado.cedula}"
-									a:placeholder="Cedula" />
+									a:placeholder="Cedula" />								
 							</div>
 						</div>
 						<div class="form-group">
@@ -132,18 +166,14 @@
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="Departamento">Departamento:</label>
-							<div class="col-sm-8">
-								<!-- <h:inputText type="text" class="form-control" id="Departamento"
-									value="#{empleadoControllerBean.empleado.departamento}"
-									a:placeholder="Departamento" required="true" /> -->
-								<h:selectOneMenu value="#{empleadoControllerBean.rolSelected}"
-									id="Departamento">
+							<label class="control-label col-sm-2" for="Departamento">Rol:</label>
+							<div class="col-sm-8">								
+								<h:selectOneMenu value="#{empleadoControllerBean.rolSelected}">
 									<f:selectItem
 										itemLabel="#{empleadoControllerBean.empleado.rolEmpleado.nombre}"
-										itemValue="#{empleadoControllerBean.empleado.rolEmpleado.nombre}" 
-										noSelectionOption="true"/>
-										
+										itemValue="#{empleadoControllerBean.empleado.rolEmpleado.nombre}"
+										noSelectionOption="true" />
+
 									<f:selectItems
 										value="#{empleadoControllerBean.listaRolesEmpleados}"
 										var="rolEmpleado" itemLabel="#{rolEmpleado.nombre}"
@@ -158,7 +188,6 @@
 								value="Guardar" />
 							<h:button class="btn btn-danger" outcome="listadoEmpleado"
 								value="Cancelar">
-								<f:param name="id" value="#{empleadoControllerBean.empUser.id}" />
 							</h:button>
 
 						</div>

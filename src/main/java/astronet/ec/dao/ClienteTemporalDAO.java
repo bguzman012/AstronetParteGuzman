@@ -23,6 +23,24 @@ public class ClienteTemporalDAO {
 			this.create(cli);
 		
 	}
+	public List<ClienteTemporal> filtradoLista(String id){
+		String jpql = "SELECT cliT FROM ClienteTemporal cliT WHERE cliT.fk_empleado = :a";
+		Query q = em.createQuery(jpql, ClienteTemporal.class);
+		q.setParameter("a", id);
+		List<ClienteTemporal> listaclientes = q.getResultList();
+		return listaclientes;
+		
+	}
+	
+public  ClienteTemporal getClienteTemporal(String id) {
+		
+		String jpql = "SELECT cliT FROM ClienteTemporal cliT WHERE cliT.id != :a";
+		Query q = em.createQuery(jpql, ClienteTemporal.class);
+		q.setParameter("a",Integer.valueOf(id));
+		ClienteTemporal cliT = (ClienteTemporal) q.getSingleResult();
+		return cliT;	
+	}
+	
 	
 	public void create(ClienteTemporal cli) {
 		em.persist(cli);

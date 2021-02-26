@@ -24,6 +24,24 @@ public class VisitaON {
 		
 	}
 	
+	public Visita consultarVIsita(int codigoVisita) throws Exception {
+	
+	
+	Visita vis= VisitaDao.read(codigoVisita);
+	if(vis==null)
+		throw new Exception("VIsita no existe");
+	
+	return vis;
+}
+	public List<Visita>getVisitaByTecnico(String empleado){
+		return VisitaDao.getVisitaByTecnico(empleado);
+		
+	}
+	 
+	
+	
+	
+	
 	public void guardarVisita(Visita Visita) {
 		VisitaDao.create(Visita);
 	}
@@ -40,9 +58,9 @@ public class VisitaON {
 	public void setListadoVisita(List<Visita> listadoVisita) {
 		this.listadoVisita = VisitaDao.find();
 	}
-	public List<Registro>getVisitaByTecnico(String empleado){
-		return VisitaDao.getVisitaByTecnico(empleado);
-		
-	}
 
+	public List<Visita> listaVerificada(){
+		return VisitaDao.listarVisitas();
+	}
+	
 }

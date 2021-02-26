@@ -49,11 +49,35 @@ public class Visita implements Serializable {
 	public void setRegistro(Registro registro) {
 		this.registro = registro;
 	}
+	@Column(name = "vis_observaciones")
+	@NotNull
+	private String observaciones;
+		
+	@Column(name = "vis_chequear")
+	private boolean chequeo= false;
+
+	
+	
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
+	public boolean isChequeo() {
+		return chequeo;
+	}
+
+	public void setChequeo(boolean chequeo) {
+		this.chequeo = chequeo;
+	}
 
 	@OneToOne
 	@JoinColumn(name="empvis_fk")
 	//@JsonIgnore
-	public Empleado empleado;
+	private Empleado empleado;
 	
 	
 	
@@ -127,10 +151,6 @@ public class Visita implements Serializable {
 			return false;
 		return true;
 	}
-
-
-
-
 
 	public Visita() {
 		super();

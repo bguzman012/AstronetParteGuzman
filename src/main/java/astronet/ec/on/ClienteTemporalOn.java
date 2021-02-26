@@ -22,6 +22,11 @@ public class ClienteTemporalOn {
 		clidao.save(cli);
 	}
 	
+	public List<ClienteTemporal> filtradoLista(String id){
+		return clidao.filtradoLista(id);
+	}
+	
+	
 	public void guardarCliente(ClienteTemporal cli) {
 		clidao.create(cli);
 	}
@@ -44,7 +49,9 @@ public class ClienteTemporalOn {
 	public void actualizar(ClienteTemporal cli) {
 		clidao.update(cli);
 	}
-	
-	
+
+	public  ClienteTemporal getClienteTemporal(String id) {
+			return clidao.getClienteTemporal(id);
+		}
 
 }

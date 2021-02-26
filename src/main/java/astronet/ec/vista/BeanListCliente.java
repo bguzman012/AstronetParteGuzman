@@ -68,7 +68,6 @@ public class BeanListCliente implements Serializable{
 	   @PostConstruct
 	   public void init() {
 		   listadoclientes = clion.getListadoCliente();
-		   
 		   name="del puctas madre si o si ";
 	   }
 

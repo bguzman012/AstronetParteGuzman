@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "Cliente")
 @SequenceGenerator(
-	    name="ClienteSeq",
+		  name="ClienteSeq",
 	    sequenceName = "Cliente_SEQ",
 	    initialValue = 6000,
 	    allocationSize = 1

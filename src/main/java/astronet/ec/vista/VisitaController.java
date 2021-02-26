@@ -14,11 +14,13 @@ import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.Registro;
+import astronet.ec.modelo.Telefono;
 import astronet.ec.modelo.Visita;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.EquipoOn;
 import astronet.ec.on.RegistroON;
+import astronet.ec.on.TelefonoON;
 import astronet.ec.on.VisitaON;
 
 @ManagedBean
@@ -40,11 +42,14 @@ public class VisitaController implements Serializable{
 	private RegistroON regon;
 	@Inject
 	private VisitaON visitaOn;
-
+	@Inject
+	private TelefonoON telOn;
 
 	private String antenaElegida;
 	private Cliente cliente;
 	private List<Visita> listadoVisitas;
+	private List<Visita> listadoVerificado;
+
 	private Empleado empleado = new Empleado();
 	private List<Empleado> tecnicos;
 	private String tecnicoElegido;
@@ -56,12 +61,35 @@ public class VisitaController implements Serializable{
 	listadoVisitas= vison.getListadoVisita();
 	empleados = empon.getListadoEmpleado();
 	tecnicos = empon.getListadoTecnico();
-
-
+	listadoVerificado= vison.listaVerificada();
 	}
 
 
 	
+	public List<Visita> getListadoVerificado() {
+		return listadoVerificado;
+	}
+
+
+
+	public void setListadoVerificado(List<Visita> listadoVerificado) {
+		this.listadoVerificado = listadoVerificado;
+	}
+
+
+
+	public TelefonoON getTelOn() {
+		return telOn;
+	}
+
+
+
+	public void setTelOn(TelefonoON telOn) {
+		this.telOn = telOn;
+	}
+
+
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -220,21 +248,37 @@ public class VisitaController implements Serializable{
 	public void setListadoVisitas(List<Visita> listadoVisitas) {
 		this.listadoVisitas = listadoVisitas;
 	}
-	public String cambio(int codiguito, int registrito, int clientito) {
+	
+	public String cambio1(int codiguito, int registrito, int clientito) {
+		System.out.println("entraaaa");
 		empleado = empon.getEmpleadobyName(tecnicoElegido);
 		Cliente cli= clion.getCliente(clientito);
 		Registro reg= regon.getRegistro(registrito);
-		Visita g= new Visita();	
-		g.setId(codiguito);
-		g.setCliente(cli);
-		g.setEmpleado(empleado);
-		g.setRegistro(reg);
-	 	visitaOn.actualizar(g);
-		System.out.println("adrian"+registrito);
-		System.out.println("wilo maricon"+ codiguito);
-		System.out.println("cabron"+clientito);
+		Visita g;
+		try {
+			g = visitaOn.consultarVIsita(codiguito);
+			g.setId(codiguito);
+			g.setCliente(cli);
+			g.setEmpleado(empleado);
+			g.setRegistro(reg);
+		 	visitaOn.actualizar(g);
+			System.out.println("adrian"+registrito);
+			System.out.println("wilo maricon"+ codiguito);
+			System.out.println("cabron"+clientito);
+			return null;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+		
 		return null;
 	}
-	
-	
+
+	public List<Telefono> listaTel(int clientito){
+		Cliente cli =clion.getCliente(clientito);	
+		List<Telefono> telefono= telOn.getTelefonos(cli);
+		System.out.println("wilson gay"+ clientito);
+		return telefono;
+	} 
 }

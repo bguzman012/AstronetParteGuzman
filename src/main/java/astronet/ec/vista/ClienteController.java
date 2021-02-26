@@ -78,6 +78,46 @@ public class ClienteController implements Serializable {
 	private Agendamiento agendamiento = new Agendamiento();
 	private Visita visita = new Visita();
 
+	public EmpleadoController getUbean() {
+		return ubean;
+	}
+
+	public void setUbean(EmpleadoController ubean) {
+		this.ubean = ubean;
+	}
+
+	public Visita getVisita() {
+		return visita;
+	}
+
+	public void setVisita(Visita visita) {
+		this.visita = visita;
+	}
+
+	public List<String> getListaSugerencias() {
+		return listaSugerencias;
+	}
+
+	public void setListaSugerencias(List<String> listaSugerencias) {
+		this.listaSugerencias = listaSugerencias;
+	}
+
+	public VisitaON getVisitaOn() {
+		return visitaOn;
+	}
+
+	public void setVisitaOn(VisitaON visitaOn) {
+		this.visitaOn = visitaOn;
+	}
+
+	public problema[] getListaSoluOficina() {
+		return listaSoluOficina;
+	}
+
+	public void setListaSoluOficina(problema[] listaSoluOficina) {
+		this.listaSoluOficina = listaSoluOficina;
+	}
+
 	private Equipo equipo = new Equipo();
 	private Servicio servicioTmp;
 	private Telefono telefono;
@@ -92,7 +132,9 @@ public class ClienteController implements Serializable {
 	private List<Agendamiento> agendamientos;
 	private List<Empleado> tecnicos;
 	private String tecnicoElegido;
-
+	private List<Registro> listadoFiltrado;
+	private String problemaElegido;
+	private List<String> ejemploLista;
 	/**
 	 * Declaraacion de variables
 	 */
@@ -121,6 +163,22 @@ public class ClienteController implements Serializable {
 
 	public void setUbn(EmpleadoController ubn) {
 		this.ubn = ubn;
+	}
+
+	public String getProblemaElegido() {
+		return problemaElegido;
+	}
+
+	public List<String> getEjemploLista() {
+		return ejemploLista;
+	}
+
+	public void setEjemploLista(List<String> ejemploLista) {
+		this.ejemploLista = ejemploLista;
+	}
+
+	public void setProblemaElegido(String problemaElegido) {
+		this.problemaElegido = problemaElegido;
 	}
 
 	private String direccionSecundaria;
@@ -185,7 +243,7 @@ public class ClienteController implements Serializable {
 		equipo = new Equipo();
 		serviciosCliente = new ArrayList<EquipoServicio>();
 		ubn = new EmpleadoController();
-
+		ejemploLista= regon.problemitas();
 		registros = regon.getListadoRegistro();
 
 		nuevoTelefono = new Telefono();
@@ -257,6 +315,14 @@ public class ClienteController implements Serializable {
 
 	public List<Empleado> getTecnicos() {
 		return tecnicos;
+	}
+
+	public List<Registro> getListadoFiltrado() {
+		return listadoFiltrado;
+	}
+
+	public void setListadoFiltrado(List<Registro> listadoFiltrado) {
+		this.listadoFiltrado = listadoFiltrado;
 	}
 
 	public void setTecnicos(List<Empleado> tecnicos) {
@@ -1010,6 +1076,39 @@ public class ClienteController implements Serializable {
 	 *
 	 * @return"
 	 */
+//	public String cargarDatosRegistro() {
+//		try {
+//			System.out.println("Llegando:::::111");
+//			cliente.setId(registro.getCliente().getId());
+//			registro.getCliente().setId(cliente.getId());
+//			System.out.println("cliente id " + cliente.getId());
+//			empleado.setId(registro.getEmpleado().getId());
+//			registro.getEmpleado().setId(empleado.getId());
+//			regon.guardar(registro);
+//			System.out.println("imprime esto:   " + registro.getFechaHora());
+//			init();
+//
+//			/*
+//			 * System.out.println("Llegando:::::111");
+//			 * cliente.setId(registro.getCliente().getId());
+//			 * registro.getCliente().setId(cliente.getId());
+//			 * System.out.println("cliente id " + cliente.getId());
+//			 * empleado.setId(registro.getEmpleado().getId());
+//			 * registro.getEmpleado().setId(codigo); System.out.println("imprime esto:   " +
+//			 * registro.getFechaHora()); Cliente cli =
+//			 * clion.getCliente(registro.getCliente().getId()); Empleado em=
+//			 * empon.getEmpleado(codigo); registro.setCliente(cli);
+//			 * registro.setEmpleado(em);
+//			 * System.out.println("Se guardo correcto correctamente"); init();
+//			 * 
+//			 * 
+//			 */
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		return null;
+//		// return "registro?faces-redirect=true";
+//	}
 	public String cargarDatosRegistro() {
 		try {
 			System.out.println("Llegando:::::111");
@@ -1018,32 +1117,18 @@ public class ClienteController implements Serializable {
 			System.out.println("cliente id " + cliente.getId());
 			empleado.setId(registro.getEmpleado().getId());
 			registro.getEmpleado().setId(empleado.getId());
+			System.out.println("q selecciono .??"+ registro.getAccion());
+			if (registro.getAccion().equals("SOLUCIONADOF")) {
+				registro.setChequeo(false);				
+			}
 			regon.guardar(registro);
 			System.out.println("imprime esto:   " + registro.getFechaHora());
 			init();
-
-			/*
-			 * System.out.println("Llegando:::::111");
-			 * cliente.setId(registro.getCliente().getId());
-			 * registro.getCliente().setId(cliente.getId());
-			 * System.out.println("cliente id " + cliente.getId());
-			 * empleado.setId(registro.getEmpleado().getId());
-			 * registro.getEmpleado().setId(codigo); System.out.println("imprime esto:   " +
-			 * registro.getFechaHora()); Cliente cli =
-			 * clion.getCliente(registro.getCliente().getId()); Empleado em=
-			 * empon.getEmpleado(codigo); registro.setCliente(cli);
-			 * registro.setEmpleado(em);
-			 * System.out.println("Se guardo correcto correctamente"); init();
-			 * 
-			 * 
-			 */
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return null;
-		// return "registro?faces-redirect=true";
+		 return null;
 	}
-
 	// Matriz de objetos
 	public static class problema {
 		public String carLabel;
@@ -1736,6 +1821,15 @@ public class ClienteController implements Serializable {
 	public void toggleRendered(ActionEvent event) {
 		this.rendered = !rendered;
 	}
+	public List<String> problemitas(){
+		ejemploLista.add("SERVICIO INTERMITENTE");
+		ejemploLista.add("SIN SERVICIO");
+		ejemploLista.add("PROBLEMAS EN CAPACIDAD");
+		ejemploLista.add("ROUTER DESCONFIGURADO");
+		ejemploLista.add("SERVICIO LENTO");
+		ejemploLista.add("CORTE DE SERVICIO");	
+		return ejemploLista;
+	}
 
 	public String cargarDatos() {
 		try {
@@ -2156,68 +2250,124 @@ public class ClienteController implements Serializable {
 
 	}
 
-	public void ingresaVisita() {
-		System.out.println(tecnicoElegido);
-		System.out.println("***********entro*************");
+//	public void ingresaVisita() {
+//		System.out.println(tecnicoElegido);
+//		System.out.println("***********entro*************");
+//		empleado = empon.getEmpleadobyName(tecnicoElegido);
+//
+//		System.out.println("***********id*************");
+//		System.out.println(empleado.getId());
+//		System.out.println("***********salio*************");
+//		System.out.println("Id del cliente" + registro.getCliente().getId());
+//		Cliente cli = clion.getCliente(registro.getCliente().getId());
+//		Visita g = new Visita(cli, registro, empleado);
+//		visitaOn.guardar(g);
+//		System.out.println("Se guardo correcto correctamente");
+//	}
+	public String ingresaVisita() {
 		empleado = empon.getEmpleadobyName(tecnicoElegido);
-
-		System.out.println("***********id*************");
 		System.out.println(empleado.getId());
-		System.out.println("***********salio*************");
 		System.out.println("Id del cliente" + registro.getCliente().getId());
 		Cliente cli = clion.getCliente(registro.getCliente().getId());
-		Visita g = new Visita(cli, registro, empleado);
-		visitaOn.guardar(g);
-		System.out.println("Se guardo correcto correctamente");
+	     //Visita g = new Visita(cli, registro, empleado);
+	visita.setCliente(cli);
+	visita.setRegistro(registro);
+	visita.setEmpleado(empleado);
+		//visita.setCliente(cli);
+	 visita.setChequeo(false);
+	     visitaOn.guardar(visita);
+		return"listadoVisitaTecnica?faces-redirect=true&id=" + registro.getEmpleado().getId();
+		
 	}
-
-	public String cargarDatosRegistro1(int codigo) {
+	
+	
+	public String cargarDatosRegistro1(int codigo,int codiguito) {
 		try {
-			System.out.println("Llegando:::::111");
-			cliente.setId(registro.getCliente().getId());
-			registro.getCliente().setId(cliente.getId());
-			System.out.println("cliente id " + cliente.getId());
-			// empleado.setId(registro.getEmpleado().getId());
-			// registro.getEmpleado().setId(codigo);
-			System.out.println("imprime esto:   " + registro.getFechaHora());
-			Cliente cli = clion.getCliente(registro.getCliente().getId());
-			Empleado em = empon.getEmpleado(codigo);
-			registro.setCliente(cli);
-			registro.setEmpleado(em);
-			regon.guardar(registro);
-			/*
-			 * 
-			 * System.out.println("Llegando:::::111");
-			 * cliente.setId(registro.getCliente().getId());
-			 * registro.getCliente().setId(cliente.getId());
-			 * System.out.println("cliente id " + cliente.getId()); //
-			 * empleado.setId(registro.getEmpleado().getId()); //
-			 * registro.getEmpleado().setId(codigo); System.out.println("imprime esto:   " +
-			 * registro.getFechaHora()); Cliente cli =
-			 * clion.getCliente(registro.getCliente().getId()); Empleado em=
-			 * empon.getEmpleado(codigo); registro.setCliente(cli);
-			 * registro.setEmpleado(em);
-			 * System.out.println("Se guardo correcto correctamente"); init();
-			 * 
-			 * 
-			 * 
-			 * 
-			 */
+			listadoFiltrado= regon.Filtrado(codiguito);
+			if (listadoFiltrado.size() == 0) {
+				HttpSession session = SessionUtils.getSession();
+				Empleado em = (Empleado) session.getAttribute("username");
+				System.out.println("usurus carambola: "+em.getId());
 
-//			Visita g = new Visita(cli, registro, empleado);
-//			visitaOn.guardar(g);
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "EL REGISTRO SE GUARDO EXITOSAMENTE"));
-
-			init();
+				Cliente cli = clion.getCliente(codiguito);
+				System.out.println("Llegando:::::111");
+				System.out.println("imprime esto:   " + registro.getAccion());
+				registro.setCliente(cli);
+				registro.setEmpleado(em);
+				registro.setProblema(problemaElegido);
+				if (registro.getAccion().equals("SOLUCIONADOF")) {
+					registro.setChequeo(false);
+				}else {
+					registro.setChequeo(true);
+				}
+				
+				regon.guardar(registro);
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "EL REGISTRO SE GUARDO EXITOSAMENTE"));
+				init();
+				return null;
+	
+			}else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso","ESTE CLIENTE YA TIENE UN RECLAMO REGISTRADO"));
+			}
+			
 			return null;
-
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "NO SE PUDO GUARDAR EL REGISTRO"));
 		}
-		return null;
-	}
+		return "callcenter?faces";
+
+		}
+//	
+//	public String cargarDatosRegistro1(int codigo) {
+//		try {
+//			System.out.println("Llegando:::::111");
+//			cliente.setId(registro.getCliente().getId());
+//			registro.getCliente().setId(cliente.getId());
+//			System.out.println("cliente id " + cliente.getId());
+//			// empleado.setId(registro.getEmpleado().getId());
+//			// registro.getEmpleado().setId(codigo);
+//			System.out.println("imprime esto:   " + registro.getFechaHora());
+//			Cliente cli = clion.getCliente(registro.getCliente().getId());
+//			Empleado em = empon.getEmpleado(codigo);
+//			registro.setCliente(cli);
+//			registro.setEmpleado(em);
+//			regon.guardar(registro);
+//			/*
+//			 * 
+//			 * System.out.println("Llegando:::::111");
+//			 * cliente.setId(registro.getCliente().getId());
+//			 * registro.getCliente().setId(cliente.getId());
+//			 * System.out.println("cliente id " + cliente.getId()); //
+//			 * empleado.setId(registro.getEmpleado().getId()); //
+//			 * registro.getEmpleado().setId(codigo); System.out.println("imprime esto:   " +
+//			 * registro.getFechaHora()); Cliente cli =
+//			 * clion.getCliente(registro.getCliente().getId()); Empleado em=
+//			 * empon.getEmpleado(codigo); registro.setCliente(cli);
+//			 * registro.setEmpleado(em);
+//			 * System.out.println("Se guardo correcto correctamente"); init();
+//			 * 
+//			 * 
+//			 * 
+//			 * 
+//			 */
+//
+////			Visita g = new Visita(cli, registro, empleado);
+////			visitaOn.guardar(g);
+//			FacesContext.getCurrentInstance().addMessage(null,
+//					new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "EL REGISTRO SE GUARDO EXITOSAMENTE"));
+//
+//			init();
+//			return null;
+//
+//		} catch (Exception e) {
+//			FacesContext.getCurrentInstance().addMessage(null,
+//					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "NO SE PUDO GUARDAR EL REGISTRO"));
+//		}
+//		return null;
+//	}
 
 	public String cambioTecnico(int visita, int registro, int clientito) {
 		System.out.println("cambioTecnico?faces-redirect=true&id=" + visita + "&id2=" + registro + "&id3=" + clientito);
@@ -2270,5 +2420,29 @@ public class ClienteController implements Serializable {
 		}
 		return ip;
 	}
-
+	public String cambiarEstado(int registrito, int id) {
+		System.out.println("este es el id amigo"+registrito);
+		try {
+			Registro re= regon.consultarRegistro(registrito);
+			re.setId(registrito);
+			re.setAccion("SOLUCIONADOF");
+			re.setChequeo(false);
+			Visita vi = visitaOn.consultarVIsita(id);
+			vi.setChequeo(true);		
+			//Visita vi = visitaOn.getListadoVisita();
+			//visita.setChequeo(trueVisita);Visita
+		//	Visita v= visitaOn.actualizar(visita);;
+			visitaOn.guardar(vi);
+			regon.guardar(re);
+			init();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("si hizoooo");
+		//registro.setCliente(cliente);
+		
+		return null;
+		
+	}
 }

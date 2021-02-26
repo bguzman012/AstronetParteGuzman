@@ -10,7 +10,7 @@
 		<f:viewParam name="id" value="#{numerito}"></f:viewParam>
 		<f:viewParam name="id2" value="#{registrito}"></f:viewParam>
 		<f:viewParam name="id3" value="#{clientito}"></f:viewParam>
-	
+
 		<f:viewAction action="#{clienteController.datosRegistro()}" />
 	</f:metadata>
 	<title>Agendamiento</title>
@@ -25,67 +25,115 @@
 
 </h:head>
 
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="callcenter.xhtml"><img
-				src="resources/assets/img/logo.png" /></a>
-		</div>
-		<ul class="nav navbar-nav">
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="callcenter.xhtml">Call Center <span
-					class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="registro.xhtml">Registros</a></li>
-				
-
-				</ul></li>
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#" onclick="acceso()">Clientes<span
-					class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="clientes1.xhtml" id="boton">Clientes</a></li>
-					<li><a href="registrarEmpleado.xhtml" id="boton12">Empleado</a></li>
-				</ul></li>
-
-		</ul>
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{login.empleado.nombre}</a></li>
-			<li><a id="dep"> #{login.empleado.departamento}</a></li>
-			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{login.logout()}"
-							value="Exit" image="./resources/assets/img/exit.png" />
-					</a>
-				</h:form></li>
-
-		</ul>
-
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+	<div class="navbar-header">
+		<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
+		<h:form class="navbar-brand">
+			<h:link outcome="viewUser">
+				<h:graphicImage value="resources/assets/img/logo.png" />
+				<!-- <f:param name="id" value="#{usuarioBean.idUser}" /> -->
+			</h:link>
+		</h:form>
 	</div>
-	</nav>
-	<h:form>
-		<div class="centerTexto">
-			<h2>REVISION DE RECLAMOS</h2>
-		</div>
-		<div class="form-group col-sm-6">
-			  <label for="sel1" class="etiquetas">Tecnicos:</label>   
+	<ul class="nav navbar-nav">
+		<!-- DAÑOS DE PEDRO  -->
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">Call Center<span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><h:link outcome="callcenter" value="Call Center"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
 
-			
-        <p:selectOneMenu id="tecnico" value="#{visitaController.tecnicoElegido}">
-            <f:selectItem itemLabel="Select One" itemValue="3" />
-            <f:selectItems value="#{visitaController.tecnicos}" />
-        </p:selectOneMenu>
-			  
-			<!-- 					<h:selectOneMenu class="form-control" id="sel1" -->
-			<!-- 						value="#{clienteController.registro.empleado}"> -->
-			<!-- 						<f:selectItems value="#{clienteController.tecnicos}" var="pro1" -->
-			<!-- 							itemLabel="#{pro1.nombre}" itemValue="#{pro1.id}" /> -->
-			<!-- 							<f:selectItems value="#{pro1.id}"/> -->
-			<!-- 					</h:selectOneMenu> -->
-		</div>
-		<div class="btnsIngre_Agen">
-			<h:commandButton action="#{visitaController.cambio(numerito,registrito,clientito)}"
-				class="btn btn-primary btnIn" value="Ingresar" />
-		</div>
-	</h:form>
+					</h:link></li>
+
+				<li><h:link outcome="registro" value="Registro"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+					</h:link></li>
+
+
+				<li><h:link outcome="listadoVerificar"
+						value="Verificar Listado"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+					</h:link></li>
+
+				<li><h:link outcome="listadoVisitaTecnica"
+						value="Visitas Tecnicas"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+					</h:link></li>
+
+				<li><h:link outcome="listadoTecnicosAsignados"
+						value="Verificar Tecnicos Asignados"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+					</h:link></li>
+
+				<li><h:link outcome="listadoSolucionadoF"
+						value="Verificar Reclamos Solucionados"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+					</h:link></li>
+
+
+			</ul></li>
+
+		<li class="dropdown"><a class="dropdown-toggle"
+			data-toggle="dropdown" href="#">Clientes/Empleados<span
+				class="caret"></span></a>
+			<ul class="dropdown-menu">
+
+				<li><h:link outcome="listadoEmpleado" value="Empleados"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+					</h:link></li>
+
+				<li><h:link outcome="clienteCrood" value="Clientes"
+						rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+					</h:link></li>
+			</ul></li>
+
+	</ul>
+
+	<ul class="nav navbar-nav navbar-right">
+		<li><a> #{loginBean.empleado.nombre}</a></li>
+		<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+		<li><h:form>
+				<a> <h:commandButton class="btnExit"
+						action="#{loginBean.logout()}" value="Exit"
+						image="./resources/assets/img/exit.png" />
+				</a>
+			</h:form></li>
+	</ul>
+</div>
+</nav>
+<h:form>
+	<div class="centerTexto">
+		<h2>REVISION DE RECLAMOS</h2>
+	</div>
+	<div class="form-group col-sm-6">
+		<label for="sel1" class="etiquetas">Tecnicos:</label>
+
+
+		<p:selectOneMenu id="tecnico"
+			value="#{visitaController.tecnicoElegido}">
+			<f:selectItem itemLabel="Select One" itemValue="3" />
+			<f:selectItems value="#{visitaController.tecnicos}" />
+		</p:selectOneMenu>
+
+		<!-- 					<h:selectOneMenu class="form-control" id="sel1" -->
+		<!-- 						value="#{clienteController.registro.empleado}"> -->
+		<!-- 						<f:selectItems value="#{clienteController.tecnicos}" var="pro1" -->
+		<!-- 							itemLabel="#{pro1.nombre}" itemValue="#{pro1.id}" /> -->
+		<!-- 							<f:selectItems value="#{pro1.id}"/> -->
+		<!-- 					</h:selectOneMenu> -->
+	</div>
+	<div class="btnsIngre_Agen">
+		<h:commandButton
+			action="#{visitaController.cambio1(numerito,registrito,clientito)}"
+			class="btn btn-primary btnIn" value="Ingresar" />
+	</div>
+</h:form>
 </html>
