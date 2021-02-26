@@ -8,10 +8,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-	<f:metadata>
-		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>		
-		<f:viewAction action="#{empleadoControllerBean.init()}" />
-	</f:metadata>
+
 	<title>Crear De Datos</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -48,47 +45,86 @@
 			<h:form class="navbar-brand">
 				<h:link outcome="viewUser">
 					<h:graphicImage value="resources/assets/img/logo.png" />
-					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
+					<!-- <f:param name="id" value="#{usuarioBean.idUser}" /> -->
 				</h:link>
 			</h:form>
 		</div>
-
-		
-		
 		<ul class="nav navbar-nav">
-			
+			<!-- DAÑOS DE PEDRO  -->
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#">Call Center<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><h:link outcome="callcenter" value="Call Center"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="registro" value="Registro"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+
+					<li><h:link outcome="listadoVerificar"
+							value="Verificar Listado"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="listadoVisitaTecnica"
+							value="Visitas Tecnicas"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="listadoTecnicosAsignados"
+							value="Verificar Tecnicos Asignados"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+					<li><h:link outcome="listadoSolucionadoF"
+							value="Verificar Reclamos Solucionados"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
+
+
+				</ul></li>
 
 			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#">Clientes<span
+				data-toggle="dropdown" href="#">Clientes/Empleados<span
 					class="caret"></span></a>
 				<ul class="dropdown-menu">
 
-					<li><h:link outcome="listCliente" value="Listar Clientes">
-							<f:param name="id" value="#{empleadoControllerBean.idUser}" />
+					<li><h:link outcome="listadoEmpleado" value="Empleados"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
 						</h:link></li>
 
+					<li><h:link outcome="clienteCrood" value="Clientes"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+
+						</h:link></li>
 				</ul></li>
 
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
-			<li><a id="dep">
-					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
+			<li><a> #{loginBean.empleado.nombre}</a></li>
+			<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
 			<li><h:form>
 					<a> <h:commandButton class="btnExit"
 							action="#{loginBean.logout()}" value="Exit"
 							image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
-
 		</ul>
-
 	</div>
 	</nav>
-	
-	
-	
+
+
+
 	<h:form>
 		<div class="container">
 			<h2></h2>
@@ -380,7 +416,7 @@
 								value="#{clienteController.ip}" a:placeholder="IP"
 								maxlength="16" validatorMessage="Formato Ip no valido"
 								validator="#{clienteController.validarIp}">
-								
+
 								<f:ajax event="blur" render="messageForIp" />
 							</h:inputText>
 							<h:message id="messageForIp" for="ip" style="color:red" />
