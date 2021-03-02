@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 	<link rel="stylesheet" href="resources/assets/css/instaEdicion.css" />
 
-	
+
 	<style>
 .menubar {
 	background-color: transparent;
@@ -96,7 +96,8 @@
 								outcome="listClientesTemporales"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 
-							<p:menuitem value="Crear Cliente" outcome="crearInstalacionTemporal"
+							<p:menuitem value="Crear Cliente"
+								outcome="crearInstalacionTemporal"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 
 
@@ -190,7 +191,8 @@
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="Departamento">Rol:</label>
 							<div class="col-sm-8">
-								<h:selectOneMenu value="#{empleadoControllerBean.rolSelected}">
+								<h:selectOneMenu value="#{empleadoControllerBean.rolSelected}"
+									rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
 									<f:selectItem
 										itemLabel="#{empleadoControllerBean.empleado.rolEmpleado.nombre}"
 										itemValue="#{empleadoControllerBean.empleado.rolEmpleado.nombre}"

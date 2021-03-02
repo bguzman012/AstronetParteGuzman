@@ -1239,11 +1239,13 @@ public class ClienteController implements Serializable {
 	public solucion[] listaAccion;
 
 	public solucion[] getAccion() {
-		listaSolucion = new solucion[4];
+		listaSolucion = new solucion[5];
 		listaSolucion[0] = new solucion("VISITA TECNICA", "1");
 		listaSolucion[1] = new solucion("NODO CAIDO", "2");
 		listaSolucion[2] = new solucion("PROBLEMA ENLACE", "3");
 		listaSolucion[3] = new solucion("SOLUCIONADOF", "4");
+		listaSolucion[4] = new solucion("PENDIENTE", "5");
+
 
 		return listaSolucion;
 	}
