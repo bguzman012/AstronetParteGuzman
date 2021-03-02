@@ -59,7 +59,9 @@ public class BeanListCliente implements Serializable{
 		public void setListaFiltrada(List<Cliente> listaFiltrada) {
 			this.listaFiltrada = listaFiltrada;
 		}
-		
+		public void actualizar() {
+			 listadoclientes = clion.getListadoCliente();
+		}
 
 	   
 	   @Inject

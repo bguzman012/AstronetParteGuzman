@@ -7,13 +7,10 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 
 <h:head>
-	<f:metadata>
-		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>		
-		<f:viewAction action="#{empleadoControllerBean.init()}" />
-	</f:metadata>
+
 	<title>Crear De Datos Temporales Instalacion</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,69 +19,134 @@
 	<link rel="stylesheet" href="resources/assets/css/table2.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
-	
+
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="resources/assets/js/permisos.js">
 		
 	</script>
+
+	<style>
+.menubar {
+	background-color: transparent;
+}
+
+/* primefaces override*/
+.ui-menubutton-transparent {
+	background-color: transparent !important;
+	background: transparent !important;
+}
+/* NO BORRAR */
+.styleGreen .ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-color: transparent !important;
+	background: transparent !important;
+	border: transparent !important;
+	height: 50px;
+	color: #E3E3E3;
+	font-weight: normal;
+}
+</style>
+
 </h:head>
 <body>
 
+	<div class="container">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="nav-header">
+				<h:form class="navbar-brand">
+					<h:link outcome="viewUser">
+						<h:graphicImage value="resources/assets/img/logo.png" />
+					</h:link>
+				</h:form>
+			</div>
 
 
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
-			<h:form class="navbar-brand">
-				<h:link outcome="viewUser">
-					<h:graphicImage value="resources/assets/img/logo.png" />
-					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
-				</h:link>
-			</h:form>
+
+			<div class="collapse navbar-collapse" id="otra">
+				<ul class="nav navbar-nav ">
+					<h:form>
+
+						<p:menuButton value="Call Center" styleClass="styleGreen">
+							<p:menuitem value="Call Center " outcome="callcenter"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Registro" outcome="registro"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Visitas Tecnicas"
+								outcome="listadoVisitaTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Tecnicos Asignados"
+								outcome="listadoTecnicosAsignados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Reclamos Solucionados"
+								outcome="listadoSolucionadoF"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+							<p:menuitem value="Emleados" outcome="listadoEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Clientes" outcome="clienteCrood"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Temporales"
+								outcome="listClientesTemporales"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Crear Cliente"
+								outcome="crearInstalacionTemporal"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Configuraciones" styleClass="styleGreen">
+							<p:menuitem value="Editar mis datos"
+								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
+							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+
+
+					</h:form>
+
+				</ul>
+
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a> #{loginBean.empleado.nombre}</a></li>
+					<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+					<li><h:form>
+							<a> <h:commandButton class="btnExit"
+									action="#{loginBean.logout()}" value="Exit"
+									image="./resources/assets/img/exit.png" />
+							</a>
+						</h:form></li>
+				</ul>
+			</div>
 		</div>
-
-		
-		
-		<ul class="nav navbar-nav">
-			
-
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#">Clientes<span
-					class="caret"></span></a>
-				<ul class="dropdown-menu">
-
-					<li><h:link outcome="listCliente" value="Listar Clientes">
-							<f:param name="id" value="#{empleadoControllerBean.idUser}" />
-						</h:link></li>
-
-				</ul></li>
-
-		</ul>
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
-			<li><a id="dep">
-					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
-			<li><h:form>
-					<a> <h:commandButton class="btnExit"
-							action="#{loginBean.logout()}" value="Exit"
-							image="./resources/assets/img/exit.png" />
-					</a>
-				</h:form></li>
-
-		</ul>
-
+		</nav>
 	</div>
-	</nav>
-	
-	
-	   <p:messages id="messages" showDetail="true" closable="true">
-            <p:autoUpdate/>
-        </p:messages>
-	
-	
+
+
+
+	<p:messages id="messages" showDetail="true" closable="true">
+		<p:autoUpdate />
+	</p:messages>
+
+<br />
 	<h:form>
 		<div class="container">
 			<h2></h2>
@@ -103,13 +165,14 @@
 					</div>
 
 					<div class="form-row">
-	
+
 						<div class="form-group col-md-4">
 
 							<h:outputLabel for="Nombres">Nombres *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Nombres"
 								required="true" requiredMessage="  Campo Obligatorio"
-								a:placeholder="Nombres" value="#{clienteTemController.cliente.nombre}"
+								a:placeholder="Nombres"
+								value="#{clienteTemController.cliente.nombre}"
 								validator="#{clienteController.validarNombre}">
 								<f:ajax event="blur" render="messageForNom" />
 							</h:inputText>
@@ -121,7 +184,8 @@
 							<h:outputLabel for="Apellidos">Apellidos *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Apellidos"
 								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{clienteTemController.cliente.apellidos}" a:placeholder="Apellidos"
+								value="#{clienteTemController.cliente.apellidos}"
+								a:placeholder="Apellidos"
 								validator="#{clienteController.validarApellido}">
 								<f:ajax event="blur" render="messageForAp" />
 							</h:inputText>
@@ -130,12 +194,13 @@
 
 						<div class="form-group col-md-12"></div>
 
-				
+
 						<div class="form-group col-md-6">
 							<h:outputLabel for="Fecha">Fecha *</h:outputLabel>
 							<h:inputText a:type="date" class="form-control" id="Fecha"
 								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{clienteTemController.cliente.fecha}" a:placeholder="Fecha">
+								value="#{clienteTemController.cliente.fecha}"
+								a:placeholder="Fecha">
 								<f:ajax event="blur" render="messageForDate" />
 							</h:inputText>
 							<h:message id="messageForDate" for="Fecha" style="color:red" />
@@ -200,29 +265,32 @@
 
 							<p style="color: #275ca8">
 
-								<b>Asignar tecnico o lo puede asignar luego para la instalacion </b>
-									<div class="form-group col-sm-6">
-			  				<label for="sel1" class="etiquetas">Tecnicos:</label>   
-               <p:selectOneMenu id="tecnico" value="#{clienteTemController.tecnicoElegido}">
-            <f:selectItem itemLabel="Seleccionar" itemValue="SinAsignar" />
-            <f:selectItems value="#{clienteController.tecnicos}" />
-        </p:selectOneMenu>
-			  
+								<b>Asignar tecnico o lo puede asignar luego para la
+									instalacion </b>
+								<div class="form-group col-sm-6">
+									  <label for="sel1" class="etiquetas">Tecnicos:</label>   
+									<p:selectOneMenu id="tecnico"
+										value="#{clienteTemController.tecnicoElegido}">
+										<f:selectItem itemLabel="Seleccionar" itemValue="SinAsignar" />
+										<f:selectItems value="#{clienteController.tecnicos}" />
+									</p:selectOneMenu>
+									  
 
-		</div>
+								</div>
 							</p>
 							<br></br>
 						</div>
 					</div>
 
 
-			
+
 
 				</div>
 				<div class="modal-footer">
 
 					<h:commandButton class="btn btn-primary" data-dismiss="modal"
-						action="#{clienteTemController.crearCliTemporal()}" value="Guardar" />
+						action="#{clienteTemController.crearCliTemporal()}"
+						value="Guardar" />
 					<h:commandButton action="clientes1" value="Cancelar"
 						class="btn btn-danger" data-dismiss="modal" />
 				</div>

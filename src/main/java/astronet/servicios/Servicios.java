@@ -405,6 +405,7 @@ public class Servicios {
 		
 		List<String> map = new ArrayList<String>();
 		List<Visita> listaServicios = new ArrayList<Visita>();
+		List<Telefono> telefonos = new ArrayList<Telefono>();
 		listaServicios = vison.getVisitaByTecnico(nombre);
 		System.out.println("nombre IONIC " + nombre);
 			
@@ -422,13 +423,14 @@ public class Servicios {
 				mapRegistro.put("idvisita", String.valueOf(vis.getId()));
 				mapRegistro.put("idregistro", String.valueOf(String.valueOf(vis.getRegistro().getId())));
 				mapRegistro.put("observaciones",String.valueOf(vis.getObservaciones()));
-
+				
+				telefonos=telon.getTelefonos(vis.getCliente());
+				for (Telefono telefono : telefonos) {
+					mapRegistro.put("telefono",telefono.getTelNumero());
+					break;
+				}
 				array.add(mapRegistro);
-			  
-
 		}
-		
-		
 		return array;
 	}
 	//SCORPIONMETHOD TO CHANGE STATE OF VISIT AND REGISTER MARKED BY ING
@@ -463,7 +465,7 @@ public class Servicios {
 	}
 	//Method to change state of client temp 
 	@POST
-	@Path("/ActualizarClienteTemporal")
+	@Path("ActualizarClienteTemporal")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String ActualizarTemporal(String data) {

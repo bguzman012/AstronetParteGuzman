@@ -135,6 +135,16 @@
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Clientes" outcome="clienteCrood"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Temporales"
+								outcome="listClientesTemporales"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Crear Cliente" outcome="crearInstalacionTemporal"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+
 
 						</p:menuButton>
 
@@ -168,11 +178,10 @@
 		</nav>
 	</div>
 
-
-
-
+<br/><br/><br/><br/><br/>
 	<!-- Creacion Tabla y muestreo de Datos del cliente -->
-	<h:form>
+	<h:form id="text">
+	
 
 		<p:dataTable style="text-align:center;"
 			value="#{beanListCliente.listadoclientes}" var="cliente"
@@ -181,14 +190,18 @@
 			rowsPerPageTemplate="10,50,100" widgetVar="cliTable"
 			emptyMessage="No hay clientes con esas concidencias"
 			filteredValue="#{beanListCliente.listaFiltrada}">
-
-			<!-- Inputtexto para la busqueda -->
+<!-- Inputtexto para la busqueda -->
 
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Ingresar Cliente A Buscar Global:" />
 					<p:inputText id="globalFilter" onkeyup="PF('cliTable').filter()"
-						style="width:150px" placeholder="Ingresar Cliente" />
+						style="width:150px; color:black" placeholder="Ingresar Cliente" />
+						
+						<h:commandButton  class="btn btnUpdate" immediate="true" render="text"
+										action="#{beanListCliente.actualizar()}"
+										image="/resources/assets/img/actualizar.png" />
+			
 				</p:outputPanel>
 			</f:facet>
 

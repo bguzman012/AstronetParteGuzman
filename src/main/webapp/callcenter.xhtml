@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
+
 	<style>
 .columnacontacto {
 	width: 10px;
@@ -71,7 +72,7 @@ body .ui-staticmessage.ui-message {
 
 
 
-<div class="container">
+	<div class="container">
 		<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 
@@ -116,6 +117,16 @@ body .ui-staticmessage.ui-message {
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Clientes" outcome="clienteCrood"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Temporales"
+								outcome="listClientesTemporales"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Crear Cliente" outcome="crearInstalacionTemporal"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+
 
 						</p:menuButton>
 
@@ -126,7 +137,7 @@ body .ui-staticmessage.ui-message {
 								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
 							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-						</p:menuButton >
+						</p:menuButton>
 
 
 					</h:form>
@@ -150,7 +161,7 @@ body .ui-staticmessage.ui-message {
 	</div>
 
 	<div class="centerTexto">
-	<br />
+		<br />
 		<h2>INGRESO DE RECLAMOS E INSTALACIONES NUEVAS</h2>
 	</div>
 

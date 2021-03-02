@@ -10,10 +10,10 @@
 	<f:metadata>
 		<f:viewParam name="id" value="#{clienteController.idR}"></f:viewParam>
 		<f:viewParam name="idUser" value="#{empleadoControllerBean.idUser}"></f:viewParam>
-		<f:viewAction action="#{clienteController.datosRegistro()}" />		
+		<f:viewAction action="#{clienteController.datosRegistro()}" />
 	</f:metadata>
 	<title>Agendamiento</title>
-		<f:viewParam name="id" value="#{clienteController.idR}"></f:viewParam>
+	<f:viewParam name="id" value="#{clienteController.idR}"></f:viewParam>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -22,103 +22,124 @@
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
 	<script type="text/javascript" src="resources/assets/js/permisos.js">
 		
 	</script>
 
+	<style>
+.menubar {
+	background-color: transparent;
+}
+
+/* primefaces override*/
+.ui-menubutton-transparent {
+	background-color: transparent !important;
+	background: transparent !important;
+}
+/* NO BORRAR */
+.styleGreen .ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-color: transparent !important;
+	background: transparent !important;
+	border: transparent !important;
+	height: 50px;
+	color: #E3E3E3;
+	font-weight: normal;
+}
+</style>
+
 </h:head>
 <body>
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
-			<h:form class="navbar-brand">
-				<h:link outcome="viewUser">
-					<h:graphicImage value="resources/assets/img/logo.png" />
-					<!-- <f:param name="id" value="#{usuarioBean.idUser}" /> -->
-				</h:link>
-			</h:form>
-		</div>
-		<ul class="nav navbar-nav">
-		<!-- DAÑOS DE PEDRO  -->
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#">Call Center<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><h:link outcome="callcenter" value="Call Center"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
+	<div class="container">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
 
-					<li><h:link outcome="registro" value="Registro"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
+			<div class="nav-header">
+				<h:form class="navbar-brand">
+					<h:link outcome="viewUser">
+						<h:graphicImage value="resources/assets/img/logo.png" />
+					</h:link>
+				</h:form>
+			</div>
 
 
-					<li><h:link outcome="listadoVerificar"
-							value="Verificar Listado"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
-						
-						<li><h:link outcome="listadoVisitaTecnica"
-							value="Visitas Tecnicas"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
-						
-						<li><h:link outcome="listadoTecnicosAsignados"
-							value="Verificar Tecnicos Asignados"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
-						
-						<li><h:link outcome="listadoSolucionadoF"
-							value="Verificar Reclamos Solucionados"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
-																	
+
+			<div class="collapse navbar-collapse" id="otra">
+				<ul class="nav navbar-nav ">
+					<h:form>
+
+						<p:menuButton value="Call Center" styleClass="styleGreen">
+							<p:menuitem value="Call Center " outcome="callcenter"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Registro" outcome="registro"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Visitas Tecnicas"
+								outcome="listadoVisitaTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Tecnicos Asignados"
+								outcome="listadoTecnicosAsignados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Reclamos Solucionados"
+								outcome="listadoSolucionadoF"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+							<p:menuitem value="Emleados" outcome="listadoEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Clientes" outcome="clienteCrood"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Temporales"
+								outcome="listClientesTemporales"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Crear Cliente"
+								outcome="crearInstalacionTemporal"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Configuraciones" styleClass="styleGreen">
+							<p:menuitem value="Editar mis datos"
+								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
+							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+
+
+					</h:form>
 
 				</ul>
-													
-				</li>
 
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#">Clientes/Empleados<span
-					class="caret"></span></a>
-				<ul class="dropdown-menu">
 
-					<li><h:link outcome="listadoEmpleado" value="Empleados"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
-
-					<li><h:link outcome="clienteCrood" value="Clientes"
-							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}">
-							
-						</h:link></li>
-				</ul></li>
-
-		</ul>
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{loginBean.empleado.nombre}</a></li>
-			<li><a id="dep">
-					#{loginBean.empleado.rolEmpleado.nombre}</a></li>									
-			<li><h:form>
-					<a> <h:commandButton class="btnExit"
-							action="#{loginBean.logout()}" value="Exit"
-							image="./resources/assets/img/exit.png" />
-					</a>
-				</h:form></li>
-		</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a> #{loginBean.empleado.nombre}</a></li>
+					<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+					<li><h:form>
+							<a> <h:commandButton class="btnExit"
+									action="#{loginBean.logout()}" value="Exit"
+									image="./resources/assets/img/exit.png" />
+							</a>
+						</h:form></li>
+				</ul>
+			</div>
+		</div>
+		</nav>
 	</div>
-	</nav>
+	<br/><br/><br/>
 
 	<h:form>
 		<div class="centerTexto">
@@ -196,7 +217,7 @@
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
-				  <label for="selA">Acción:</label>     
+				<label for="selA">Acción:</label>
 				<h:selectOneMenu class="form-control" id="selAc"
 					value="#{clienteController.registro.accion}">
 					<f:ajax listener="#{clienteController.fechaHora()}" />

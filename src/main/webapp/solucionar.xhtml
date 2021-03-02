@@ -3,12 +3,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<f:metadata>
-			<f:viewParam name="id" value="#{clienteController.idR}"></f:viewParam>
-			<f:viewAction action="#{clienteController.datosRegistro()}" />
-		</f:metadata>
+	<f:metadata>
+		<f:viewParam name="id" value="#{clienteController.idR}"></f:viewParam>
+		<f:viewAction action="#{clienteController.datosRegistro()}" />
+	</f:metadata>
 	<title>Crear De Datos</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,56 +18,120 @@
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="resources/assets/js/permisos.js">
+	
 		
-	</script>
+
+
+	<style>
+.menubar {
+	background-color: transparent;
+}
+
+/* primefaces override*/
+.ui-menubutton-transparent {
+	background-color: transparent !important;
+	background: transparent !important;
+}
+/* NO BORRAR */
+.styleGreen .ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-color: transparent !important;
+	background: transparent !important;
+	border: transparent !important;
+	height: 50px;
+	color: #E3E3E3;
+	font-weight: normal;
+}
+</style>
 </h:head>
 <body>
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="callcenter.xhtml"><img
-				src="resources/assets/img/logo.png" /></a>
+	<div class="container">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="nav-header">
+				<h:form class="navbar-brand">
+					<h:link outcome="viewUser">
+						<h:graphicImage value="resources/assets/img/logo.png" />
+					</h:link>
+				</h:form>
+			</div>
+
+
+
+			<div class="collapse navbar-collapse" id="otra">
+				<ul class="nav navbar-nav ">
+					<h:form>
+
+						<p:menuButton value="Call Center" styleClass="styleGreen">
+							<p:menuitem value="Call Center " outcome="callcenter"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Registro" outcome="registro"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Visitas Tecnicas"
+								outcome="listadoVisitaTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Tecnicos Asignados"
+								outcome="listadoTecnicosAsignados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Reclamos Solucionados"
+								outcome="listadoSolucionadoF"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+							<p:menuitem value="Emleados" outcome="listadoEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Clientes" outcome="clienteCrood"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Temporales"
+								outcome="listClientesTemporales"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Crear Cliente" outcome="crearInstalacionTemporal"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+
+
+						</p:menuButton>
+
+
+
+						<p:menuButton value="Configuraciones" styleClass="styleGreen">
+							<p:menuitem value="Editar mis datos"
+								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
+							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+
+
+					</h:form>
+
+				</ul>
+
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a> #{loginBean.empleado.nombre}</a></li>
+					<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+					<li><h:form>
+							<a> <h:commandButton class="btnExit"
+									action="#{loginBean.logout()}" value="Exit"
+									image="./resources/assets/img/exit.png" />
+							</a>
+						</h:form></li>
+				</ul>
+			</div>
 		</div>
-		<ul class="nav navbar-nav">
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="callcenter.xhtml">Call Center <span
-					class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="registro.xhtml">Registros</a></li>
-					<li><a href="listadoInstalaciones.xhtml">Instalaciones</a></li>
-
-				</ul></li>
-
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#" onclick="acceso()">Clientes<span
-					class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="clientes1.xhtml" id="boton">Clientes</a></li>
-					<li><a href="crearCliente.xhtml" id="boton12">Nuevo
-							Cliente</a></li>
-				</ul></li>
-
-		</ul>
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{login.empleado.nombre}</a></li>
-			<li><a id="dep"> #{login.empleado.departamento}</a></li>
-			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{login.logout()}"
-							value="Exit" image="./resources/assets/img/exit.png" />
-					</a>
-				</h:form></li>
-
-		</ul>
-
+		</nav>
 	</div>
-	</nav>
-
 	<h:form>
 		<div class="container">
 			<h2></h2>
@@ -80,25 +145,25 @@
 						</p>
 						<br></br>
 					</div>
-				<div class="form-group col-sm-6">
+					<div class="form-group col-sm-6">
 						  <label for="selA">Soluciones:</label>     
 						<h:selectOneMenu class="form-control" id="selAc"
 							value="#{clienteController.registro.accion}">
-							<f:ajax  listener="#{clienteController.fechaHora()}" /> 
+							<f:ajax listener="#{clienteController.fechaHora()}" />
 							<f:selectItems value="#{clienteController.accion}" var="pro1"
 								itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
 						</h:selectOneMenu>
 					</div>
-					</div>
-
 				</div>
-					<h:commandButton
-						action="#{clienteController.cargarDatosRegistro()}"
-						class="btn btn-primary btnIn" value="Ingresar" />>
-				<h:commandButton action="clientes1" value="Cancelar"
-					class="btn btn-danger" data-dismiss="modal" />
 
 			</div>
+			<h:commandButton action="#{clienteController.cargarDatosRegistro()}"
+				class="btn btn-primary btnIn" value="Ingresar" />
+			
+			<h:commandButton action="clientes1" value="Cancelar"
+				class="btn btn-danger" data-dismiss="modal" />
+
+		</div>
 	</h:form>
 </body>
 </html>

@@ -1160,7 +1160,7 @@ public class ClienteController implements Serializable {
 	public problema[] listaSoluOficina;
 
 	public problema[] getProblemas1() {
-		listaProblema = new problema[6];
+		listaProblema = new problema[7];
 
 		listaProblema[0] = new problema("SERVICIO INTERMITENTE", "1");
 		listaProblema[1] = new problema("SIN SERVICIO", "2");
@@ -1168,6 +1168,7 @@ public class ClienteController implements Serializable {
 		listaProblema[3] = new problema("ROUTER DESCONFIGURADO", "4");
 		listaProblema[4] = new problema("SERVICIO LENTO", "5");
 		listaProblema[5] = new problema("CORTE DE SERVICIO", "6");
+		listaProblema[6] = new problema("PENDIENTE", "7");
 
 		return listaProblema;
 	}
@@ -1789,10 +1790,6 @@ public class ClienteController implements Serializable {
 		this.serial = "";
 		this.observaciones = "";
 
-		teleMovil.setTipoTelefono("Movil");
-		teleMovil.setTelNumero(this.celular);
-		teleMovil.setCliente(cli);
-		telOn.guardar(teleMovil);
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "EL CLIENTE SE GUARDO EXITOSAMENTE"));
 		return null;
