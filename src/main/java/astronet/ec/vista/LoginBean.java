@@ -42,7 +42,8 @@ public class LoginBean {
 				HttpSession session = SessionUtils.getSession();
 				session.setAttribute("username", empleado);				
 				System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
-				direccion="viewUser?faces-redirect=true&id="+empleado.getId();	
+				//direccion="viewUser?faces-redirect=true&id="+empleado.getId();	
+				direccion="callcenter?faces-redirect=true";
 			} 
 
 		}catch (Exception e) {
