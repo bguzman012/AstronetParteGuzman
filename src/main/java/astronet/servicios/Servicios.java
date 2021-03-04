@@ -211,6 +211,8 @@ public class Servicios {
 		cliN.setDireccionSecundaria(recoData.getString("direccionSecundaria"));
 		cliN.setDireccionReferencia(recoData.getString("direccionReferencia"));
 		cliN.setEmail(recoData.getString("email"));
+		cliN.setLatitud(recoData.getString("latitud"));
+		cliN.setLongitud(recoData.getString("longitud"));
 		clion.guardar(cliN);
 		// AVOID BUG OF UNSAVED CLIENT
 		Cliente clisaved = clion.getClienteCedula(recoData.getString("cedula"));
@@ -228,6 +230,7 @@ public class Servicios {
 			antenaTmp = eqOn.getAntenaByName(recoData.getString("antena"));
 			System.out.println("ANTENA ENCONTRADA "+antenaTmp.getNombre());
 			planTmp = planOn.buscarPlan(Integer.parseInt(recoData.getString("plan")));
+			System.out.println("########### CAPACIDAD "+planTmp.getCapacidad());
 			Servicio servicioTmp= new Servicio();
 			servicioTmp.setTipoServicio("radio");
 			servicioTmp.setNumeroContrato(recoData.getString("numerocontrato"));
@@ -245,6 +248,10 @@ public class Servicios {
 			eqServicio.setPing("off");
 			eqServicio.setEquipo(antenaTmp);
 			eqServicio.setServicio(servicioTmp);
+			System.out.println("####################AStro"+eqServicio.getIp());
+			System.out.println("####################AStro"+eqServicio.getId());
+			System.out.println("####################AStro servi id "+servicioTmp.getId());
+			System.out.println("####################AStro servi fecha "+servicioTmp.getFechaContrato());
 			eqServOn.crearI(eqServicio);
 		}else {
 			System.out.println("es fibraaaaaa");
