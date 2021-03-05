@@ -198,13 +198,26 @@
 						</div>
 						<div class="form-group col-xs-6">
 							<!-- 								  <label for="sel1">Problema:</label>      -->
-							n
+							
 							<h:selectOneMenu class="form-control" id="sel4"
 								value="#{clienteController.registro.problema}">
 								<f:selectItems value="#{clienteController.problemas1}"
 									var="pro1" itemLabel="#{pro1.carLabel}"
 									itemValue="#{pro1.carLabel}" />
 							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-xs-3">
+							<div class="btnsIngre_Agen">
+								<h:commandButton class="btn btn-primary btnIn"
+									action="#{clienteController.ping()}" value="Ping" />
+							</div>
+						</div>
+						<div class="form-group col-xs-3">
+							<!-- 								  <label for="sel1">Problema:</label>      -->
+							<div class="btnsIngre_Agen">
+								<h:commandButton class="btn btn-primary btnIn"
+									action="#{clienteController.pingWinbox()}" value="WinBox" />
+							</div>
 						</div>
 					</div>
 					<div class="form-group">

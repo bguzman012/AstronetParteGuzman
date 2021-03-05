@@ -407,6 +407,29 @@ public class ClienteController implements Serializable {
 		if (idR == 0)
 			return;
 		registro = regon.getRegistro(idR);
+
+		List<Servicio> servicios = seron.getServicios(this.registro.getCliente());
+		int i = 0;
+		for (Servicio servicio : servicios) {
+			if (i == 0) {
+				setServicioEdit(servicio);
+			}
+			i++;
+		}
+
+		List<EquipoServicio> equipoServicios = eqServOn.getServicios(servicioEdit);
+		int j = 0;
+		for (EquipoServicio equipoServicio : equipoServicios) {
+			if (j == 0) {
+				setEqServEdit(equipoServicio);
+			}
+			j++;
+		}
+		
+		System.out.println("corderoMeLaPela" + this.eqServEdit.getIp());
+		
+		this.ip = this.eqServEdit.getIp();
+		
 	}
 
 	public Equipo getEquipo() {
@@ -1038,7 +1061,7 @@ public class ClienteController implements Serializable {
 		equipo.setUserEmpleado(empleado.getEmail());
 		System.out.println("IdCliPing: " + equipo.getUserEmpleado());
 		eqServOn.actualizar(equipo); 
-		System.out.println("Al Pelooo bro");
+		System.out.println("Asi somos" + this.ip);
 		
 		return null;
 	}

@@ -422,15 +422,12 @@ body .ui-staticmessage.ui-message {
 							<f:facet name="header" data-field="Nombres" data-sortable="true">Direccion IP</f:facet>
 
 							<h:outputText value="#{clienteController.ipcallcenter}"></h:outputText>
-
+							<br></br>
 							<div class="btnsIngre_Agen">
 								<h:commandButton class="btn btn-primary btnIn"
 									action="#{clienteController.ping()}" value="Ping" />
 							</div>
-							<div class="btnsIngre_Agen">
-								<h:commandButton class="btn btn-primary btnIn"
-									action="#{clienteController.pingWinbox()}" value="WinBox" />
-							</div>
+							
 						</h:column>
 					</h:dataTable>
 

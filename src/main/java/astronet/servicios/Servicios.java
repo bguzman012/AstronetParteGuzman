@@ -139,8 +139,10 @@ public class Servicios {
 	@Path("/ip")
 	@Produces("application/json")
 	public List<String> getIp() {
+		System.out.println("si entre ip");
 		List<String> map = new ArrayList<String>();
 		List<EquipoServicio> listaServicios = new ArrayList<EquipoServicio>();
+		System.out.println("angelDelGol");
 
 		listaServicios = eqSerOn.getPing();
 
