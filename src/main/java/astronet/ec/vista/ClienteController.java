@@ -1857,8 +1857,6 @@ public class ClienteController implements Serializable {
 		try {
 
 			clion.guardar(cliente);
-			telOn.guardar(telefonoConveEdit);
-			telOn.guardar(telefonoMovilEdit);
 			Plan planTmp = new Plan();
 			Equipo equipo = new Equipo();
 
@@ -1889,6 +1887,9 @@ public class ClienteController implements Serializable {
 			this.planTmp = "";
 			this.router = "";
 			init();
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se edito corectamente el cliente"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -2019,27 +2020,6 @@ public class ClienteController implements Serializable {
 			/* 2ª Condición: que el tamaño sea >= 3 y <= 15 */
 
 		}
-	}
-
-	public void validarTelefono(FacesContext context, UIComponent componentToValidate, Object value)
-			throws ValidatorException {
-		FacesMessage message = null;
-		// Retrieve the temporary value from the password field
-
-		String convecional = (String) value;
-
-		if (convecional != "") {
-
-			try {
-				Integer.parseInt(convecional);
-			} catch (NumberFormatException excepcion) {
-
-				message = new FacesMessage("Ingrese solo numeros");
-				throw new ValidatorException(message);
-
-			}
-
-		} /* Verificamos que no sea null */
 	}
 
 	// Metodo para actualizar los telefonos;

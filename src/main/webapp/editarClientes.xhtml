@@ -150,18 +150,12 @@
 
 							<h:outputLabel class="form-label" for="Cedula">Cedula *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Cedula"
-								required="true" requiredMessage="  Campo Obligatorio"
+								
 								a:placeholder="Cedula" redisplay="true"
-								validator="#{clienteController.validarCedula}"
-								converterMessage="Favor ingrese solo numeros."
 								value="#{clienteController.cliente.cedula}" maxlength="10">
 
-
-								<f:ajax event="blur" render="messageForUser" />
-
 							</h:inputText>
-							<h:message id="messageForUser" for="Cedula" style="color:red" />
-
+							
 
 						</div>
 						<div class="form-group col-md-12">
@@ -199,34 +193,9 @@
 
 						</div>
 						<div class="form-group col-md-12">
-							<h:outputLabel class="form-label" for="Convencional">Convencional</h:outputLabel>
-							<h:inputText type="text" class="form-control" id="Convencional"
-								value="#{clienteController.telefonoConveEdit.telNumero}"
-								a:placeholder="Convencional" maxlength="7"
-								validator="#{clienteController.validarTelefono}">
-								<f:ajax event="blur" render="messageForCo" />
-
-							</h:inputText>
-							<h:message id="messageForCo" for="Convencional" style="color:red" />
-						</div>
-						<div class="form-group col-md-12">
-							<h:outputLabel class="form-label" for="Celular">Celular</h:outputLabel>
-							<h:inputText type="text" class="form-control" maxlength="10"
-								id="Celular"
-								value="#{clienteController.telefonoMovilEdit.telNumero}"
-								a:placeholder="Celular"
-								validator="#{clienteController.validarTelefono}">
-								<f:ajax event="blur" render="messageForTel" />
-							</h:inputText>
-							<h:message id="messageForTel" for="Celular" style="color:red" />
-
-						</div>
-
-						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="DireccionPrincipal">Direccion Principal *</h:outputLabel>
 							<h:inputText type="text" class="form-control"
-								id="DireccionPrincipal" required="true"
-								requiredMessage="  Campo Obligatorio"
+								id="DireccionPrincipal" 
 								value="#{clienteController.cliente.direccionPrincipal}"
 								a:placeholder="Direccion Principal">
 								<f:ajax event="blur" render="messageForDir" />
@@ -252,43 +221,31 @@
 						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="Latitud">Latitud *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Latitud"
-								required="true" requiredMessage="  Campo Obligatorio"
+								
 								value="#{clienteController.cliente.latitud}"
-								a:placeholder="Latitud"
-								validatorMessage="Latitud Invalida; ejm [-3.0075694444444445]">
-								<f:validateRegex
-									pattern="(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)" />
-
-								<f:ajax event="blur" render="messageForLatitud" />
-
+								a:placeholder="Latitud">
 							</h:inputText>
 							<h:message id="messageForLatitud" for="Latitud" style="color:red" />
 						</div>
 						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="Longitud">Longitud *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Longitud"
-								required="true" requiredMessage="  Campo Obligatorio"
+								
 								value="#{clienteController.cliente.longitud}"
 								a:placeholder="Longitud"
-								validatorMessage="Longitud Invalida; ejm [-78.99883888888888]">
-								<f:validateRegex
-									pattern="(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)" />
-
-								<f:ajax event="blur" render="messageForLongitud" />
-							</h:inputText>
-							<h:message id="messageForLongitud" for="Longitud"
-								style="color:red" />
+								>
+															</h:inputText>
+							
 						</div>
 						<div class="form-group col-md-12">
 
 							<h:outputLabel for="Email">E-mail </h:outputLabel>
 							<h:inputText class="form-control" id="Email"
 								value="#{clienteController.cliente.email}" a:placeholder="Email"
-								validator="#{clienteController.validarCorreo}">
+								>
 
-								<f:ajax event="blur" render="messageForEmail" />
 							</h:inputText>
-							<h:message id="messageForEmail" for="Email" style="color:red" />
+							
 						</div>
 
 						<div class="form-group col-md-6">
@@ -358,8 +315,7 @@
 
 							<h:selectOneRadio value="#{clienteController.router}"
 								styleClass="radio-inline" style="background-color: white;"
-								id="routerVendido" required="true"
-								requiredMessage="Por favor, seleccione una opcion !">
+								id="routerVendido">
 								<f:selectItems style="border: hidden;"
 									value="#{clienteController.opciones}" itemLabel="#{opcion}"
 									itemValue="#{opcion}">
@@ -403,12 +359,12 @@
 							<h:outputLabel class="form-label" for="serial">Serial *</h:outputLabel>
 
 							<h:inputText type="text" class="form-control" id="serial"
-								required="true" requiredMessage="  Campo Obligatorio"
+								
 								value="#{clienteController.eqServEdit.serial}"
 								a:placeholder="Serial">
-								<f:ajax event="blur" render="messageForSerial" />
+								
 							</h:inputText>
-							<h:message id="messageForSerial" for="serial" style="color:red" />
+							
 						</div>
 
 
