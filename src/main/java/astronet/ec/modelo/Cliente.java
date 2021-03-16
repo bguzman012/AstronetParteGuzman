@@ -50,7 +50,6 @@ public class Cliente implements Serializable {
 
 
 	@Column(name = "cli_apellidos")
-
 	private  String apellidos;
 
 
@@ -71,6 +70,8 @@ public class Cliente implements Serializable {
 
 	@Column(name = "cli_longitud")
 	private String longitud;
+	
+	
 
 	/*
 	 * Relacion Cliente con Servicio
@@ -104,6 +105,18 @@ public class Cliente implements Serializable {
 	@JoinColumn(name = "clivis_fk")
 	@JsonIgnore
 	private List<Visita> visistas;
+	
+	
+	@Column(name = "cli_eliminado")
+	private boolean eliminado;
+
+	public boolean isEliminado() {
+		return eliminado;
+	}
+
+	public void setEliminado(boolean eliminado) {
+		this.eliminado = eliminado;
+	}
 	
 
 	public List<Visita> getVisistas() {

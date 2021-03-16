@@ -98,6 +98,8 @@
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes" outcome="listCliente"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Eliminados" outcome="listClienteEliminados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />	
 							<p:menuitem value="Listar Clientes Temporales"
 								outcome="listClientesTemporales"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
@@ -213,8 +215,7 @@
 							<h:outputLabel for="Celular">Celular </h:outputLabel>
 							<h:inputText type="text" class="form-control" maxlength="10"
 								id="Celular" value="#{clienteTemController.cliente.telefono}"
-								a:placeholder="Celular"
-								validator="#{clienteController.validarTelefono}">
+								a:placeholder="Celular">
 								<f:ajax event="blur" render="messageForTel" />
 							</h:inputText>
 							<h:message id="messageForTel" for="Celular" style="color:red" />

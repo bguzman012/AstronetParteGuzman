@@ -422,6 +422,7 @@ public class Servicios {
 			mapRegistro = new HashMap<>(); 
 			
 			mapRegistro.put("nombre",vis.getCliente().getNombre()); 
+			mapRegistro.put("id",String.valueOf(vis.getCliente().getId()));
 				mapRegistro.put("apellido",vis.getCliente().getApellidos());
 				mapRegistro.put("problema",vis.getRegistro().getProblema());
 				mapRegistro.put("direccionPrincipal",vis.getCliente().getDireccionPrincipal());
@@ -632,6 +633,23 @@ public class Servicios {
 
 		return builder.build();
 
+	}
+	
+	@POST
+	@Path("/ActualizarCoordenadas")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String ActualizarCoordenadas(String data) {
+		JSONObject recoData = new JSONObject(data);
+		
+		System.out.println("ENTRY DATA "+recoData);
+		Cliente cli = new Cliente();
+		cli=clion.getClienteId(recoData.getString("id"));
+		System.out.println(cli.getApellidos());
+		cli.setLatitud(recoData.getString("latitud"));
+		cli.setLongitud(recoData.getString("longitud"));
+		clion.actualizar(cli);
+		return "Actualizado";
 	}
 
 }

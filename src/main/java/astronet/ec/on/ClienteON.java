@@ -45,6 +45,11 @@ public class ClienteON {
 	public List<Cliente> getListadoCliente() {
 		return clidao.getCliente();
 	}
+	
+	public List<Cliente> getListadoClienteEliminado() {
+		return clidao.getClienteEliminado();
+	}
+	
 
 	public Cliente getCliente(int cedula) {
 		Cliente aux = clidao.read3(cedula);
@@ -73,12 +78,8 @@ public class ClienteON {
 		 return clidao.getServiciosCliente(cliente);
 	}
 	
-	//SICHA CODE
-	/***
-	 * metodo para la carga retardia y para obtener paginacion
-	 */
 	
-	
+
 	
 	public EquipoServicio getIpsCliente(String cedula) {
 		return clidao.getIpsCliente(cedula);
@@ -87,6 +88,11 @@ public class ClienteON {
 	
 	public Cliente buscarNombreApellido(String nombre,String apellido) {
 		return clidao.buscarNombreAellido(nombre, apellido);
+	}
+	
+	public Cliente getClienteId(String id) {
+		int i = Integer.parseInt(id);
+		return clidao.read(i);
 	}
     
   

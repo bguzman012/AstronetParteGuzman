@@ -91,6 +91,8 @@
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes" outcome="listCliente"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Eliminados" outcome="listClienteEliminados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />	
 							<p:menuitem value="Listar Clientes Temporales"
 								outcome="listClientesTemporales"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
@@ -250,7 +252,7 @@
 
 						<div class="form-group col-md-6">
 
-							<h:outputLabel for="Convencional">Convencional </h:outputLabel>
+							<h:outputLabel for="Convencional">Telefono 1 </h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Convencional"
 								value="#{clienteController.convencional}"
 								a:placeholder="Convencional" maxlength="7"
@@ -260,7 +262,7 @@
 							
 						</div>
 						<div class="form-group col-md-6">
-							<h:outputLabel for="Celular">Celular </h:outputLabel>
+							<h:outputLabel for="Celular">Telefono 2 </h:outputLabel>
 							<h:inputText type="text" class="form-control" maxlength="10"
 								id="Celular" value="#{clienteController.celular}"
 								a:placeholder="Celular"

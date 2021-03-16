@@ -137,6 +137,8 @@
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes" outcome="listCliente"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Eliminados" outcome="listClienteEliminados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />	
 							<p:menuitem value="Listar Clientes Temporales"
 								outcome="listClientesTemporales"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
@@ -184,10 +186,50 @@
 	
 
 <br/><br/><br/><br/><br/>
-	<!-- Creacion Tabla y muestreo de Datos del cliente -->
-	<h:form id="text">
+
+
+	<h:form>
+		<div class="form-group col-sm-4" style="left: 0.01%;text-align:center;font-variant: small-caps;text-align: center;">
+			<div class="input-group marginBuscar" style="left: 50%;">
+				Ingrese Cedula :
+				<h:inputText id="textce" class="form-control" style="width: auto;"
+					value="#{beanListCliente.cedula}"
+					f:placeholder="Cedula del Cliente" name="search" />
+				<div class="input-group-btn" id="txtCedula">
+					<h:commandButton render="Nombres"
+						class="btn btn-default botonBuscar"
+						action="#{beanListCliente.buscarCedula()}"
+						image="/resources/assets/img/buscar.png" />
+						<h:commandButton  class="btn btnUpdate" immediate="true" render="text" style="left: 60%; "
+										action="#{beanListCliente.actualizar()}"
+										image="/resources/assets/img/actualizar.png" />
+						
+						
+				</div>
+			    ------------Nombres:
+				<p:autoComplete id="itemselected" style="left: 60%;"
+				value="#{beanListCliente.inputName}" maxResults="25"
+				completeMethod="#{beanListCliente.getSugerencias}">
+				</p:autoComplete>
+				<div class="input-group-btn" id="txtCedula">
+					<h:commandButton render="Nombres"  style="left: 245%;"
+						class="btn btn-default botonBuscar"
+						action="#{beanListCliente.findByNames}"
+						image="/resources/assets/img/buscar.png" />
+						
+						
+						
+				</div>
+			</div>
+		
+		</div>
+	</h:form>
 	
 
+
+
+	<!-- Creacion Tabla y muestreo de Datos del cliente -->
+	<h:form id="text">
 		<p:dataTable style="text-align:center;"
 			value="#{beanListCliente.listadoclientes}" var="cliente"
 			paginator="true" rows="10"
@@ -197,52 +239,47 @@
 			filteredValue="#{beanListCliente.listaFiltrada}">
 <!-- Inputtexto para la busqueda -->
 
+
+		
+
 			<f:facet name="header">
 				<p:outputPanel>
-					<h:outputText value="Ingresar Cliente A Buscar Global:" />
-					<p:inputText id="globalFilter" onkeyup="PF('cliTable').filter()"
-						style="width:150px; color:black" placeholder="Ingresar Cliente" />
+					<h:outputText value="Clientes:" />	
 						
-						<h:commandButton  class="btn btnUpdate" immediate="true" render="text"
-										action="#{beanListCliente.actualizar()}"
-										image="/resources/assets/img/actualizar.png" />
 			
 				</p:outputPanel>
 			</f:facet>
+			
+	
+						
 
 			<!-- Columnas con campos del cliente -->
-			<p:column headerText="Cedula" filterBy="#{cliente.cedula}"
-				filterMatchMode="contains">
+			<p:column headerText="Cedula">
 				<h:outputText value="#{cliente.cedula}" />
 			</p:column>
 
-			<p:column headerText="Nombres" filterBy="#{cliente.nombre}"
-				filterMatchMode="contains">
+			<p:column headerText="Nombres" >
 				<h:outputText value="#{cliente.nombre}" />
 			</p:column>
 
-			<p:column headerText="Apellidos" filterBy="#{cliente.apellidos}"
-				filterMatchMode="contains">
+			<p:column headerText="Apellidos" >
 				<h:outputText value="#{cliente.apellidos}" />
 			</p:column>
 
 			<p:column headerText="Direccion Principal"
-				filterBy="#{cliente.direccionPrincipal}" filterMatchMode="contains">
+				>
 				<h:outputText value="#{cliente.direccionPrincipal}" />
 			</p:column>
 
-			<p:column headerText="Direccion Secundaria"
-				filterBy="#{cliente.direccionSecundaria}" filterMatchMode="contains">
+			<p:column headerText="Direccion Secundaria">
 				<h:outputText value="#{cliente.direccionSecundaria}" />
 			</p:column>
 
-			<p:column headerText="Direccion Referencia"
-				filterBy="#{cliente.direccionReferencia}" filterMatchMode="contains">
+			<p:column headerText="Direccion Referencia">
 				<h:outputText value="#{cliente.direccionReferencia}" />
 			</p:column>
 
-			<p:column headerText="Email" filterBy="#{cliente.email}"
-				filterMatchMode="contains">
+			<p:column headerText="Email" >
 				<h:outputText value="#{cliente.email}" />
 			</p:column>
 
@@ -254,15 +291,11 @@
 				<h:outputText value="#{cliente.longitud}" />
 			</p:column>
 
-			<p:column headerText="IP"
-				filterBy="#{clienteController.returnIp(cliente.id)}"
-				filterMatchMode="contains">
+			<p:column headerText="IP">
 				<h:outputText value="#{clienteController.returnIp(cliente.id)}" />
 			</p:column>
 
-			<p:column headerText="Tipo-Servicio"
-				filterBy="#{clienteController.tipoServicio}"
-				filterMatchMode="contains">
+			<p:column headerText="Tipo-Servicio">
 				<h:outputText value="#{clienteController.tipoServicio}" />
 			</p:column>
 
@@ -274,13 +307,19 @@
 				<p:commandButton class="btn btn-primary"
 					action="#{clienteController.editar(cliente.id)}" immediate="true"
 					value="Editar" /> -->
-
-
+					
 				<h:button class="btn btn-primary" outcome="editarClientes"
 					value="Editar">
 					<f:param name="id" value="#{cliente.id}" />
 
 				</h:button>
+			</p:column>
+			
+				<p:column>		
+				<h:commandButton render="text"
+						class="btn btn-default botonBuscar"
+						action="#{beanListCliente.eliminarCliente(cliente.id)}"
+						image="/resources/assets/img/delete.png"/>
 			</p:column>
 
 

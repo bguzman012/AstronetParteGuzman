@@ -106,7 +106,8 @@ public class ClienteTemController implements Serializable{
 			cliente.setFk_empleado(tecnicoElegido);
 			clitemon.guardar(cliente);
 			cliente=null;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Instalacion previa guardada Correctamente"));
+			actualizar();
+			
 		}else {
 			System.out.println("ha elegido el tecnico");
 				empleado = empon.getEmpleadobyName(tecnicoElegido);
@@ -115,6 +116,7 @@ public class ClienteTemController implements Serializable{
 				System.out.println("este es el id" + id);
 				clitemon.guardar(cliente);
 				cliente=null;
+				actualizar();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Instalacion previa guardada Correctamente"));
 		}
 	}
@@ -124,18 +126,38 @@ public class ClienteTemController implements Serializable{
 			System.out.println("no ha elegido el tecnico");
 			cliente.setFk_empleado(tecnicoElegido);	
 			clitemon.actualizar(cliente);
+			actualizar();
 		}else {
 			System.out.println("ha elegido el tecnico");
 				empleado = empon.getEmpleadobyName(tecnicoElegido);
 				String id2 =Integer.toString(empleado.getId()) ;
 				cliente.setFk_empleado(id2);	
 				clitemon.actualizar(cliente);
+				actualizar();
 		}	
 		
 	}
-	public void actualizar() {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Tecnico Asignado Correctamente"));
+	
+	
+	public String actualizar() {
+		String direccion=null;
 		listaClinetesTemporales = clitemon.getListadoCliente();
+		 direccion="listClientesTemporales?faces-redirect=true";
+		 //cedula = " ";
+		 return direccion;
 	}
+	
+	public String extraerNombreTecnico(String id) {
+		try {
+			int id2 = Integer.parseInt(id);
+			empleado = empon.getEmpleado(id2);
+			return empleado.getNombre() ;
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	
+	}
+
 
 }

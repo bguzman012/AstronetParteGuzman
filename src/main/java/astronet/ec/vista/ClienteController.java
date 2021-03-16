@@ -947,16 +947,16 @@ public class ClienteController implements Serializable {
 		System.out.println("esta es la cedula hpta " + this.cedula);
 		try {
 			if (this.cedula != null) {
-
 				cliente = clion.getClienteCedula(this.cedula);
 				System.out.println("cliente cedula --> " + cliente.getCedula());
 				List<Telefono> telefonos2 = telOn.getTelefonos(cliente);
 				for (Telefono telefono : telefonos2) {
 					System.out.println(telefono.getTipoTelefono());
 					System.out.println("-----kiko----");
+					System.out.println(telefono.getTelNumero());
 				}
 				registro.setIdClienteTemp(cliente.getId());
-				cliente.setTelefonos(telefonos);
+				cliente.setTelefonos(telefonos2);
 				setIpcallcenter(returnIp(cliente.getId()));
 				System.out.println("esta es la ip " + this.ipcallcenter);
 				fechaHora();
@@ -2447,4 +2447,6 @@ public class ClienteController implements Serializable {
 		return null;
 		
 	}
+	
+
 }

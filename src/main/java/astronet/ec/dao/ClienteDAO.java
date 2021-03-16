@@ -79,11 +79,18 @@ public class ClienteDAO {
 		em.remove(cli);
 	}
 	 public List<Cliente> getCliente() {
-		String jpql = "SELECT cliente FROM Cliente cliente ";
+		String jpql = "SELECT cliente FROM Cliente cliente WHERE cli_eliminado= false";
 		Query q = em.createQuery(jpql, Cliente.class);
 		List<Cliente> clientes = q.getResultList();
 		return clientes;
 	}
+	 
+	 public List<Cliente> getClienteEliminado() {
+			String jpql = "SELECT cliente FROM Cliente cliente WHERE cli_eliminado= true";
+			Query q = em.createQuery(jpql, Cliente.class);
+			List<Cliente> clientes = q.getResultList();
+			return clientes;
+		}
 	
 	 
 	
@@ -111,7 +118,7 @@ public class ClienteDAO {
 
 	
 	public Cliente buscarCedula(String cedula) {
-		String jpql = "SELECT cli FROM Cliente cli WHERE cli.cedula = :cedula";
+		String jpql = "SELECT cli FROM Cliente cli WHERE cli.cedula = :cedula , cli_eliminado= false";
 		Query q = em.createQuery(jpql, Cliente.class);
 		q.setParameter("cedula", cedula);
 		Cliente clien = (Cliente) q.getSingleResult();
