@@ -68,7 +68,7 @@ body .ui-staticmessage.ui-message {
 </h:head>
 
 <body>
-	<h:outputScript library="primefaces" name="jquery/jquery.js" />
+	
 
 
 
@@ -118,6 +118,8 @@ body .ui-staticmessage.ui-message {
 							<p:menuitem value="Clientes" outcome="clienteCrood"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Migracion" outcome="listMigrado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes Eliminados" outcome="listClienteEliminados"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />	
@@ -557,11 +559,6 @@ body .ui-staticmessage.ui-message {
 			</h:commandButton>
 		</h:form>
 	</p:dialog>
-	<h:form id="text">
 
-		<p:dataTable id="goku" value="#{clienteController.telefonos}" var="t">
-
-		</p:dataTable>
-	</h:form>
 </body>
 </html>

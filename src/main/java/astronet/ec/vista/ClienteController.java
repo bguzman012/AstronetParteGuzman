@@ -77,6 +77,7 @@ public class ClienteController implements Serializable {
 	private Instalacion instalacion = new Instalacion();
 	private Agendamiento agendamiento = new Agendamiento();
 	private Visita visita = new Visita();
+	private String equipoElegido;
 
 	public EmpleadoController getUbean() {
 		return ubean;
@@ -88,6 +89,14 @@ public class ClienteController implements Serializable {
 
 	public Visita getVisita() {
 		return visita;
+	}
+
+	public String getPlanElegidoFibra() {
+		return planElegidoFibra;
+	}
+
+	public void setPlanElegidoFibra(String planElegidoFibra) {
+		this.planElegidoFibra = planElegidoFibra;
 	}
 
 	public void setVisita(Visita visita) {
@@ -143,7 +152,7 @@ public class ClienteController implements Serializable {
 	private String cedula;
 	private String nombre;
 	private String apellidos;
-
+	private String planElegidoFibra;
 	private String ip;
 
 	private String tipoServicio;
@@ -156,6 +165,7 @@ public class ClienteController implements Serializable {
 	private String convencional;
 	private String celular;
 	private String direccionPrincipal;
+	private boolean bandera;
 
 	public EmpleadoController getUbn() {
 		return ubn;
@@ -190,6 +200,7 @@ public class ClienteController implements Serializable {
 	public String problemas;
 	public String soluciones;
 	private String empleados1;
+	private String clienteCreado;
 	private String servicioRB;
 	private EmpleadoController ubn;
 	public List<String> listaSugerencias;
@@ -218,7 +229,9 @@ public class ClienteController implements Serializable {
 
 	private List<String> tipoServicios;
 	private List<Equipo> listadoAntenas;
+	private List<Equipo> listadoEquiposFibra;
 	private List<Plan> listadoPlanes;
+	private List<Plan> listadoPlanesFibra;
 
 	private List<Plan> listadoPlanesTmp;
 
@@ -230,6 +243,8 @@ public class ClienteController implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		this.bandera = false;
+		this.clienteCreado = "creado";
 		cliente = new Cliente();
 		telefono = new Telefono();
 		registro = new Registro();
@@ -258,6 +273,7 @@ public class ClienteController implements Serializable {
 		listadoPlanesTmp = new ArrayList<Plan>();
 
 		listadoPlanes = new ArrayList<Plan>();
+		listadoPlanesFibra = new ArrayList<Plan>();
 		equipo = new Equipo();
 		servicioElegido = "Fibra";
 		if (servicioElegido.equals("Radio")) {
@@ -266,6 +282,7 @@ public class ClienteController implements Serializable {
 		} else {
 			listadoAntenas = eqOn.getListadoEquiposFibra();
 		}
+		listadoEquiposFibra = eqOn.getListadoEquiposFibra();
 		System.out.println("Servicio: " + servicioElegido);
 		listadoPlanesTmp = planOn.getListadoPlan();
 		opciones = new ArrayList<String>();
@@ -274,6 +291,11 @@ public class ClienteController implements Serializable {
 		listadoPlanes.add(listadoPlanesTmp.get(0));
 		listadoPlanes.add(listadoPlanesTmp.get(1));
 		listadoPlanes.add(listadoPlanesTmp.get(2));
+
+		listadoPlanesFibra.add(listadoPlanesTmp.get(3));
+		listadoPlanesFibra.add(listadoPlanesTmp.get(4));
+		listadoPlanesFibra.add(listadoPlanesTmp.get(5));
+
 
 		opciones.add("Si");
 		opciones.add("No");
@@ -1314,6 +1336,14 @@ public class ClienteController implements Serializable {
 		return servicioLista;
 	}
 
+	public String getClienteCreado() {
+		return clienteCreado;
+	}
+
+	public void setClienteCreado(String clienteCreado) {
+		this.clienteCreado = clienteCreado;
+	}
+
 	public List<Plan> getListadoPlanes() {
 		if (servicioEdit.getTipoServicio() != null) {
 			if (servicioEdit.getTipoServicio().equals("radio")) {
@@ -1365,6 +1395,14 @@ public class ClienteController implements Serializable {
 
 	public String getPlanElegida() {
 		return planElegida;
+	}
+
+	public List<Equipo> getListadoEquiposFibra() {
+		return listadoEquiposFibra;
+	}
+
+	public void setListadoEquiposFibra(List<Equipo> listadoEquiposFibra) {
+		this.listadoEquiposFibra = listadoEquiposFibra;
 	}
 
 	public String getServicioElegido() {
@@ -1423,6 +1461,14 @@ public class ClienteController implements Serializable {
 		this.rendered = rendered;
 	}
 
+	public boolean isBandera() {
+		return bandera;
+	}
+
+	public void setBandera(boolean bandera) {
+		this.bandera = bandera;
+	}
+
 	public void setAntenaTmp(String antenaTmp) {
 		this.antenaTmp = antenaTmp;
 	}
@@ -1433,6 +1479,22 @@ public class ClienteController implements Serializable {
 
 	public Telefono getTelefonoConveEdit() {
 		return telefonoConveEdit;
+	}
+
+	public String getEquipoElegido() {
+		return equipoElegido;
+	}
+
+	public void setEquipoElegido(String equipoElegido) {
+		this.equipoElegido = equipoElegido;
+	}
+
+	public List<Plan> getListadoPlanesFibra() {
+		return listadoPlanesFibra;
+	}
+
+	public void setListadoPlanesFibra(List<Plan> listadoPlanesFibra) {
+		this.listadoPlanesFibra = listadoPlanesFibra;
 	}
 
 	public void setTelefonoConveEdit(Telefono telefonoConveEdit) {
@@ -1814,10 +1876,11 @@ public class ClienteController implements Serializable {
 		this.password = "";
 		this.serial = "";
 		this.observaciones = "";
-
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "EL CLIENTE SE GUARDO EXITOSAMENTE"));
-		return null;
+		this.clienteCreado = "creado";
+		String direccion="listCliente?faces-redirect=true";
+		 //cedula = " ";
+		return direccion;
+		
 	}
 
 	/**
@@ -1887,9 +1950,52 @@ public class ClienteController implements Serializable {
 			this.planTmp = "";
 			this.router = "";
 			init();
+			String direccion="listCliente?faces-redirect=true";
+			 //cedula = " ";
+			return direccion;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se edito corectamente el cliente"));
+	public String migrarDatos() {
+		try {
+	
+			clion.guardar(cliente);
+			Plan planTmp = new Plan();
+			Equipo equipo = new Equipo();
+
+
+				planTmp = planOn.buscarPlan(Integer.parseInt(this.planElegidoFibra));
+
+
+				equipo = eqOn.buscarAntena(Integer.parseInt(this.equipoElegido));
+			
+
+			this.servicioEdit.setRouterVendido(this.router);
+			this.servicioEdit.setPlan(planTmp);
+			this.servicioEdit.setTipoServicio("fibra");
+
+			// seron.guardar(servicioEdit);
+
+			seron.update(this.servicioEdit);
+
+			this.eqServEdit.setEquipo(equipo);
+
+			eqServOn.actualizar(this.eqServEdit);
+
+			this.antenaTmp = "";
+			this.planTmp = "";
+			this.router = "";
+			System.out.println("si se migroo");
+			init();
+
+			String direccion="listCliente?faces-redirect=true";
+			 //cedula = " ";
+			return direccion;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

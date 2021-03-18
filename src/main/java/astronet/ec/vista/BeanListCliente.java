@@ -40,6 +40,7 @@ public class BeanListCliente implements Serializable{
 
 
 	private List<Cliente> listadoclientes;
+	private List<Cliente> listadoclientesRadio;
 	private List<Cliente> listadoclientesEliminados;
 	
 	public List<Cliente> getListadoclientesEliminados() {
@@ -56,6 +57,15 @@ public class BeanListCliente implements Serializable{
 
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
+	}
+
+
+	public List<Cliente> getListadoclientesRadio() {
+		return listadoclientesRadio;
+	}
+
+	public void setListadoclientesRadio(List<Cliente> listadoclientesRadio) {
+		this.listadoclientesRadio = listadoclientesRadio;
 	}
 
 
@@ -101,6 +111,13 @@ public class BeanListCliente implements Serializable{
 			 //cedula = " ";
 			 return direccion;
 		}
+		public String actualizarRadio() {
+			String direccion=null;
+			 listadoclientes = clion.getListadoClienteRadio();
+			 direccion="listMigrado?faces-redirect=true";
+			 //cedula = " ";
+			 return direccion;
+		}
 
 	   
 	   @Inject
@@ -110,7 +127,8 @@ public class BeanListCliente implements Serializable{
 	   public void init() {
 		   listadoclientes = clion.getListadoCliente();
 		   listadoclientesEliminados = clion.getListadoClienteEliminado();
-		  
+		   listadoclientesRadio = clion.getListadoClienteRadio();
+		  System.out.println(listadoclientesRadio.size() + "oeee");
 	   }
 	   
 		public String buscarCedula() {
@@ -118,8 +136,8 @@ public class BeanListCliente implements Serializable{
 				if (this.cedula != null) {
 
 					cliente = clion.getClienteCedula(this.cedula);
-					listadoclientes.clear();
-					listadoclientes.add(cliente);
+					listadoclientesRadio.clear();
+					listadoclientesRadio.add(cliente);
 					System.out.println("cliente cedula --> " + cliente.getCedula());
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
@@ -164,6 +182,35 @@ public class BeanListCliente implements Serializable{
 
 		}
 		
+		public List<String> getSugerenciasRadio(String enteredValue) {
+			List<String> coincidencias = new ArrayList<String>();
+			System.out.println(enteredValue);
+			Cliente clie;
+
+			for (int i = 0; i < listadoclientesRadio.size(); i++) {
+
+				clie = (Cliente) listadoclientesRadio.get(i);
+				String nombre = clie.getApellidos() + "/" + clie.getNombre();
+				String apellido = clie.getApellidos();
+				String nombres = clie.getNombre();
+
+				try {
+					if (nombres.toLowerCase().startsWith(enteredValue.toLowerCase())
+							|| apellido.toLowerCase().startsWith(enteredValue.toLowerCase())) {
+
+						coincidencias.add(nombre);
+					}
+
+				} catch (Exception e) {
+					System.out.println("Exception " + e);
+				}
+
+			}
+
+			return coincidencias;
+
+		}
+		
 		public String findByNames() {
 
 			try {
@@ -172,8 +219,8 @@ public class BeanListCliente implements Serializable{
 				String apellidos = credenciales[0];
 				cliente = new Cliente();
 				cliente = clion.buscarNombreApellido(nombres, apellidos);
-				listadoclientes.clear();
-				listadoclientes.add(cliente);
+				listadoclientesRadio.clear();
+				listadoclientesRadio.add(cliente);
 
 			} catch (Exception e) {
 				// TODO: handle exception

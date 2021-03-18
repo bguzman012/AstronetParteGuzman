@@ -85,6 +85,7 @@
 
 
 
+											
 												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
 							<p:menuitem value="Emleados" outcome="listadoEmpleado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
@@ -107,7 +108,6 @@
 
 
 						</p:menuButton>
-
 
 
 						<p:menuButton value="Configuraciones" styleClass="styleGreen">
@@ -188,10 +188,12 @@
 
 							<h:outputLabel for="NumContrato">Numero Contrato *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="NumContrato"
+								
 								value="#{clienteController.servicioEdit.numeroContrato}"
 								a:placeholder="Numero Contrato" maxlength="25">
+								
 							</h:inputText>
-
+							
 						</div>
 						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="DireccionPrincipal">Direccion Principal *</h:outputLabel>
@@ -264,11 +266,11 @@
 						<div class="form-group col-md-6">
 
 
-							<h:selectOneMenu value="#{clienteController.antenaElegida}"
+							<h:selectOneMenu value="#{clienteController.equipoElegido}"
 								id="txtAntena">
-								<f:selectItem itemLabel="Seleccione nueva antena"
+								<f:selectItem itemLabel="Seleccione nueva equipo"
 									itemValue="#{null}" noSelectionOption="true" />
-								<f:selectItems value="#{clienteController.listadoAntenas}"
+								<f:selectItems value="#{clienteController.listadoEquiposFibra}"
 									var="antena" itemLabel="#{antena.modelo}"
 									itemValue="#{antena.id}" />
 							</h:selectOneMenu>
@@ -293,18 +295,18 @@
 						</div>
 						<div class="form-group col-md-6">
 
-							<h:selectOneMenu value="#{clienteController.planElegida}"
+							<h:selectOneMenu value="#{clienteController.planElegidoFibra}"
 								id="plan">
 								<f:selectItem itemLabel="Seleccione nuevo plan"
 									itemValue="#{null}" noSelectionOption="true" />
-								<f:selectItems value="#{clienteController.listadoPlanes}"
+								<f:selectItems value="#{clienteController.listadoPlanesFibra}"
 									var="plan" itemLabel="#{plan.tipoPlan}" itemValue="#{plan.id}" />
 							</h:selectOneMenu>
 						</div>
 						<div class="form-group col-md-12"></div>
 
 						<div class="form-group col-md-6">
-							<h:outputLabel for="routerTmp">Router Vendido</h:outputLabel>
+							<h:outputLabel for="routerTmp">Equipo Vendido</h:outputLabel>
 
 							<h:inputText type="text" class="form-control" id="routerTmp"
 								value="#{clienteController.router}"
@@ -384,7 +386,7 @@
 				<div class="modal-footer">
 
 					<h:commandButton class="btn btn-primary" data-dismiss="modal"
-						action="#{clienteController.cargarDatos()}" value="Guardar" />
+						action="#{clienteController.migrarDatos()}" value="Guardar" />
 					<h:commandButton action="clientes1" value="Cancelar"
 						class="btn btn-danger" data-dismiss="modal" />
 

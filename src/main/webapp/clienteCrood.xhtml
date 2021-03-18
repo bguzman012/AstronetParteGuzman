@@ -38,7 +38,27 @@
 	font-weight: normal;
 }
 </style>
+	<style>
+.columnacontacto {
+	width: 10px;
+}
 
+.dialogo {
+	
+}
+
+div.ui-dialog-content.ui-widget-content {
+	width: 500px;
+}
+
+.beditar {
+	background-color: green;
+}
+
+body .ui-staticmessage.ui-message {
+	width: 100%;
+}
+</style>
 
 </h:head>
 <body>
@@ -84,12 +104,14 @@
 
 
 
-						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+											<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
 							<p:menuitem value="Emleados" outcome="listadoEmpleado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Clientes" outcome="clienteCrood"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Migracion" outcome="listMigrado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes Eliminados" outcome="listClienteEliminados"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />	
@@ -104,6 +126,7 @@
 
 
 						</p:menuButton>
+
 
 
 
@@ -134,7 +157,6 @@
 		</div>
 		</nav>
 	</div>
-
 
 
 	<h:form>
@@ -479,7 +501,70 @@
 			</div>
 		</div>
 	</h:form>
+	<p:dialog header="EDITAR TELEFONOS" widgetVar="dlg1" minHeight="40"
+		styleClass="dialogo" showEffect="explode" hideEffect="bounce" rendered="#{clienteController.clienteCreado == 'creado'}">
 
+		<h:form id="form_pop1">
+
+			<p:dataTable id="tabla_pop" value="#{clienteController.telefonos}"
+				var="t" styleClass="table" headerClass="cabeceraTabla"
+				rowClasses="filaPar,filaImpar">
+
+				<p:column>
+					<f:facet name="header">NUMERO</f:facet>
+
+					<span class="glyphicon glyphicon-earphone"></span>
+
+					<h:inputText value="#{t.telNumero}" size="10" />
+
+				</p:column>
+				<p:column>
+					<p:commandButton value="Editar" update=":text:goku"
+						action="#{telefonoController.editTelefono(t.id,t.telNumero)}"
+						styleClass="btn btn-warning" />
+				</p:column>
+				<p:column>
+					<p:commandButton value="Eliminar" update=":text:goku"
+						action="#{telefonoController.deleteTelefono(t.id)}"
+						styleClass="btn btn-danger" />
+				</p:column>
+
+
+			</p:dataTable>
+			<h:commandButton value="Salir" render="text"
+				styleClass="btn btn-danger" style="margin-left:60%;width:40%;">
+
+			</h:commandButton>
+		</h:form>
+		<h:form id="formnuevo">
+			<div style="background-color: #b7d8b7; margin-top: 1%;">
+				<p>
+					<b>INFO:</b>Agrega un nuevo telefono aqui..!
+				</p>
+			</div>
+			<b>NUMERO</b>
+			<h:inputText value="#{telefonoController.nuevoTipoTelefono}"
+				a:placeholder="ej.099XXXXXXX" size="10"
+				onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" />
+
+			<b>TIPO</b>
+
+
+
+			<h:selectOneMenu value="#{telefonoController.nuevoNumero}">
+				<f:selectItem itemValue="MOVIL" itemLabel="MOVIL" />
+				<f:selectItem itemValue="CONVENCIONAL" itemLabel="CONVENCIONAL" />
+			</h:selectOneMenu>
+
+
+			<h:commandButton value="Guardar" render="text"
+				action="#{telefonoController.newTelefono()}"
+				styleClass="btn btn-success">
+				<f:param name="action" value="#{clienteController.cliente.cedula}" />
+
+			</h:commandButton>
+		</h:form>
+	</p:dialog>
 
 
 </body>
