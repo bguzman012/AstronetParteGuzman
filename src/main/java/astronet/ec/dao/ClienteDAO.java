@@ -118,7 +118,7 @@ public class ClienteDAO {
 
 	
 	public Cliente buscarCedula(String cedula) {
-		String jpql = "SELECT cli FROM Cliente cli WHERE cli.cedula = :cedula , cli_eliminado= false";
+		String jpql = "SELECT cli FROM Cliente cli WHERE cli.cedula = :cedula AND cli_eliminado= false";
 		Query q = em.createQuery(jpql, Cliente.class);
 		q.setParameter("cedula", cedula);
 		Cliente clien = (Cliente) q.getSingleResult();
