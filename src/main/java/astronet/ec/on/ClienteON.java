@@ -50,12 +50,6 @@ public class ClienteON {
 		return clidao.getClienteEliminado();
 	}
 	
-	public List<Cliente> getListadoClienteRadio() {
-		System.out.println("estoy entrando perro");
-		return clidao.getClienteRadio();
-	}
-	
-	
 
 	public Cliente getCliente(int cedula) {
 		Cliente aux = clidao.read3(cedula);
