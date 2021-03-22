@@ -1,59 +1,41 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 
 
 	<meta charset="utf-8" />
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Reclamos Solucionados</title>
+	<title>Base Clientes</title>
+
+	<meta
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+		name="viewport" />
 
 	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+		href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" />
+	<link href="resources/assets/css/fresh-bootstrap-table.css"
+		rel="stylesheet" />
+	<link href="resources/assets/css/demo.css" rel="stylesheet" />
+
+
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+		integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+		crossorigin="anonymous" />
+	<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300"
+		rel="stylesheet" type="text/css" />
 
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
-	<!-- Bootstrap CSS -->
-	<!--     <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css"/> -->
-	<!-- CSS personalizado -->
-	<link rel="stylesheet" href="resources/main.css" />
-
-	<!--datables CSS básico-->
-	<!--     <link rel="stylesheet" type="text/css" href="resources/datatables/datatables.min.css"/> -->
-	<!--     datables estilo bootstrap 4 CSS   -->
-	<link rel="stylesheet" type="text/css"
-		href="resources/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
-
-	<!--     font awesome con CDN   -->
-	<link rel="stylesheet"
-		href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-		integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
-		crossorigin="anonymous" />
-
-
-	<!-- datatables JS -->
-	<script type="text/javascript"
-		src="resources/datatables/datatables.min.js"></script>
-
-	<!-- para usar botones en datatables JS -->
-	<script
-		src="resources/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
-	<script src="resources/datatables/JSZip-2.5.0/jszip.min.js"></script>
-	<script src="resources/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
-	<script src="resources/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
-	<script
-		src="resources/datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
-	<!-- código JS propìo-->
-	<script type="text/javascript" src="resources/main.js"></script>
 
 	<style>
 .menubar {
@@ -76,11 +58,39 @@
 	font-weight: normal;
 }
 </style>
-
 </h:head>
-<body>
 
+<style type="text/css">
+.ui-datatable {
+	margin-bottom: 25px
+}
 
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+
+.ui-button-text-only .ui-button-text {
+	padding: 0.3em 0.4em;
+}
+
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	visibility: hidden;
+}
+
+.ui-filter-column .ui-column-customfilter .custom-filter {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.year-spinner input {
+	width: 100%;
+	box-sizing: border-box;
+}
+</style>
+
+<h:body>
+
+	
 	<div class="container">
 		<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
@@ -92,7 +102,6 @@
 					</h:link>
 				</h:form>
 			</div>
-
 
 
 			<div class="collapse navbar-collapse" id="otra">
@@ -172,77 +181,149 @@
 		</div>
 		</nav>
 	</div>
+	
+	
+	
+	
+
+<br/><br/><br/><br/><br/>
 
 
-
-	<div style="height: 50px"></div>
-	<div class="centerTexto">
-		<h2>Listado de Reclamos Solucionados</h2>
-	</div>
-
-	<!--Ejemplo tabla con DataTables-->
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="table-responsive">
-					<h:dataTable id="example"
-						class="table table-striped table-bordered" cellspacing="0"
-						width="100%" style="text-align:center;"
-						value="#{registroController.registrossolucionados}" var="registro"
-						border="1">
-						<h:column>
-							<f:facet name="header" data-field="salary" data-sortable="true">Nombres</f:facet>
-												#{registro.cliente.nombre }
-											</h:column>
-						<h:column>
-							<f:facet name="header" data-field="salary" data-sortable="true">Apellidos</f:facet>
-												#{registro.cliente.apellidos }
-											</h:column>
-						<h:column>
-							<f:facet name="header" data-field="country" data-sortable="true">Direccion</f:facet>
-					
-								#{registro.cliente.direccionPrincipal}
-						</h:column>
-
-
-
-						<h:column>
-							<f:facet name="header">Coordenadas</f:facet>
-							<h:column>
-								#{registro.cliente.latitud}
-								
-							</h:column>
-							<h:column>
-								#{registro.cliente.longitud}								
-							</h:column>
-
-						</h:column>
-
-						<h:column>
-							<f:facet name="header">Observaciones</f:facet>
-
-							<h:column>
-								#{registro.observaciones}
-								
-							</h:column>
-
-						</h:column>
-						<h:column>
-							<f:facet name="header">Acción</f:facet>
-
-							<h:column>
-								#{registro.accion}
-
-							</h:column>
-						</h:column>
-					</h:dataTable>
+	<h:form>
+		<div class="form-group col-sm-4" style="left: 0.01%;text-align:center;font-variant: small-caps;text-align: center;">
+			<div class="input-group marginBuscar" style="left: 50%;">
+				Ingrese Cedula :
+				<h:inputText id="textce" class="form-control" style="width: auto;"
+					value="#{beanListMigrado.cedula}"
+					f:placeholder="Cedula del Cliente" name="search" />
+				<div class="input-group-btn" id="txtCedula">
+					<h:commandButton render="Nombres"
+						class="btn btn-default botonBuscar"
+						action="#{beanListMigrado.buscarCedula()}"
+						image="/resources/assets/img/buscar.png" />
+						<h:commandButton  class="btn btnUpdate" immediate="true" render="text" style="left: 60%; "
+										action="#{beanListMigrado.actualizar()}"
+										image="/resources/assets/img/actualizar.png" />
+						
+						
+				</div>
+			    ------------Nombres:
+				<p:autoComplete id="itemselected" style="left: 60%;"
+				value="#{beanListMigrado.inputName}" maxResults="25"
+				completeMethod="#{beanListMigrado.getSugerencias}">
+				</p:autoComplete>
+				<div class="input-group-btn" id="txtCedula">
+					<h:commandButton render="Nombres"  style="left: 245%;"
+						class="btn btn-default botonBuscar"
+						action="#{beanListMigrado.findByNames}"
+						image="/resources/assets/img/buscar.png" />
+						
+						
+						
 				</div>
 			</div>
+		
 		</div>
-	</div>
+	</h:form>
+	
 
 
 
-</body>
+	<!-- Creacion Tabla y muestreo de Datos del cliente -->
+	<h:form id="text">
+		<p:dataTable style="text-align:center;"
+			value="#{beanListMigrado.listadoclientes}" var="cliente"
+			paginator="true" rows="10"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			rowsPerPageTemplate="10,50,100" widgetVar="cliTable"
+			emptyMessage="No hay clientes con esas concidencias"
+			filteredValue="#{beanListMigrado.listaFiltrada}">
+<!-- Inputtexto para la busqueda -->
 
+
+		
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Clientes:" />	
+						
+			
+				</p:outputPanel>
+			</f:facet>
+			
+	
+						
+
+			<!-- Columnas con campos del cliente -->
+			<p:column headerText="Cedula">
+				<h:outputText value="#{cliente.cedula}" />
+			</p:column>
+
+			<p:column headerText="Nombres" >
+				<h:outputText value="#{cliente.nombre}" />
+			</p:column>
+
+			<p:column headerText="Apellidos" >
+				<h:outputText value="#{cliente.apellidos}" />
+			</p:column>
+
+			<p:column headerText="Direccion Principal"
+				>
+				<h:outputText value="#{cliente.direccionPrincipal}" />
+			</p:column>
+
+			<p:column headerText="Direccion Secundaria">
+				<h:outputText value="#{cliente.direccionSecundaria}" />
+			</p:column>
+
+			<p:column headerText="Direccion Referencia">
+				<h:outputText value="#{cliente.direccionReferencia}" />
+			</p:column>
+
+			<p:column headerText="Email" >
+				<h:outputText value="#{cliente.email}" />
+			</p:column>
+
+			<p:column headerText="Latitud">
+				<h:outputText value="#{cliente.latitud}" />
+			</p:column>
+
+			<p:column headerText="Longitud">
+				<h:outputText value="#{cliente.longitud}" />
+			</p:column>
+
+			<p:column headerText="IP">
+				<h:outputText value="#{clienteController.returnIp(cliente.id)}" />
+			</p:column>
+
+			
+
+
+
+
+			
+				<p:column>
+				<!-- 
+				<p:commandButton class="btn btn-primary"
+					action="#{clienteController.editar(cliente.id)}" immediate="true"
+					value="Editar" /> -->
+					
+				<h:button class="btn btn-primary" outcome="migrarClientes"
+					value="Migrar">
+					<f:param name="id" value="#{cliente.id}" />
+
+				</h:button>
+			</p:column>
+		
+
+
+
+		</p:dataTable>
+
+	</h:form>
+
+
+
+
+</h:body>
 </html>

@@ -17,6 +17,7 @@ import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.Plan;
+import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Telefono;
 
 @Stateless
@@ -63,17 +64,12 @@ public class EquipoDAO {
 	}
 
 	public Equipo getAntenaByName(String name) {
-		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-		CriteriaQuery<Equipo> criteriaQuery = criteriaBuilder.createQuery(Equipo.class);
-		// Se establece la clausula FROM
-		Root<Equipo> root = criteriaQuery.from(Equipo.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("modelo"), name)); // criteriaQuery.multiselect(root.get(atr))
-		// // Se configuran los predicados,
-		// combinados por AND
-		System.out.println("************8");
-
-		return em.createQuery(criteriaQuery).getSingleResult();
-
+		String jpql = "SELECT eq FROM Equipo eq WHERE eq.nombre = :a";
+		Query q = em.createQuery(jpql, Equipo.class);
+		q.setParameter("a", name);
+		Equipo eq = (Equipo) q.getSingleResult();
+		return eq;
+		
 	}
 
 	public List<Equipo> findEquiposFibra(){

@@ -91,10 +91,32 @@ public class ClienteDAO {
 			List<Cliente> clientes = q.getResultList();
 			return clientes;
 		}
+	 public List<Cliente> getClienteMigrado() {
+			String jpql = "SELECT cliente FROM Cliente cliente WHERE cli_migrado= true AND cli_eliminado= false";
+			Query q = em.createQuery(jpql, Cliente.class);
+			List<Cliente> clientes = q.getResultList();
+			return clientes;
+		}
 	
 	 
 	
-	
+	 public List<Cliente> getClienteRadio() {
+			String jpql = "SELECT cliente FROM Cliente cliente WHERE cli_eliminado= false";
+			Query q = em.createQuery(jpql, Cliente.class);
+			List<Cliente> clientes = q.getResultList();
+			System.out.println("lugar" + clientes.size());
+			for (int i = 0; i < clientes.size(); i++) {
+				if(!clientes.get(i).getServicios().get(0).getTipoServicio().equals(null)) {
+					
+				if(clientes.get(i).getServicios().get(0).getTipoServicio().equals("fibra")) {
+					clientes.remove(i);
+				}
+
+				}
+			}
+			
+			return clientes;
+		}
 	
 	public List<Telefono> getTelefonos(String cedula) {
 		System.out.println("CLIENTE BUSCADO -----> "+ cedula);

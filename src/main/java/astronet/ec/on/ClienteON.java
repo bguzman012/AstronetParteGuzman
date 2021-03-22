@@ -49,6 +49,14 @@ public class ClienteON {
 	public List<Cliente> getListadoClienteEliminado() {
 		return clidao.getClienteEliminado();
 	}
+	public List<Cliente> getListadoClienteMigrado() {
+		return clidao.getClienteMigrado();
+	}
+	
+	public List<Cliente> getListadoClienteRadio() {
+		System.out.println("estoy entrando perro");
+		return clidao.getClienteRadio();
+	}
 	
 
 	public Cliente getCliente(int cedula) {

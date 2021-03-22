@@ -7,8 +7,8 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 	<f:metadata>
-		<f:viewParam name="id" value="#{beanEditar.id}"></f:viewParam>
-		<f:viewAction action="#{beanEditar.loadData()}" />
+		<f:viewParam name="id" value="#{beanMigrar.id}"></f:viewParam>
+		<f:viewAction action="#{beanMigrar.loadData()}" />
 	</f:metadata>
 	<title>Edicion De Datos</title>
 	<meta charset="utf-8" />
@@ -119,7 +119,6 @@
 
 					</h:form>
 
-
 				</ul>
 
 
@@ -156,7 +155,7 @@
 							<h:inputText type="text" class="form-control" id="Cedula"
 								
 								a:placeholder="Cedula" redisplay="true"
-								value="#{beanEditar.cliente.cedula}" maxlength="10">
+								value="#{beanMigrar.cliente.cedula}" maxlength="10">
 
 							</h:inputText>
 							
@@ -167,8 +166,8 @@
 							<h:inputText type="text" class="form-control" id="Nombres"
 								required="true" requiredMessage="  Campo Obligatorio"
 								a:placeholder="Nombres"
-								value="#{beanEditar.cliente.nombre}"
-								validator="#{beanEditar.validarNombre}">
+								value="#{beanMigrar.cliente.nombre}"
+								validator="#{beanMigrar.validarNombre}">
 								<f:ajax event="blur" render="messageForNom" />
 							</h:inputText>
 							<h:message id="messageForNom" for="Nombres" style="color:red" />
@@ -177,9 +176,9 @@
 							<h:outputLabel class="form-label" for="Apellidos">Apellidos *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Apellidos"
 								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{beanEditar.cliente.apellidos}"
+								value="#{beanMigrar.cliente.apellidos}"
 								a:placeholder="Apellidos"
-								validator="#{beanEditar.validarApellido}">
+								validator="#{beanMigrar.validarApellido}">
 								<f:ajax event="blur" render="messageForAp" />
 							</h:inputText>
 							<h:message id="messageForAp" for="Apellidos" style="color:red" />
@@ -188,19 +187,18 @@
 
 							<h:outputLabel for="NumContrato">Numero Contrato *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="NumContrato"
-								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{beanEditar.servicioEdit.numeroContrato}"
+								
+								value="#{beanMigrar.servicioEdit.numeroContrato}"
 								a:placeholder="Numero Contrato" maxlength="25">
-								<f:ajax event="blur" render="messageForNum" />
+								
 							</h:inputText>
-							<h:message id="messageForNum" for="NumContrato" style="color:red" />
-
+							
 						</div>
 						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="DireccionPrincipal">Direccion Principal *</h:outputLabel>
 							<h:inputText type="text" class="form-control"
 								id="DireccionPrincipal" 
-								value="#{beanEditar.cliente.direccionPrincipal}"
+								value="#{beanMigrar.cliente.direccionPrincipal}"
 								a:placeholder="Direccion Principal">
 								<f:ajax event="blur" render="messageForDir" />
 							</h:inputText>
@@ -211,7 +209,7 @@
 							<h:outputLabel class="form-label" for="DireccionSecundaria">Direccion Secundaria</h:outputLabel>
 							<h:inputText type="text" class="form-control"
 								id="DireccionSecundaria"
-								value="#{beanEditar.cliente.direccionSecundaria}"
+								value="#{beanMigrar.cliente.direccionSecundaria}"
 								a:placeholder="Direccion Secundaria" />
 						</div>
 						<div class="form-group col-md-12">
@@ -219,14 +217,14 @@
 
 							<h:inputText type="text" class="form-control"
 								id="DireccionReferencia"
-								value="#{beanEditar.cliente.direccionReferencia}"
+								value="#{beanMigrar.cliente.direccionReferencia}"
 								a:placeholder="Direccion Referencia" />
 						</div>
 						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="Latitud">Latitud *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Latitud"
 								
-								value="#{beanEditar.cliente.latitud}"
+								value="#{beanMigrar.cliente.latitud}"
 								a:placeholder="Latitud">
 							</h:inputText>
 							<h:message id="messageForLatitud" for="Latitud" style="color:red" />
@@ -235,7 +233,7 @@
 							<h:outputLabel class="form-label" for="Longitud">Longitud *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Longitud"
 								
-								value="#{beanEditar.cliente.longitud}"
+								value="#{beanMigrar.cliente.longitud}"
 								a:placeholder="Longitud"
 								>
 															</h:inputText>
@@ -245,7 +243,7 @@
 
 							<h:outputLabel for="Email">E-mail </h:outputLabel>
 							<h:inputText class="form-control" id="Email"
-								value="#{beanEditar.cliente.email}" a:placeholder="Email"
+								value="#{beanMigrar.cliente.email}" a:placeholder="Email"
 								>
 
 							</h:inputText>
@@ -258,7 +256,7 @@
 
 
 							<h:inputText type="text" class="form-control" id="antenaTmp"
-								value="#{beanEditar.antenaTmp}"
+								value="#{beanMigrar.antenaTmp}"
 								a:placeholder="Antena Actual" readonly="true">
 							</h:inputText>
 
@@ -267,11 +265,11 @@
 						<div class="form-group col-md-6">
 
 
-							<h:selectOneMenu value="#{beanEditar.antenaElegida}"
+							<h:selectOneMenu value="#{beanMigrar.equipoElegido}"
 								id="txtAntena">
-								<f:selectItem itemLabel="Seleccione nueva antena"
+								<f:selectItem itemLabel="Seleccione nueva equipo"
 									itemValue="#{null}" noSelectionOption="true" />
-								<f:selectItems value="#{beanEditar.listadoAntenas}"
+								<f:selectItems value="#{beanMigrar.listadoEquiposFibra}"
 									var="antena" itemLabel="#{antena.modelo}"
 									itemValue="#{antena.id}" />
 							</h:selectOneMenu>
@@ -284,7 +282,7 @@
 
 
 							<h:inputText type="text" class="form-control" id="planTmp"
-								value="#{beanEditar.planTmp}" a:placeholder="Plan Actual"
+								value="#{beanMigrar.planTmp}" a:placeholder="Plan Actual"
 								readonly="true">
 
 
@@ -296,32 +294,32 @@
 						</div>
 						<div class="form-group col-md-6">
 
-							<h:selectOneMenu value="#{beanEditar.planElegida}"
+							<h:selectOneMenu value="#{beanMigrar.planElegidoFibra}"
 								id="plan">
 								<f:selectItem itemLabel="Seleccione nuevo plan"
 									itemValue="#{null}" noSelectionOption="true" />
-								<f:selectItems value="#{beanEditar.listadoPlanes}"
+								<f:selectItems value="#{beanMigrar.listadoPlanesFibra}"
 									var="plan" itemLabel="#{plan.tipoPlan}" itemValue="#{plan.id}" />
 							</h:selectOneMenu>
 						</div>
 						<div class="form-group col-md-12"></div>
 
 						<div class="form-group col-md-6">
-							<h:outputLabel for="routerTmp">Router Vendido</h:outputLabel>
+							<h:outputLabel for="routerTmp">Equipo Vendido</h:outputLabel>
 
 							<h:inputText type="text" class="form-control" id="routerTmp"
-								value="#{beanEditar.router}"
+								value="#{beanMigrar.router}"
 								a:placeholder="Router Vendido" readonly="true">
 
 							</h:inputText>
 						</div>
 						<div class="form-group col-md-6">
 
-							<h:selectOneRadio value="#{beanEditar.router}"
+							<h:selectOneRadio value="#{beanMigrar.router}"
 								styleClass="radio-inline" style="background-color: white;"
 								id="routerVendido">
 								<f:selectItems style="border: hidden;"
-									value="#{beanEditar.opciones}" itemLabel="#{opcion}"
+									value="#{beanMigrar.opciones}" itemLabel="#{opcion}"
 									itemValue="#{opcion}">
 
 								</f:selectItems>
@@ -332,7 +330,7 @@
 							<h:outputLabel class="form-label" for="ip">IP *</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="ip"
 								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{beanEditar.eqServEdit.ip}" a:placeholder="IP"
+								value="#{beanMigrar.eqServEdit.ip}" a:placeholder="IP"
 								maxlength="16" validatorMessage="Formato Ip no valido">
 								<f:validateRegex
 									pattern="(([0-1]?[0-9]{1,2}\.)|(2[0-4][0-9]\.)|(25[0-5]\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))" />
@@ -350,7 +348,7 @@
 
 							<h:inputText type="text" class="form-control" id="password"
 								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{beanEditar.eqServEdit.password}"
+								value="#{beanMigrar.eqServEdit.password}"
 								a:placeholder="Contraseña">
 
 								<f:ajax event="blur" render="messageForPass" />
@@ -364,7 +362,7 @@
 
 							<h:inputText type="text" class="form-control" id="serial"
 								
-								value="#{beanEditar.eqServEdit.serial}"
+								value="#{beanMigrar.eqServEdit.serial}"
 								a:placeholder="Serial">
 								
 							</h:inputText>
@@ -376,7 +374,7 @@
 							<h:outputLabel class="form-label" for="observaciones">Observaciones</h:outputLabel>
 							<h:inputTextarea type="text" class="form-control" rows="5"
 								id="observaciones"
-								value="#{beanEditar.servicioEdit.observaciones}"
+								value="#{beanMigrar.servicioEdit.observaciones}"
 								a:placeholder="Digite aqui sus observaciones" />
 
 						</div>
@@ -387,7 +385,7 @@
 				<div class="modal-footer">
 
 					<h:commandButton class="btn btn-primary" data-dismiss="modal"
-						action="#{beanEditar.cargarDatos()}" value="Guardar" />
+						action="#{beanMigrar.migrarDatos()}" value="Guardar" />
 					<h:commandButton action="clientes1" value="Cancelar"
 						class="btn btn-danger" data-dismiss="modal" />
 

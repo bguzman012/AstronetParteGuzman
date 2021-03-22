@@ -120,13 +120,16 @@
 						</p:menuButton>
 
 
-
-						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
 							<p:menuitem value="Emleados" outcome="listadoEmpleado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Clientes" outcome="clienteCrood"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Migrados" outcome="listClienteMigrados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Migracion" outcome="listMigrado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Clientes Eliminados" outcome="listClienteEliminados"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />	
@@ -142,8 +145,6 @@
 
 						</p:menuButton>
 
-
-
 						<p:menuButton value="Configuraciones" styleClass="styleGreen">
 							<p:menuitem value="Editar mis datos"
 								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
@@ -153,6 +154,7 @@
 
 
 					</h:form>
+
 
 				</ul>
 

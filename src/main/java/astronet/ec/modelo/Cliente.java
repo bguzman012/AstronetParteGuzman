@@ -109,6 +109,9 @@ public class Cliente implements Serializable {
 	
 	@Column(name = "cli_eliminado")
 	private boolean eliminado;
+	
+	@Column(name = "cli_migrado")
+	private boolean migrado;
 
 	public boolean isEliminado() {
 		return eliminado;
@@ -173,6 +176,14 @@ public class Cliente implements Serializable {
 
 	public void setDireccionPrincipal(String direccionPrincipal) {
 		this.direccionPrincipal = direccionPrincipal;
+	}
+
+	public boolean isMigrado() {
+		return migrado;
+	}
+
+	public void setMigrado(boolean migrado) {
+		this.migrado = migrado;
 	}
 
 	public String getDireccionSecundaria() {
