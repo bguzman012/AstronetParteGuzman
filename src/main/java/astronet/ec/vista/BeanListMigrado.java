@@ -94,7 +94,7 @@ public class BeanListMigrado implements Serializable{
 		public String actualizar() {
 			String direccion=null;
 			 listadoclientes = clion.getListadoCliente();
-			 direccion="listCliente?faces-redirect=true";
+			 direccion="listMigrado?faces-redirect=true";
 			 //cedula = " ";
 			 return direccion;
 		}

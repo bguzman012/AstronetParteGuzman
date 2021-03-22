@@ -60,7 +60,7 @@ import astronet.ec.vista.InstalacionController.ServicioFA;
 import java.util.Locale;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ClienteController implements Serializable {
 
 	// private static final long serialVersionUID = 8799656478674716638L;
