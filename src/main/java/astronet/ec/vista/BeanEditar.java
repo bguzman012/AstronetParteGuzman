@@ -1249,12 +1249,15 @@ public class BeanEditar implements Serializable {
 
 
 	public String cargarDatos() {
+		System.out.println(this.antenaElegida + "another");
+
 		try {
 
 			clion.guardar(cliente);
+			
 			Plan planTmp = new Plan();
 			Equipo equipo = new Equipo();
-
+			System.out.println(this.antenaElegida + "another");
 			if (planElegida != null)
 
 				planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
@@ -1266,7 +1269,7 @@ public class BeanEditar implements Serializable {
 				equipo = eqOn.buscarAntena(Integer.parseInt(this.antenaElegida));
 			else
 				equipo = eqOn.getAntenaByName(this.antenaTmp);
-			System.out.println("marron");
+
 			this.servicioEdit.setRouterVendido(this.router);
 			this.servicioEdit.setPlan(planTmp);
 
@@ -1275,7 +1278,7 @@ public class BeanEditar implements Serializable {
 			seron.update(this.servicioEdit);
 
 			this.eqServEdit.setEquipo(equipo);
-
+			System.out.println(this.eqServEdit.getIp() + "DonManuel");
 			eqServOn.actualizar(this.eqServEdit);
 
 			this.antenaTmp = "";
@@ -1358,7 +1361,6 @@ public class BeanEditar implements Serializable {
 		} else {
 			System.out.println("Servicio: " + servicioEdit.getTipoServicio());
 			setListadoAntenas(eqOn.getListadoEquiposFibra());
-
 		}
 	}
 

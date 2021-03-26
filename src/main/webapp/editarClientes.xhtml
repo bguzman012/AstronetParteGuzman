@@ -184,18 +184,7 @@
 							</h:inputText>
 							<h:message id="messageForAp" for="Apellidos" style="color:red" />
 						</div>
-						<div class="form-group col-md-12">
-
-							<h:outputLabel for="NumContrato">Numero Contrato *</h:outputLabel>
-							<h:inputText type="text" class="form-control" id="NumContrato"
-								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{beanEditar.servicioEdit.numeroContrato}"
-								a:placeholder="Numero Contrato" maxlength="25">
-								<f:ajax event="blur" render="messageForNum" />
-							</h:inputText>
-							<h:message id="messageForNum" for="NumContrato" style="color:red" />
-
-						</div>
+						
 						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="DireccionPrincipal">Direccion Principal *</h:outputLabel>
 							<h:inputText type="text" class="form-control"
@@ -357,20 +346,6 @@
 							</h:inputText>
 							<h:message id="messageForPass" for="password" style="color:red" />
 						</div>
-
-						<div class="form-group col-md-12">
-
-							<h:outputLabel class="form-label" for="serial">Serial *</h:outputLabel>
-
-							<h:inputText type="text" class="form-control" id="serial"
-								
-								value="#{beanEditar.eqServEdit.serial}"
-								a:placeholder="Serial">
-								
-							</h:inputText>
-							
-						</div>
-
 
 						<div class="form-group col-md-12">
 							<h:outputLabel class="form-label" for="observaciones">Observaciones</h:outputLabel>

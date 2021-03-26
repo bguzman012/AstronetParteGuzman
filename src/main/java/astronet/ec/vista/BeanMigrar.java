@@ -1433,7 +1433,7 @@ public class BeanMigrar implements Serializable {
 			System.out.println("si se migroo");
 			init();
 
-			String direccion="listCliente?faces-redirect=true";
+			String direccion="listClienteMigrados?faces-redirect=true";
 			 //cedula = " ";
 			return direccion;
 		} catch (Exception e) {
