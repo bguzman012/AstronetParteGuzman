@@ -70,7 +70,7 @@
 
 			<div class="collapse navbar-collapse" id="otra">
 				<ul class="nav navbar-nav ">
-					<h:form>
+										<h:form>
 
 						<p:menuButton value="Call Center" styleClass="styleGreen">
 							<p:menuitem value="Call Center " outcome="callcenter"
@@ -78,7 +78,7 @@
 
 							<p:menuitem value="Registro" outcome="registro"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							<p:menuitem value="Agendar otras Actividades" outcome="otrasActividades"
+														<p:menuitem value="Agendar otras Actividades" outcome="otrasActividades"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Listar Otras Actividades" outcome="listaOtrasActividades"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
@@ -96,7 +96,6 @@
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 
 						</p:menuButton>
-
 
 
 												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
@@ -124,6 +123,13 @@
 
 						</p:menuButton>
 
+						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
+							<p:menuitem value="Nueva actividad" outcome="crearActividadTecnica"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Editar o eliminar actividad" outcome="crearActividadTecnica"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+						
 						<p:menuButton value="Configuraciones" styleClass="styleGreen">
 							<p:menuitem value="Editar mis datos"
 								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />

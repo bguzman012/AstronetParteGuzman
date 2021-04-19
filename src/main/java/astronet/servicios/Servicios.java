@@ -29,7 +29,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.mail.imap.Utility;
 
-
+import astronet.ec.modelo.ActividadesTecnicas;
 import astronet.ec.modelo.Agendamiento;
 
 import astronet.ec.modelo.Cliente;
@@ -43,6 +43,7 @@ import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
 import astronet.ec.modelo.Telefono;
 import astronet.ec.modelo.Visita;
+import astronet.ec.on.ActividadesTecnicasON;
 import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.ClienteTemporalOn;
@@ -63,6 +64,10 @@ public class Servicios {
 
 	@Inject
 	private EmpleadoON empon;
+	
+	@Inject
+	private ActividadesTecnicasON actTecOn;
+
 
 	@Inject
 	private InstalacionON inson;
@@ -128,6 +133,24 @@ public class Servicios {
 			u.setEmail(e.getMessage());
 		}
 		return u;
+	}
+	
+	/**
+	 * Metodo para listar todas las actividades tecnicas
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path("/listarActividades")
+	@Produces("application/json")
+	public List<String> listarActividades(){
+		System.out.println("LISTADO DE ACTIVIDADES -------------");
+		List<String> map = new ArrayList<String>();
+		List<ActividadesTecnicas> actividadesTecnicas = new ArrayList<ActividadesTecnicas>();
+
+		actividadesTecnicas = actTecOn.getlistarActividadesTecnicas();
+		System.out.println("ACtividades tecnicas");
+		return map;		
 	}
 
 	/**
