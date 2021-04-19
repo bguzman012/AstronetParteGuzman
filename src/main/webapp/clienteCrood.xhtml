@@ -68,6 +68,11 @@
 
 							<p:menuitem value="Registro" outcome="registro"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Agendar otras Actividades" outcome="otrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Otras Actividades" outcome="listaOtrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							
 							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Visitas Tecnicas"
@@ -81,6 +86,7 @@
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 
 						</p:menuButton>
+
 
 
 												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
@@ -180,7 +186,26 @@
 						<div class="form-group col-md-4"></div>
 
 						<div class="form-group col-md-12"></div>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-6">
+
+							<label for="routerVendido">Tipo Ciudadania *</label><br></br>
+							<h:selectOneRadio styleClass="radio-inline"
+								style="background-color: white;"
+								value="#{clienteController.ciudadania}" id="ciudadania"
+								required="true"
+								requiredMessage="Por favor, seleccione una opcion !">
+								<f:selectItems style="border: hidden;"
+									value="#{clienteController.opcionesNacionalidad}" itemLabel="#{opcion}"
+									itemValue="#{opcion}">
+
+								</f:selectItems>
+								<f:ajax event="blur" render="Cedula" />
+								<h:message id="messageForCiudadania" for="routerVendido"
+									style="color:red" />
+							</h:selectOneRadio>
+						</div>
+						
+						<div class="form-group col-md-6">
 
 							<h:outputLabel class="req" for="Cedula">Cedula *</h:outputLabel>
 
@@ -189,7 +214,7 @@
 								a:placeholder="Cedula" redisplay="true"
 								validator="#{clienteController.validarCedula}"
 								converterMessage="Favor ingrese solo numeros."
-								value="#{clienteController.cedula}" maxlength="10">
+								value="#{clienteController.cedula}">
 
 
 								<f:ajax event="blur" render="messageForUser" />
@@ -199,8 +224,8 @@
 
 
 						</div>
-
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-12"></div>
+						<div class="form-group col-md-6">
 
 							<h:outputLabel for="Nombres">Nombres *</h:outputLabel>
 
@@ -214,7 +239,7 @@
 
 						</div>
 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-6">
 
 							<h:outputLabel for="Apellidos">Apellidos *</h:outputLabel>
 

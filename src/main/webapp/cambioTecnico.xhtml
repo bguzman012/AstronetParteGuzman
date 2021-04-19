@@ -70,6 +70,11 @@
 
 							<p:menuitem value="Registro" outcome="registro"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Agendar otras Actividades" outcome="otrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Otras Actividades" outcome="listaOtrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							
 							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Visitas Tecnicas"
@@ -83,6 +88,7 @@
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 
 						</p:menuButton>
+
 
 
 												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">

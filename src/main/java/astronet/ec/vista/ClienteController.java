@@ -203,6 +203,8 @@ public class ClienteController implements Serializable {
 	private String planElegida;
 	private String observaciones;
 	private String routerVendido;
+	private String ciudadania;
+	private String nacionalidad;
 
 	private Telefono telefonoConveEdit;
 	private Telefono telefonoMovilEdit;
@@ -215,6 +217,7 @@ public class ClienteController implements Serializable {
 	private boolean rendered;
 
 	private List<String> opciones;
+	private List<String> opcionesNacionalidad;
 	public List<Cliente> filtradoCliente;
 
 	private List<String> tipoServicios;
@@ -244,7 +247,7 @@ public class ClienteController implements Serializable {
 		equipo = new Equipo();
 		serviciosCliente = new ArrayList<EquipoServicio>();
 		ubn = new EmpleadoController();
-		ejemploLista= regon.problemitas();
+		ejemploLista = regon.problemitas();
 		registros = regon.getListadoRegistro();
 
 		nuevoTelefono = new Telefono();
@@ -270,11 +273,15 @@ public class ClienteController implements Serializable {
 		System.out.println("Servicio: " + servicioElegido);
 		listadoPlanesTmp = planOn.getListadoPlan();
 		opciones = new ArrayList<String>();
+		opcionesNacionalidad = new ArrayList<String>();
 		tipoServicios = new ArrayList<String>();
 
 		listadoPlanes.add(listadoPlanesTmp.get(0));
 		listadoPlanes.add(listadoPlanesTmp.get(1));
 		listadoPlanes.add(listadoPlanesTmp.get(2));
+
+		opcionesNacionalidad.add("Ecuatoriana");
+		opcionesNacionalidad.add("Otro");
 
 		opciones.add("Si");
 		opciones.add("No");
@@ -320,6 +327,14 @@ public class ClienteController implements Serializable {
 
 	public List<Registro> getListadoFiltrado() {
 		return listadoFiltrado;
+	}
+
+	public List<String> getOpcionesNacionalidad() {
+		return opcionesNacionalidad;
+	}
+
+	public void setOpcionesNacionalidad(List<String> opcionesNacionalidad) {
+		this.opcionesNacionalidad = opcionesNacionalidad;
 	}
 
 	public void setListadoFiltrado(List<Registro> listadoFiltrado) {
@@ -426,11 +441,11 @@ public class ClienteController implements Serializable {
 			}
 			j++;
 		}
-		
+
 		System.out.println("corderoMeLaPela" + this.eqServEdit.getIp());
-		
+
 		this.ip = this.eqServEdit.getIp();
-		
+
 	}
 
 	public Equipo getEquipo() {
@@ -667,7 +682,7 @@ public class ClienteController implements Serializable {
 	}
 
 	public void setTelOn(TelefonoON telOn) {
-		
+
 		this.telOn = telOn;
 	}
 
@@ -1034,38 +1049,39 @@ public class ClienteController implements Serializable {
 		}
 		return null;
 	}
-	
+
 	public String pingWinbox() {
 		System.out.println("++++++++++++Ola");
 		HttpSession session = SessionUtils.getSession();
 		Empleado empleado = (Empleado) session.getAttribute("username");
 		EquipoServicio equipo = new EquipoServicio();
 		equipo = eqServOn.findByName(this.ip);
-	
+
 		equipo.setPing("wb");
 		equipo.setUserEmpleado(empleado.getEmail());
 		System.out.println("IdCliPing: " + equipo.getUserEmpleado());
-		eqServOn.actualizar(equipo); 
+		eqServOn.actualizar(equipo);
 		System.out.println("Al Pelooo bro");
-		
+
 		return null;
 	}
-	
+
 	public String ping() {
 		System.out.println("++++++++++++Ola");
 		HttpSession session = SessionUtils.getSession();
 		Empleado empleado = (Empleado) session.getAttribute("username");
 		EquipoServicio equipo = new EquipoServicio();
 		equipo = eqServOn.findByName(this.ip);
-	
+
 		equipo.setPing("on");
 		equipo.setUserEmpleado(empleado.getEmail());
 		System.out.println("IdCliPing: " + equipo.getUserEmpleado());
-		eqServOn.actualizar(equipo); 
+		eqServOn.actualizar(equipo);
 		System.out.println("Asi somos" + this.ip);
-		
+
 		return null;
 	}
+
 	/**
 	 * Metodo para guadar el agendamiento
 	 *
@@ -1141,9 +1157,9 @@ public class ClienteController implements Serializable {
 			System.out.println("cliente id " + cliente.getId());
 			empleado.setId(registro.getEmpleado().getId());
 			registro.getEmpleado().setId(empleado.getId());
-			System.out.println("q selecciono .??"+ registro.getAccion());
+			System.out.println("q selecciono .??" + registro.getAccion());
 			if (registro.getAccion().equals("SOLUCIONADOF")) {
-				registro.setChequeo(false);				
+				registro.setChequeo(false);
 			}
 			regon.guardar(registro);
 			System.out.println("imprime esto:   " + registro.getFechaHora());
@@ -1151,8 +1167,9 @@ public class ClienteController implements Serializable {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		 return null;
+		return null;
 	}
+
 	// Matriz de objetos
 	public static class problema {
 		public String carLabel;
@@ -1270,7 +1287,6 @@ public class ClienteController implements Serializable {
 		listaSolucion[3] = new solucion("SOLUCIONADOF", "4");
 		listaSolucion[4] = new solucion("PENDIENTE", "5");
 
-
 		return listaSolucion;
 	}
 
@@ -1372,6 +1388,14 @@ public class ClienteController implements Serializable {
 		return servicioElegido;
 	}
 
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
 	public void setServicioElegido(String servicioElegido) {
 		this.servicioElegido = servicioElegido;
 	}
@@ -1382,6 +1406,14 @@ public class ClienteController implements Serializable {
 
 	public String getRouterVendido() {
 		return routerVendido;
+	}
+
+	public String getCiudadania() {
+		return ciudadania;
+	}
+
+	public void setCiudadania(String ciudadania) {
+		this.ciudadania = ciudadania;
 	}
 
 	public void setRouterVendido(String routerVendido) {
@@ -1816,8 +1848,8 @@ public class ClienteController implements Serializable {
 		this.serial = "";
 		this.observaciones = "";
 
-		String direccion="listCliente?faces-redirect=true";
-		 //cedula = " ";
+		String direccion = "listCliente?faces-redirect=true";
+		// cedula = " ";
 		return direccion;
 	}
 
@@ -1844,13 +1876,14 @@ public class ClienteController implements Serializable {
 	public void toggleRendered(ActionEvent event) {
 		this.rendered = !rendered;
 	}
-	public List<String> problemitas(){
+
+	public List<String> problemitas() {
 		ejemploLista.add("SERVICIO INTERMITENTE");
 		ejemploLista.add("SIN SERVICIO");
 		ejemploLista.add("PROBLEMAS EN CAPACIDAD");
 		ejemploLista.add("ROUTER DESCONFIGURADO");
 		ejemploLista.add("SERVICIO LENTO");
-		ejemploLista.add("CORTE DE SERVICIO");	
+		ejemploLista.add("CORTE DE SERVICIO");
 		return ejemploLista;
 	}
 
@@ -1899,11 +1932,10 @@ public class ClienteController implements Serializable {
 	}
 
 	public void validarCedula(FacesContext context, UIComponent comp, Object value) {
-		System.out.println("inside validate method");
 
 		String mno = (String) value;
 		try {
-			Integer.parseInt(mno);
+			Long.parseLong(mno);
 		} catch (Exception e) {
 			((UIInput) comp).setValid(false);
 			FacesMessage message = new FacesMessage("Favor ingrese solo numeros");
@@ -1911,36 +1943,38 @@ public class ClienteController implements Serializable {
 		}
 		int i;
 		int vect[] = new int[13];
-		if (mno.equals("0000000000")) {
-			FacesMessage message = new FacesMessage("No es una cedula valida");
-			context.addMessage(comp.getClientId(context), message);
-		} else if (mno.length() == 10) {
-			System.out.println("Cedula");
-			for (i = 0; i < mno.length(); i++) {
-				vect[i] = Integer.parseInt(Character.toString(mno.charAt(i)));
-			}
-			if (vect[2] <= 6 && vect[2] >= 0) {
-				int comprobar[] = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
-				int suma = 0;
-				for (i = 0; i < comprobar.length; i++) {
-					vect[i] *= comprobar[i];
-					if (vect[i] >= 10) {
-						vect[i] -= 9;
+		if (this.ciudadania.equals("Ecuatoriana")) {
+			if (mno.equals("0000000000")) {
+				FacesMessage message = new FacesMessage("No es una cedula valida");
+				context.addMessage(comp.getClientId(context), message);
+			} else if (mno.length() == 10) {
+				System.out.println("Cedula");
+				for (i = 0; i < mno.length(); i++) {
+					vect[i] = Integer.parseInt(Character.toString(mno.charAt(i)));
+				}
+				if (vect[2] <= 6 && vect[2] >= 0) {
+					int comprobar[] = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
+					int suma = 0;
+					for (i = 0; i < comprobar.length; i++) {
+						vect[i] *= comprobar[i];
+						if (vect[i] >= 10) {
+							vect[i] -= 9;
+						}
+						suma += vect[i];
 					}
 					suma += vect[i];
+					suma %= 10;
+					if (suma != 0) {
+						((UIInput) comp).setValid(false);
+						FacesMessage message = new FacesMessage("No es una cedula valida");
+						context.addMessage(comp.getClientId(context), message);
+					}
 				}
-				suma += vect[i];
-				suma %= 10;
-				if (suma != 0) {
-					((UIInput) comp).setValid(false);
-					FacesMessage message = new FacesMessage("No es una cedula valida");
-					context.addMessage(comp.getClientId(context), message);
-				}
+			} else {
+				((UIInput) comp).setValid(false);
+				FacesMessage message = new FacesMessage("Favor ingrese los 10 digitos");
+				context.addMessage(comp.getClientId(context), message);
 			}
-		} else {
-			((UIInput) comp).setValid(false);
-			FacesMessage message = new FacesMessage("Favor ingrese los 10 digitos");
-			context.addMessage(comp.getClientId(context), message);
 		}
 	}
 
@@ -2272,25 +2306,24 @@ public class ClienteController implements Serializable {
 		System.out.println(empleado.getId());
 		System.out.println("Id del cliente" + registro.getCliente().getId());
 		Cliente cli = clion.getCliente(registro.getCliente().getId());
-	     //Visita g = new Visita(cli, registro, empleado);
-	visita.setCliente(cli);
-	visita.setRegistro(registro);
-	visita.setEmpleado(empleado);
-		//visita.setCliente(cli);
-	 visita.setChequeo(false);
-	     visitaOn.guardar(visita);
-		return"listadoVisitaTecnica?faces-redirect=true&id=" + registro.getEmpleado().getId();
-		
+		// Visita g = new Visita(cli, registro, empleado);
+		visita.setCliente(cli);
+		visita.setRegistro(registro);
+		visita.setEmpleado(empleado);
+		// visita.setCliente(cli);
+		visita.setChequeo(false);
+		visitaOn.guardar(visita);
+		return "listadoVisitaTecnica?faces-redirect=true&id=" + registro.getEmpleado().getId();
+
 	}
-	
-	
-	public String cargarDatosRegistro1(int codigo,int codiguito) {
+
+	public String cargarDatosRegistro1(int codigo, int codiguito) {
 		try {
-			listadoFiltrado= regon.Filtrado(codiguito);
+			listadoFiltrado = regon.Filtrado(codiguito);
 			if (listadoFiltrado.size() == 0) {
 				HttpSession session = SessionUtils.getSession();
 				Empleado em = (Empleado) session.getAttribute("username");
-				System.out.println("usurus carambola: "+em.getId());
+				System.out.println("usurus carambola: " + em.getId());
 
 				Cliente cli = clion.getCliente(codiguito);
 				System.out.println("Llegando:::::111");
@@ -2300,21 +2333,21 @@ public class ClienteController implements Serializable {
 				registro.setProblema(problemaElegido);
 				if (registro.getAccion().equals("SOLUCIONADOF")) {
 					registro.setChequeo(false);
-				}else {
+				} else {
 					registro.setChequeo(true);
 				}
-				
+
 				regon.guardar(registro);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "EL REGISTRO SE GUARDO EXITOSAMENTE"));
 				init();
 				return null;
-	
-			}else {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso","ESTE CLIENTE YA TIENE UN RECLAMO REGISTRADO"));
+
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso",
+						"ESTE CLIENTE YA TIENE UN RECLAMO REGISTRADO"));
 			}
-			
+
 			return null;
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -2322,7 +2355,7 @@ public class ClienteController implements Serializable {
 		}
 		return "callcenter?faces";
 
-		}
+	}
 //	
 //	public String cargarDatosRegistro1(int codigo) {
 //		try {
@@ -2423,18 +2456,19 @@ public class ClienteController implements Serializable {
 		}
 		return ip;
 	}
+
 	public String cambiarEstado(int registrito, int id) {
-		System.out.println("este es el id amigo"+registrito);
+		System.out.println("este es el id amigo" + registrito);
 		try {
-			Registro re= regon.consultarRegistro(registrito);
+			Registro re = regon.consultarRegistro(registrito);
 			re.setId(registrito);
 			re.setAccion("SOLUCIONADOF");
 			re.setChequeo(false);
 			Visita vi = visitaOn.consultarVIsita(id);
-			vi.setChequeo(true);		
-			//Visita vi = visitaOn.getListadoVisita();
-			//visita.setChequeo(trueVisita);Visita
-		//	Visita v= visitaOn.actualizar(visita);;
+			vi.setChequeo(true);
+			// Visita vi = visitaOn.getListadoVisita();
+			// visita.setChequeo(trueVisita);Visita
+			// Visita v= visitaOn.actualizar(visita);;
 			visitaOn.guardar(vi);
 			regon.guardar(re);
 			init();
@@ -2443,11 +2477,10 @@ public class ClienteController implements Serializable {
 			e.printStackTrace();
 		}
 		System.out.println("si hizoooo");
-		//registro.setCliente(cliente);
-		
+		// registro.setCliente(cliente);
+
 		return null;
-		
+
 	}
-	
 
 }

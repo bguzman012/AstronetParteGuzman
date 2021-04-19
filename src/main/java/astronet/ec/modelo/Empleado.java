@@ -61,7 +61,20 @@ public class Empleado implements Serializable{
 	@JoinColumn(name = "empregsitro_fk")
 	@JsonIgnore
 	private List<Registro> registro;
-
+	
+	/*
+	 * Relacion Empleado con Registro
+	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "empotros_fk")
+	@JsonIgnore
+	private List<OtrasActividades> actividadesRegistradas;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "empotrostecnico_fk")
+	@JsonIgnore
+	private List<OtrasActividades> actividadesTecnico;
+	
 	/*
 	 * Relacion Empleado con Instalacion
 	 */
