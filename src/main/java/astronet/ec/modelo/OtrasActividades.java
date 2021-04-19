@@ -36,7 +36,6 @@ public class OtrasActividades implements Serializable{
 	//@JsonIgnore
 	private Empleado tecnico;
 	
-	
 	@Column(name = "otros_actividad")
 	@NotNull
 	private String actividad;

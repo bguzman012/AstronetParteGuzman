@@ -96,11 +96,6 @@ body .ui-staticmessage.ui-message {
 
 							<p:menuitem value="Registro" outcome="registro"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							<p:menuitem value="Agendar otras Actividades" outcome="otrasActividades"
-								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							<p:menuitem value="Listar Otras Actividades" outcome="listaOtrasActividades"
-								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							
 							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Visitas Tecnicas"
@@ -114,7 +109,6 @@ body .ui-staticmessage.ui-message {
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 
 						</p:menuButton>
-
 
 
 												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
@@ -142,6 +136,13 @@ body .ui-staticmessage.ui-message {
 
 						</p:menuButton>
 
+						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
+							<p:menuitem value="Nueva actividad" outcome="crearActividadTecnica"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Editar o eliminar actividad" outcome="crearActividadTecnica"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+						
 						<p:menuButton value="Configuraciones" styleClass="styleGreen">
 							<p:menuitem value="Editar mis datos"
 								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
