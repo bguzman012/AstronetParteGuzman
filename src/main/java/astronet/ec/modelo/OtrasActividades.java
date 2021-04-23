@@ -36,6 +36,11 @@ public class OtrasActividades implements Serializable{
 	//@JsonIgnore
 	private Empleado tecnico;
 	
+	@OneToOne
+	@JoinColumn(name="actividadotros_fk")
+	//@JsonIgnore
+	private ActividadesTecnicas actividadTecnica;
+	
 	@Column(name = "otros_actividad")
 	@NotNull
 	private String actividad;
@@ -89,6 +94,14 @@ public class OtrasActividades implements Serializable{
 
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
+	}
+
+	public ActividadesTecnicas getActividadTecnica() {
+		return actividadTecnica;
+	}
+
+	public void setActividadTecnica(ActividadesTecnicas actividadTecnica) {
+		this.actividadTecnica = actividadTecnica;
 	}
 	
 	

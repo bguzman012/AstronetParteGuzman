@@ -38,7 +38,14 @@ public class ActividadesTecnicas implements Serializable{
 	
 	@Column(name = "puntaje_actividad")
 	private double puntaje_actividad;
-
+	
+	/*
+	 * Relacion Empleado con Instalacion
+	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "actividadotros_fk")
+	@JsonIgnore
+	private List<OtrasActividades> registroOtrasActividades;
 	
 	
 	public int getId_actividad() {
@@ -58,6 +65,14 @@ public class ActividadesTecnicas implements Serializable{
 	}
 	public void setPuntaje_actividad(double puntaje_actividad) {
 		this.puntaje_actividad = puntaje_actividad;
+	}
+	
+	
+	public List<OtrasActividades> getRegistroOtrasActividades() {
+		return registroOtrasActividades;
+	}
+	public void setRegistroOtrasActividades(List<OtrasActividades> registroOtrasActividades) {
+		this.registroOtrasActividades = registroOtrasActividades;
 	}
 	@Override
 	public String toString() {

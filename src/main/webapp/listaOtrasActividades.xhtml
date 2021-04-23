@@ -208,10 +208,23 @@
 						class="table table-striped table-bordered" cellspacing="0"
 						width="100%" style="text-align:center;"
 						value="#{otrasController.otras}" var="otra" border="1">
-						<h:column>
+						
+												<h:column>
 							<f:facet name="header" data-field="salary" data-sortable="true">ID</f:facet>
 												#{otra.id}
 											</h:column>
+						
+						
+						<h:column>
+							<f:facet name="header" data-field="salary" data-sortable="true">Actividad</f:facet>
+												#{otra.actividadTecnica.nombre_actividad}
+											</h:column>
+											
+											<h:column>
+							<f:facet name="header" data-field="country" data-sortable="true">Indicacion</f:facet>
+					
+								#{otra.actividad}
+						</h:column>
 
 
 						<h:column>
@@ -224,11 +237,7 @@
 											</h:column>
 
 
-						<h:column>
-							<f:facet name="header" data-field="country" data-sortable="true">Actividad</f:facet>
-					
-								#{otra.actividad}
-						</h:column>
+						
 						
 						<h:column>
 							<f:facet name="header" data-field="country" data-sortable="true">Fecha</f:facet>

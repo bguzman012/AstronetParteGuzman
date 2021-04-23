@@ -170,7 +170,7 @@
 
 					<div class="form-row">
 
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-3">
 		<label for="sel1" class="etiquetas">Tecnicos:</label>
 
 		<h:selectOneMenu id="tecnico"
@@ -180,12 +180,24 @@
 		</h:selectOneMenu>
 
 	</div>
+	
+	<div class="form-group col-sm-3">
+		<label class="control-label col-sm-2" for="elegirActividad">Eliga la actividad:</label>
+			<div class="col-sm-8">
+				<h:selectOneMenu value="#{otrasController.antenaElegida}" id="txtActividad"> <!--  pendiente acabar -->
+				<f:selectItems 
+					value="#{otrasController.listarActividadesTecnicas}"
+					var="actividadesTecnicas" itemLabel="#{actividadesTecnicas.nombre_actividad}"
+					itemValue="#{actividadesTecnicas.id_actividad}" /> 
+				</h:selectOneMenu>
+			</div>
+	</div>
 
 						
 
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-3">
 
-							<h:outputLabel for="actividad">Actividad *</h:outputLabel>
+							<h:outputLabel for="actividad">Inidicaciones *</h:outputLabel>
 
 							<h:inputText type="text" class="form-control" id="actividad"
 								required="true" requiredMessage="  Campo Obligatorio"
@@ -196,7 +208,7 @@
 
 						</div>
 						
-							<div class="form-group col-md-4">
+							<div class="form-group col-md-3">
 							<h:outputLabel for="Fecha">Fecha *</h:outputLabel>
 							<h:inputText a:type="date" class="form-control" id="Fecha"
 								required="true" requiredMessage="  Campo Obligatorio"
