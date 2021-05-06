@@ -115,5 +115,5 @@ public class RegistroActividadesTecnicasDAO {
 			this.create(reg);
 		}
 	}	
-	
+	//Creacion de Registros para manejar las actividades de los tecnicos
 }
