@@ -36,6 +36,10 @@ public class ActividadesTecnicasON {
 	public List<ActividadesTecnicas> getlistarActividadesTecnicas(){
 		return act_tec_dao.find();
 	}
+	
+	public double obtenerPuntaje(int id) {
+		return act_tec_dao.obtenerPuntaje(id);
+	}
 
 	
 }

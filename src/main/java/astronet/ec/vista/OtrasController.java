@@ -12,9 +12,11 @@ import javax.servlet.http.HttpSession;
 import astronet.ec.modelo.ActividadesTecnicas;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.OtrasActividades;
+import astronet.ec.modelo.RegistroActividadesTecnicas;
 import astronet.ec.on.ActividadesTecnicasON;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.OtrasON;
+import astronet.ec.on.RegistroActividadesTecnicasOn;
 import astronet.ec.util.SessionUtils;
 
 @ManagedBean
@@ -27,7 +29,11 @@ public class OtrasController implements Serializable{
 	private String tecnicoElegido;
 	private int id_actividad;
 	private String actividad;
-	private String fecha;
+	private String mes;
+	private int dia;
+	private int year;
+
+
 	private String antenaElegida;
 	private List<OtrasActividades> otras;
 	private List<ActividadesTecnicas> listarActividadesTecnicas;
@@ -35,7 +41,13 @@ public class OtrasController implements Serializable{
 	private EmpleadoON empon;
 	
 	@Inject
+	private ActividadesTecnicasON actTecON;
+	
+	@Inject
 	private OtrasON otrasOn;
+	
+	@Inject
+	private RegistroActividadesTecnicasOn regActTecON;
 	
 	@Inject 
 	private ActividadesTecnicasON actividadOn;
@@ -58,17 +70,6 @@ public class OtrasController implements Serializable{
 	public void setOtras(List<OtrasActividades> otras) {
 		this.otras = otras;
 	}
-
-
-	public String getFecha() {
-		return fecha;
-	}
-
-
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
-	}
-
 
 	public String getAntenaElegida() {
 		return antenaElegida;
@@ -139,7 +140,29 @@ public class OtrasController implements Serializable{
 		otras = otrasOn.getListadoOtras();
 	}
 
+	public String getMes() {
+		return mes;
+	}
 
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	public int getDia() {
+		return dia;
+	}
+
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
 
 	
 	public String crearActividad() {
@@ -148,20 +171,31 @@ public class OtrasController implements Serializable{
 		HttpSession session = SessionUtils.getSession();
 		Empleado empleadoAgenda = (Empleado) session.getAttribute("username");
 		ActividadesTecnicas actividadTecnica = new ActividadesTecnicas();
-		
-		
-		
+				
 		actividadTecnica.setId_actividad(Integer.parseInt(this.antenaElegida));
 		System.out.println("Hola33sss " + actividadTecnica.getId_actividad());
 
 		tecnicoCampo = empon.getEmpleadobyName(tecnicoElegido);
 		otraActividad.setTecnico(tecnicoCampo);
-		otraActividad.setFecha(fecha);
+		otraActividad.setDia(dia);
+		otraActividad.setMes(mes);
+		otraActividad.setYear(year);
 		otraActividad.setActividad(actividad);
 		otraActividad.setEmpleadoRegistra(empleadoAgenda);
 		otraActividad.setActividadTecnica(actividadTecnica);
 		
 		otrasOn.guardar(otraActividad);
+		
+		RegistroActividadesTecnicas registroActividad = new RegistroActividadesTecnicas();
+		registroActividad.setMes(mes);
+		registroActividad.setYear(year);
+		registroActividad.setPuntajeTotal(actividadOn.obtenerPuntaje(actividadTecnica.getId_actividad()));
+		registroActividad.setActivadesTotales(1);
+		registroActividad.setTecnico(tecnicoCampo);
+		
+		regActTecON.saveNewRegistro(registroActividad);
+		
+		System.out.println("------ REGISTRO GUARDADO ------- ");
 		String direccion = "listaOtrasActividades?faces-redirect=true";
 		return direccion;
 	}

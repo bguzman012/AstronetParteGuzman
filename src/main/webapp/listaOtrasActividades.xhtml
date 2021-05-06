@@ -159,7 +159,7 @@
 						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
 							<p:menuitem value="Nueva actividad" outcome="crearActividadTecnica"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							<p:menuitem value="Editar o eliminar actividad" outcome="crearActividadTecnica"
+							<p:menuitem value="Editar o eliminar actividad" outcome="registroActividadesTecnicas"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 						</p:menuButton>
 						
@@ -234,17 +234,18 @@
 						<h:column>
 							<f:facet name="header" data-field="salary" data-sortable="true">Tecnico</f:facet>
 												#{otra.tecnico.nombre}
-											</h:column>
-
-
-						
+						</h:column>
 						
 						<h:column>
-							<f:facet name="header" data-field="country" data-sortable="true">Fecha</f:facet>
-					
-								#{otra.fecha}
+							<f:facet name="header" data-field="country" data-sortable="true">D&iacute;a</f:facet>
+								#{otra.dia}
 						</h:column>
-
+											
+						<h:column>
+							<f:facet name="header" data-field="country" data-sortable="true">Mes</f:facet>
+								#{otra.mes}
+						</h:column>
+						
 						<h:column>
 							<f:facet name="header">Acciones</f:facet>
 

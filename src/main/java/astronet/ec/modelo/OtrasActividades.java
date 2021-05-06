@@ -44,11 +44,18 @@ public class OtrasActividades implements Serializable{
 	@Column(name = "otros_actividad")
 	@NotNull
 	private String actividad;
-	
-	@Column(name = "otros_fecha")
+		
+	@Column(name = "otros_dia")
 	@NotNull
-	private String fecha;
+	private int dia;
 	
+	@Column(name = "otros_mes")
+	@NotNull
+	private String mes;
+	
+	@Column(name = "otros_year")
+	@NotNull
+	private int year;
 	
 
 	public OtrasActividades() {
@@ -88,14 +95,6 @@ public class OtrasActividades implements Serializable{
 		this.actividad = actividad;
 	}
 
-	public String getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
-	}
-
 	public ActividadesTecnicas getActividadTecnica() {
 		return actividadTecnica;
 	}
@@ -104,6 +103,29 @@ public class OtrasActividades implements Serializable{
 		this.actividadTecnica = actividadTecnica;
 	}
 	
+	public int getDia() {
+		return dia;
+	}
+
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+
+	public String getMes() {
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
 	
 	
 

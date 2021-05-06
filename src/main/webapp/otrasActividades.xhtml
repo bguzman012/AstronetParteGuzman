@@ -89,7 +89,7 @@
 
 
 												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
-							<p:menuitem value="Emleados" outcome="listadoEmpleado"
+							<p:menuitem value="Empleados" outcome="listadoEmpleado"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 							<p:menuitem value="Clientes" outcome="clienteCrood"
 								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
@@ -116,7 +116,7 @@
 						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
 							<p:menuitem value="Nueva actividad" outcome="crearActividadTecnica"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							<p:menuitem value="Editar o eliminar actividad" outcome="crearActividadTecnica"
+							<p:menuitem value="Editar o eliminar actividad" outcome="registroActividadesTecnicas"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 						</p:menuButton>
 						
@@ -148,94 +148,96 @@
 		</div>
 		</nav>
 	</div>
-
 	
-
-	<h:form>
-		<div class="container">
-			<h2></h2>
-			<br></br> <br></br> 
-			<div style="height: 50px"></div>
+	<div style="height: 50px"></div>
 	<div class="centerTexto">
 		<h2>Otras Actividades</h2>
 	</div>
-				
-
-			<div class="panel panel-default">
-				<div class="panel-body ">
-
-
-
-					
-
-					<div class="form-row">
-
-						<div class="form-group col-sm-3">
-		<label for="sel1" class="etiquetas">Tecnicos:</label>
-
-		<h:selectOneMenu id="tecnico"
-			value="#{otrasController.tecnicoElegido}">
-			<f:selectItem />
-			<f:selectItems value="#{otrasController.tecnicos}" />
-		</h:selectOneMenu>
-
-	</div>
 	
-	<div class="form-group col-sm-3">
-		<label class="control-label col-sm-2" for="elegirActividad">Eliga la actividad:</label>
-			<div class="col-sm-8">
-				<h:selectOneMenu value="#{otrasController.antenaElegida}" id="txtActividad"> <!--  pendiente acabar -->
-				<f:selectItems 
-					value="#{otrasController.listarActividadesTecnicas}"
-					var="actividadesTecnicas" itemLabel="#{actividadesTecnicas.nombre_actividad}"
-					itemValue="#{actividadesTecnicas.id_actividad}" /> 
-				</h:selectOneMenu>
-			</div>
-	</div>
+	
 
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="well well-sm">
+					<h:form class="form-horizontal">
+						<legend class="text-center header">REGISTRAR</legend>
 						
-
-						<div class="form-group col-md-3">
-
-							<h:outputLabel for="actividad">Inidicaciones *</h:outputLabel>
-
-							<h:inputText type="text" class="form-control" id="actividad"
-								required="true" requiredMessage="  Campo Obligatorio"
-								a:placeholder="Actividad" value="#{otrasController.actividad}">
-								<f:ajax event="blur" render="messageForAct" />
-							</h:inputText>
-							<h:message id="messageForAct" for="actividad" style="color:red" />
-
+	
+						<div class="form-group">
+							<label class="control-label col-sm-1" for="txtTecn">T&eacute;cnico:</label>
+							<div class="col-sm-2">
+								<h:selectOneMenu id="tecnico"
+									value="#{otrasController.tecnicoElegido}">
+									<f:selectItem />
+									<f:selectItems value="#{otrasController.tecnicos}" />
+								</h:selectOneMenu>
+							</div>
+							
+							<label class="control-label col-sm-1" for="elegirActividad">Actividad:</label>
+							<div class="col-sm-4">
+								<h:selectOneMenu value="#{otrasController.antenaElegida}" id="txtActividad"> 
+								<f:selectItems 
+									value="#{otrasController.listarActividadesTecnicas}"
+									var="actividadesTecnicas" itemLabel="#{actividadesTecnicas.nombre_actividad}"
+									itemValue="#{actividadesTecnicas.id_actividad}" /> 
+								</h:selectOneMenu>
+							</div>
+						
+							<label class="control-label col-sm-1" for="txtInd">Indicaciones</label>
+							<div class="col-sm-2">
+								<h:inputText type="text" class="form-control" id="actividad"
+									required="true" requiredMessage="  Campo Obligatorio"
+									a:placeholder="Actividad" value="#{otrasController.actividad}">
+									<f:ajax event="blur" render="messageForAct" />
+								</h:inputText>
+								<h:message id="messageForAct" for="actividad" style="color:red" />
+							</div>
 						</div>
 						
-							<div class="form-group col-md-3">
-							<h:outputLabel for="Fecha">Fecha *</h:outputLabel>
-							<h:inputText a:type="date" class="form-control" id="Fecha"
-								required="true" requiredMessage="  Campo Obligatorio"
-								value="#{otrasController.fecha}" a:placeholder="Fecha">
-								<f:ajax event="blur" render="messageForDate" />
-							</h:inputText>
-							<h:message id="messageForDate" for="Fecha" style="color:red" />
+						<div class="form-group">												
+							<label class="control-label col-sm-1" for="elegirDia">D&iacute;a</label>
+							<div class="col-sm-2">
+								<h:selectOneMenu value="#{otrasController.dia}" id="txtDia">
+									<f:selectItems 
+										value="#{registroActividadesTecnicas_Controller.listaDias}"
+										var="day" itemLabel="#{day.dia}"
+										itemValue="#{day.dia}" /> 
+								</h:selectOneMenu>
+							</div>
+												
+							<label class="control-label col-sm-1" for="elegirMes">Mes:</label>
+							<div class="col-sm-4">
+								<h:selectOneMenu value="#{otrasController.mes}" id="txtMes">
+									<f:selectItems 
+										value="#{registroActividadesTecnicas_Controller.listaMeses}"
+										var="month" itemLabel="#{registroActividadesTecnicas_Controller.mes}"
+										itemValue="#{registroActividadesTecnicas_Controller.mes}" /> 
+								</h:selectOneMenu>
+							</div>
+												
+							<label class="control-label col-sm-1" for="elegirYear">Año:</label>
+							<div class="col-sm-1">
+								<h:selectOneMenu value="#{otrasController.year}" id="txtYear">
+									<f:selectItems 
+										value="#{registroActividadesTecnicas_Controller.listaYears}"
+										var="years" itemLabel="#{years.year}"
+										itemValue="years.year" /> 
+								</h:selectOneMenu>
+							</div>
 						</div>
-
-						<div class="form-group col-md-12"></div>
+							<div class="modal-footer">
+								<h:commandButton class="btn btn-primary" data-dismiss="modal"
+									action="#{otrasController.crearActividad}" value="Guardar" />
+								<h:commandButton action="clientes1" value="Cancelar"
+									class="btn btn-danger" data-dismiss="modal" />
+							</div>
 						
-
-					</div>
-
+					</h:form>
 				</div>
-				<div class="modal-footer">
-
-					<h:commandButton class="btn btn-primary" data-dismiss="modal"
-						action="#{otrasController.crearActividad}" value="Guardar" />
-					<h:commandButton action="clientes1" value="Cancelar"
-						class="btn btn-danger" data-dismiss="modal" />
-				</div>
-
-
 			</div>
 		</div>
-	</h:form>
+	</div>
 
 
 

@@ -45,15 +45,11 @@ public class OtrasDAO {
 	}
 	
 	public List<OtrasActividades> listarOtrasActividades() {
-		
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 			CriteriaQuery<OtrasActividades> criteriaQuery = criteriaBuilder.createQuery(OtrasActividades.class);
 			// Se establece la clausula FROM
 			criteriaQuery.select(criteriaQuery.from(OtrasActividades.class));
-			System.out.println("Sech");
-			return em.createQuery(criteriaQuery).getResultList();
-		
-		
+			return em.createQuery(criteriaQuery).getResultList();		
 	}
 	
 	

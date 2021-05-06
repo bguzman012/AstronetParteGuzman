@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import astronet.ec.modelo.ActividadesTecnicas;
+import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.RolEmpleado;
 
@@ -62,6 +63,18 @@ public class ActividadesTecnicasDAO {
 		criteriaQuery.select(root); 		
 		return em.createQuery(criteriaQuery).getResultList();
 	}
+	
+	
+	// Busca el puntaje con el id
+	public double obtenerPuntaje(int id) {
+		String jpql = "SELECT act FROM ActividadesTecnicas act WHERE act.id_actividad = :a";
+		Query q = em.createQuery(jpql, ActividadesTecnicas.class);
+		q.setParameter("a", id);
+		ActividadesTecnicas act = (ActividadesTecnicas) q.getSingleResult();
+		return act.getPuntaje_actividad();
+	}	
+	
+	
 	
 
 }
