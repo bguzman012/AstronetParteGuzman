@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<!-- Required meta tags -->
+
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<title>Registro Actividades Técnicas</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="resources/assets/css/table1.css" />
+	<link rel="stylesheet" href="resources/assets/css/table.css" />
+	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+	
+	<link rel="stylesheet" href="resources/assets/css/table.css" />
+	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+
+	<!-- Bootstrap CSS -->
+	<!--     <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css"/> -->
+	<!-- CSS personalizado -->
+	<link rel="stylesheet" href="resources/main.css" />
+
+	<!--datables CSS básico-->
+	<!--     <link rel="stylesheet" type="text/css" href="resources/datatables/datatables.min.css"/> -->
+	<!--     datables estilo bootstrap 4 CSS   -->
+	<link rel="stylesheet" type="text/css"
+		href="resources/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" />
+
+	<!--     font awesome con CDN   -->
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+		integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+		crossorigin="anonymous" />
+
+	
+	
+		
+	<!-- datatables JS -->
+	<script type="text/javascript"
+		src="resources/datatables/datatables.min.js"></script>
+
+	<!-- para usar botones en datatables JS -->
+	<script
+		src="resources/datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
+	<script src="resources/datatables/JSZip-2.5.0/jszip.min.js"></script>
+	<script src="resources/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
+	<script src="resources/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+	<script
+		src="resources/datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+	<!-- código JS propìo-->
+	<script type="text/javascript" src="resources/main.js"></script>
+	<style>
+.menubar {
+	background-color: transparent;
+}
+
+/* primefaces override*/
+.ui-menubutton-transparent {
+	background-color: transparent !important;
+	background: transparent !important;
+}
+/* NO BORRAR */
+.styleGreen .ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-color: transparent !important;
+	background: transparent !important;
+	border: transparent !important;
+	height: 50px;
+	color: #E3E3E3;
+	font-weight: normal;
+}
+</style>
+
+
+</h:head>
+<body>
+	
+	<div class="container">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="nav-header">
+				<h:form class="navbar-brand">
+					<h:link outcome="callcenter">
+						<h:graphicImage value="resources/assets/img/logo.png" />
+					</h:link>
+				</h:form>
+			</div>
+
+
+
+			<div class="collapse navbar-collapse" id="otra">
+				<ul class="nav navbar-nav ">
+										<h:form>
+
+						<p:menuButton value="Call Center" styleClass="styleGreen">
+							<p:menuitem value="Call Center " outcome="callcenter"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Registro" outcome="registro"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+														<p:menuitem value="Agendar otras Actividades" outcome="otrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Otras Actividades" outcome="listaOtrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							
+							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Visitas Tecnicas"
+								outcome="listadoVisitaTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Tecnicos Asignados"
+								outcome="listadoTecnicosAsignados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Reclamos Solucionados"
+								outcome="listadoSolucionadoF"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+												<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+							<p:menuitem value="Emleados" outcome="listadoEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Clientes" outcome="clienteCrood"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Migrados" outcome="listClienteMigrados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Migracion" outcome="listMigrado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Eliminados" outcome="listClienteEliminados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />	
+							<p:menuitem value="Listar Clientes Temporales"
+								outcome="listClientesTemporales"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Crear Cliente"
+								outcome="crearInstalacionTemporal"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+
+
+						</p:menuButton>
+
+						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
+							<p:menuitem value="Crear actividad técnica" outcome="crearActividadTecnica"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Registro de las actividades" outcome="registroActividadesTecnicas"
+							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+						
+						<p:menuButton value="Configuraciones" styleClass="styleGreen">
+							<p:menuitem value="Editar mis datos"
+								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
+							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+
+
+					</h:form>
+
+				</ul>
+
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a> #{loginBean.empleado.nombre}</a></li>
+					<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+					<li><h:form>
+							<a> <h:commandButton class="btnExit"
+									action="#{loginBean.logout()}" value="Exit"
+									image="./resources/assets/img/exit.png" />
+							</a>
+						</h:form></li>
+				</ul>
+			</div>
+		</div>
+		</nav>
+	</div>
+	
+	
+	
+
+	<div style="height: 50px"></div>
+	<div class="centerTexto">
+		<h2>Registro de las Actividades Técnicas</h2>
+	</div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="well well-sm">
+					<h:form class="form-horizontal">
+						<legend class="text-center header">SELECCIONE</legend>
+						
+						<div class="form-group">
+							<label class="control-label col-sm-3"> </label>
+							<label class="control-label col-sm-1" for="elegirYear">Año:</label>
+							<div class="col-sm-1">
+								<h:selectOneMenu value="#{Seleccione}" id="txtYear">
+								<f:selectItems 
+									value="#{registroActividadesTecnicas_Controller.listaYears}"
+									var="years" itemLabel="#{years.year}"
+									itemValue="years.year" /> 
+								</h:selectOneMenu>
+							</div>
+							<label class="control-label col-sm-1" for="elegirMes">Mes:</label>
+							<div class="col-sm-2">
+								<h:selectOneMenu value="#{Seleccione}" id="txtMes">
+								<f:selectItems 
+									value="#{registroActividadesTecnicas_Controller.listaMeses}"
+									var="month" itemLabel="#{month.mes}"
+									itemValue="#{month.mes}" /> 
+								</h:selectOneMenu>
+							</div>
+							<h:button class="btn btn-primary btnIn" value="BUSCAR"
+							immediate="true">
+							</h:button>
+									
+						</div>
+						
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Ejemplo tabla con DataTables-->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<h:dataTable id="example"
+						class="table table-striped table-bordered" cellspacing="0"
+						width="100%" style="text-align:center;"
+						value="#{registroActividadesTecnicas_Controller.listarRegistroActividadesTecnicas}" var="reg" border="1">
+						
+						<h:column>
+							<f:facet name="header" data-field="salary" data-sortable="true">Técnico</f:facet>
+							#{reg.tecnico}										
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header" data-field="salary" data-sortable="true">Anio de las actividades</f:facet>
+							#{reg.year}
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header" data-field="salary" data-sortable="true">Mes de las actividades</f:facet>
+							#{reg.mes}
+						</h:column>
+											
+						<h:column>
+							<f:facet name="header" data-field="country" data-sortable="true">Puntaje total de actividades realizadas</f:facet>
+							#{reg.puntajeTotal}
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header" data-field="country" data-sortable="true">Total de actividades</f:facet>
+							#{reg.activadesTotales}
+						</h:column>
+
+					</h:dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	
+
+</body>
+</html>
