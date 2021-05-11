@@ -252,11 +252,8 @@
 							<h:column>
 								<h:form>
 
-									<h:button class="btn btn-primary btnIn" outcome="agendamiento"
-										value="Revisar">
-										<f:param name="id" value="#{otra.id}" />
-
-									</h:button>
+									<h:commandButton class="btn btn-primary" data-dismiss="modal"
+						action="#{otrasController.editarActividad(otra.id)}" value="Editar" />
 								</h:form>
 							</h:column>
 						</h:column>

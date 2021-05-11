@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xxmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+	<title>Editar Actvidades</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="resources/assets/css/table1.css" />
+	<link rel="stylesheet" href="resources/assets/css/table.css" />
+	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+	<style>
+.menubar {
+	background-color: transparent;
+}
+
+/* primefaces override*/
+.ui-menubutton-transparent {
+	background-color: transparent !important;
+	background: transparent !important;
+}
+/* NO BORRAR */
+.styleGreen .ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	background-color: transparent !important;
+	background: transparent !important;
+	border: transparent !important;
+	height: 50px;
+	color: #E3E3E3;
+	font-weight: normal;
+}
+</style>
+
+
+</h:head>
+<body>
+
+
+	<div class="container">
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+
+			<div class="nav-header">
+				<h:form class="navbar-brand">
+					<h:link outcome="callcenter">
+						<h:graphicImage value="resources/assets/img/logo.png" />
+					</h:link>
+				</h:form>
+			</div>
+
+
+
+			<div class="collapse navbar-collapse" id="otra">
+				<ul class="nav navbar-nav ">
+					<h:form>
+
+						<p:menuButton value="Call Center" styleClass="styleGreen">
+							<p:menuitem value="Call Center " outcome="callcenter"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'CALL CENTER' || loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Registro" outcome="registro"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Agendar otras Actividades"
+								outcome="otrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Otras Actividades"
+								outcome="listaOtrasActividades"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Verificar Listado" outcome="listadoVerificar"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Visitas Tecnicas"
+								outcome="listadoVisitaTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Tecnicos Asignados"
+								outcome="listadoTecnicosAsignados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Verificar Reclamos Solucionados"
+								outcome="listadoSolucionadoF"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+						</p:menuButton>
+
+
+						<p:menuButton value="Clientes Empleados" styleClass="styleGreen">
+							<p:menuitem value="Empleados" outcome="listadoEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Clientes" outcome="clienteCrood"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes" outcome="listCliente"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Migrados"
+								outcome="listClienteMigrados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Migracion" outcome="listMigrado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Eliminados"
+								outcome="listClienteEliminados"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Listar Clientes Temporales"
+								outcome="listClientesTemporales"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+							<p:menuitem value="Crear Cliente"
+								outcome="crearInstalacionTemporal"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+
+
+
+						</p:menuButton>
+
+						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
+							<p:menuitem value="Nueva actividad"
+								outcome="crearActividadTecnica"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+							<p:menuitem value="Editar o eliminar actividad"
+								outcome="registroActividadesTecnicas"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+
+						<p:menuButton value="Configuraciones" styleClass="styleGreen">
+							<p:menuitem value="Editar mis datos"
+								action="#{empleadoControllerBean.cargarEmpleadoEditar(loginBean.empleado.id)}" />
+							<p:menuitem value="Crear rol" outcome="registrarRolEmpleado"
+								rendered="#{loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
+						</p:menuButton>
+
+
+					</h:form>
+
+
+				</ul>
+
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a> #{loginBean.empleado.nombre}</a></li>
+					<li><a id="dep"> #{loginBean.empleado.rolEmpleado.nombre}</a></li>
+					<li><h:form>
+							<a> <h:commandButton class="btnExit"
+									action="#{loginBean.logout()}" value="Exit"
+									image="./resources/assets/img/exit.png" />
+							</a>
+						</h:form></li>
+				</ul>
+			</div>
+		</div>
+		</nav>
+	</div>
+
+
+	<br />
+	<br />
+	<br />
+
+	<br />
+	<br />
+	<br />
+
+
+	<h:form>
+		<div class="container">
+			<h2></h2>
+			<div class="panel panel-default inputText div_centrado">
+				<div class="panel-heading">Editar Actividad</div>
+
+				<div class="panel-body ">
+					<div class="modal-body">
+
+						<div class="form-group col-md-12">
+
+							<h:outputLabel class="form-label" for="Cedula">Indicaciones *</h:outputLabel>
+							<h:inputText type="text" class="form-control" id="Cedula"
+								a:placeholder="Indicaciones" redisplay="true"
+								value="#{editarOtrasController.otra.actividad}" maxlength="10">
+
+							</h:inputText>
+
+
+						</div>
+
+
+
+						<div class="form-group col-md-6">
+
+							<h:outputLabel for="antenaTmp">Tecnico Actual</h:outputLabel>
+
+
+							<h:inputText type="text" class="form-control" id="antenaTmp"
+								value="#{editarOtrasController.otra.tecnico.nombre}" a:placeholder=""
+								readonly="true">
+							</h:inputText>
+
+
+						</div>
+						<div class="form-group col-md-6">
+
+
+							<h:selectOneMenu id="tecnico"
+								value="#{editarOtrasController.tecnicoElegido}">
+								<f:selectItem itemLabel="Seleccione nuevo tecnico"
+									itemValue="#{0}" noSelectionOption="true" />
+									<f:selectItems
+									value="#{editarOtrasController.tecnicos}"
+									var="tecnico"
+									itemLabel="#{tecnico.nombre}"
+									itemValue="#{tecnico.id}" />
+							
+							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-md-12"></div>
+
+						<div class="form-group col-md-6">
+
+							<h:outputLabel for="planTmp">Actividad Actual</h:outputLabel>
+
+
+							<h:inputText type="text" class="form-control" id="planTmp"
+								value="#{editarOtrasController.otra.actividadTecnica.nombre_actividad}" a:placeholder=""
+								readonly="true">
+
+
+
+							</h:inputText>
+
+
+
+						</div>
+						<div class="form-group col-md-6">
+
+							<h:selectOneMenu value="#{editarOtrasController.id_actividad}" id="txtActividad"> 
+								<f:selectItem itemLabel="Seleccione nuevo actividad"
+									itemValue="#{0}" noSelectionOption="true" />
+								<f:selectItems
+									value="#{editarOtrasController.listarActividadesTecnicas}"
+									var="actividadesTecnicas"
+									itemLabel="#{actividadesTecnicas.nombre_actividad}"
+									itemValue="#{actividadesTecnicas.id_actividad}" />
+
+							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-md-12"></div>
+
+						<div class="form-group col-md-6">
+
+							<h:outputLabel for="planTmp">Dia Actual</h:outputLabel>
+
+
+							<h:inputText type="text" class="form-control" id="diaActual"
+								value="#{editarOtrasController.otra.dia}" a:placeholder=""
+								readonly="true">
+
+
+
+							</h:inputText>
+
+
+
+						</div>
+						<div class="form-group col-md-6">
+
+							<h:selectOneMenu value="#{editarOtrasController.dia}" id="txtDia">
+								<f:selectItem itemLabel="Seleccione nuevo dia"
+									itemValue="#{0}" noSelectionOption="true" />
+								<f:selectItems
+									value="#{registroActividadesTecnicas_Controller.listaDias}"
+									var="day" itemLabel="#{day.dia}" itemValue="#{day.dia}" />
+
+							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-md-12"></div>
+
+						<div class="form-group col-md-6">
+
+							<h:outputLabel for="planTmp">Mes Actual</h:outputLabel>
+
+
+							<h:inputText type="text" class="form-control" id="mesActual"
+								value="#{editarOtrasController.otra.mes}" a:placeholder=""
+								readonly="true">
+
+
+
+							</h:inputText>
+
+
+
+						</div>
+						<div class="form-group col-md-6">
+
+							<h:selectOneMenu value="#{editarOtrasController.mes}" id="txtMes">
+								<f:selectItem itemLabel="Seleccione nuevo mes"
+									itemValue="#{null}" noSelectionOption="true" />
+								<f:selectItems
+									value="#{registroActividadesTecnicas_Controller.listaMeses}"
+									var="month"
+									itemLabel="#{registroActividadesTecnicas_Controller.mes}"
+									itemValue="#{registroActividadesTecnicas_Controller.mes}" />
+
+							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-md-12"></div>
+
+						<div class="form-group col-md-6">
+
+							<h:outputLabel for="planTmp">Año Actual</h:outputLabel>
+
+
+							<h:inputText type="text" class="form-control" id="anioActual"
+								value="#{editarOtrasController.otra.year}" a:placeholder=""
+								readonly="true">
+
+
+
+							</h:inputText>
+
+
+
+						</div>
+						<div class="form-group col-md-6">
+
+							<h:selectOneMenu value="#{editarOtrasController.year}" id="txtYear">
+								<f:selectItem itemLabel="Seleccione nuevo año"
+									itemValue="#{0}" noSelectionOption="true" />
+								<f:selectItems
+									value="#{registroActividadesTecnicas_Controller.listaYears}"
+									var="years" itemLabel="#{years.year}" itemValue="years.year" />
+
+							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-md-12"></div>
+
+
+
+					</div>
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+
+					<h:commandButton class="btn btn-primary" data-dismiss="modal"
+						action="#{editarOtrasController.editar}" value="Guardar" />
+					<h:commandButton action="clientes1" value="Cancelar"
+						class="btn btn-danger" data-dismiss="modal" />
+
+				</div>
+
+			</div>
+		</div>
+
+
+	</h:form>
+
+
+
+</body>
+</html>

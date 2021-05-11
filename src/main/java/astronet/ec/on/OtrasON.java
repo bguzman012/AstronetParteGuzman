@@ -34,5 +34,10 @@ public class OtrasON {
 	public List<OtrasActividades> getListadoOtras() {
 		return otrasDao.listarOtrasActividades();
 	}
+	
+	public OtrasActividades getOtrasId(int id) {
+		
+		return otrasDao.read(id);
+	}
 
 }

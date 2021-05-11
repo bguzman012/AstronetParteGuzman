@@ -21,12 +21,12 @@ import astronet.ec.util.SessionUtils;
 
 @ManagedBean
 @ViewScoped
-public class OtrasController implements Serializable{
+public class EditarOtrasController implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private List<Empleado> tecnicos;
-	private String tecnicoElegido;
+	private int tecnicoElegido;
 	private int id_actividad;
 	private String actividad;
 	private String mes;
@@ -37,6 +37,7 @@ public class OtrasController implements Serializable{
 	private String antenaElegida;
 	private List<OtrasActividades> otras;
 	private List<ActividadesTecnicas> listarActividadesTecnicas;
+	private OtrasActividades otra;
 	@Inject
 	private EmpleadoON empon;
 	
@@ -79,9 +80,7 @@ public class OtrasController implements Serializable{
 		this.antenaElegida = antenaElegida;
 	}
 
-	public String getTecnicoElegido() {
-		return tecnicoElegido;
-	}
+	
 	
 	public OtrasON getOtrasOn() {
 		return otrasOn;
@@ -111,9 +110,7 @@ public class OtrasController implements Serializable{
 	}
 
 
-	public void setTecnicoElegido(String tecnicoElegido) {
-		this.tecnicoElegido = tecnicoElegido;
-	}
+	
 
 
 	public EmpleadoON getEmpon() {
@@ -129,19 +126,42 @@ public class OtrasController implements Serializable{
 	}
 
 
+	public int getTecnicoElegido() {
+		return tecnicoElegido;
+	}
+
+	public void setTecnicoElegido(int tecnicoElegido) {
+		this.tecnicoElegido = tecnicoElegido;
+	}
+
 	public void setListarActividadesTecnicas(List<ActividadesTecnicas> listarActividadesTecnicas) {
 		this.listarActividadesTecnicas = listarActividadesTecnicas;
 	}
 
 	@PostConstruct
 	public void init() {
+		HttpSession session = SessionUtils.getSession();
+		int id = (int) session.getAttribute("id");
+		System.out.println("HolaAmigo: " + id);
+		otra = otrasOn.getOtrasId(id);
+		System.out.println("Memento" + otra.getId());
 		listarActividadesTecnicas = actividadOn.getlistarActividadesTecnicas();
 		tecnicos = empon.getListadoTecnico();
-		otras = otrasOn.getListadoOtras();
+		otras = otrasOn.getListadoOtras();		
+		
+		
 	}
 
 	public String getMes() {
 		return mes;
+	}
+
+	public OtrasActividades getOtra() {
+		return otra;
+	}
+
+	public void setOtra(OtrasActividades otra) {
+		this.otra = otra;
 	}
 
 	public void setMes(String mes) {
@@ -163,51 +183,40 @@ public class OtrasController implements Serializable{
 	public void setYear(int year) {
 		this.year = year;
 	}
-
 	
-	public String crearActividad() {
-		OtrasActividades otraActividad = new OtrasActividades();
-		Empleado tecnicoCampo = new Empleado();
-		HttpSession session = SessionUtils.getSession();
-		Empleado empleadoAgenda = (Empleado) session.getAttribute("username");
-		ActividadesTecnicas actividadTecnica = new ActividadesTecnicas();
-				
-		actividadTecnica.setId_actividad(Integer.parseInt(this.antenaElegida));
-		System.out.println("Hola33sss " + actividadTecnica.getId_actividad());
-
-		tecnicoCampo = empon.getEmpleadobyName(tecnicoElegido);
-		otraActividad.setTecnico(tecnicoCampo);
-		otraActividad.setDia(dia);
-		otraActividad.setMes(mes);
-		otraActividad.setYear(year);
-		otraActividad.setActividad(actividad);
-		otraActividad.setEmpleadoRegistra(empleadoAgenda);
-		otraActividad.setActividadTecnica(actividadTecnica);
+	public String editar() {
 		
-		otrasOn.guardar(otraActividad);
+		if(dia!=0) {
+			otra.setDia(dia);
+		}
 		
-		RegistroActividadesTecnicas registroActividad = new RegistroActividadesTecnicas();
-		registroActividad.setMes(mes);
-		registroActividad.setYear(year);
-		registroActividad.setPuntajeTotal(actividadOn.obtenerPuntaje(actividadTecnica.getId_actividad()));
-		registroActividad.setActivadesTotales(1);
-		registroActividad.setTecnico(tecnicoCampo);
+		if(mes!=null) {
+			otra.setMes(mes);
+		}
 		
-		regActTecON.saveNewRegistro(registroActividad);
-		
-		System.out.println("------ REGISTRO GUARDADO ------- ");
+		if(year!=0) {
+			otra.setYear(year);
+		}
+		if(tecnicoElegido!=0) {
+			Empleado empleado = new Empleado();
+			empleado.setId(tecnicoElegido);
+			otra.setTecnico(empleado);
+		}
+		if(id_actividad!=0) {
+			ActividadesTecnicas actividadTmp = new ActividadesTecnicas();
+			actividadTmp.setId_actividad(id_actividad);
+			otra.setActividadTecnica(actividadTmp);
+			
+		}
+		otrasOn.actualizar(otra);
 		String direccion = "listaOtrasActividades?faces-redirect=true";
 		return direccion;
 	}
+
 	
-	public String editarActividad(int id) {
-		
-		HttpSession session = SessionUtils.getSession();
-		session.setAttribute("id", id);
-		
-		String direccion = "editarActividades?faces-redirect=true";
-		return direccion;
-	}
+	
+	
+
 
 
 	
