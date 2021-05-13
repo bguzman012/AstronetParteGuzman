@@ -28,7 +28,7 @@
 
       <!-- jta-data-source>java:/Astronet</jta-data-source-->
 
-      <<jta-data-source>java:jboss/datasources/TeraWHARSDS</jta-data-source> 
+      <jta-data-source>java:jboss/datasources/TeraWHARSDS</jta-data-source> 
       
       <properties>
          <!-- Properties for Hibernate -->
