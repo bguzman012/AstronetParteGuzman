@@ -32,6 +32,7 @@ public class OtrasController implements Serializable{
 	private String mes;
 	private int dia;
 	private int year;
+	private boolean solucionado;
 
 
 	private String antenaElegida;
@@ -60,7 +61,6 @@ public class OtrasController implements Serializable{
 		this.tecnicos = tecnicos;
 	}
 
-	
 
 	public List<OtrasActividades> getOtras() {
 		return otras;
@@ -164,7 +164,14 @@ public class OtrasController implements Serializable{
 		this.year = year;
 	}
 
-	
+	public boolean isSolucionado() {
+		return solucionado;
+	}
+
+	public void setSolucionado(boolean solucionado) {
+		this.solucionado = solucionado;
+	}
+
 	public String crearActividad() {
 		OtrasActividades otraActividad = new OtrasActividades();
 		Empleado tecnicoCampo = new Empleado();
@@ -174,7 +181,7 @@ public class OtrasController implements Serializable{
 				
 		actividadTecnica.setId_actividad(Integer.parseInt(this.antenaElegida));
 		System.out.println("Hola33sss " + actividadTecnica.getId_actividad());
-
+		solucionado = false;
 		tecnicoCampo = empon.getEmpleadobyName(tecnicoElegido);
 		otraActividad.setTecnico(tecnicoCampo);
 		otraActividad.setDia(dia);
@@ -183,18 +190,9 @@ public class OtrasController implements Serializable{
 		otraActividad.setActividad(actividad);
 		otraActividad.setEmpleadoRegistra(empleadoAgenda);
 		otraActividad.setActividadTecnica(actividadTecnica);
-		
-		otrasOn.guardar(otraActividad);
-		
-		RegistroActividadesTecnicas registroActividad = new RegistroActividadesTecnicas();
-		registroActividad.setMes(mes);
-		registroActividad.setYear(year);
-		registroActividad.setPuntajeTotal(actividadOn.obtenerPuntaje(actividadTecnica.getId_actividad()));
-		registroActividad.setActivadesTotales(1);
-		registroActividad.setTecnico(tecnicoCampo);
-		
-		regActTecON.saveNewRegistro(registroActividad);
-		
+		otraActividad.setSolucionado(solucionado);
+
+		otrasOn.guardar(otraActividad);	
 		System.out.println("------ REGISTRO GUARDADO ------- ");
 		String direccion = "listaOtrasActividades?faces-redirect=true";
 		return direccion;
@@ -209,7 +207,32 @@ public class OtrasController implements Serializable{
 		return direccion;
 	}
 
-
+	public String actividadSolucionada(int id) {
+		otrasOn.actualizarSolucionado(id);	
+		
+		OtrasActividades otraActividad = new OtrasActividades();
+		
+		
+		otraActividad = otrasOn.getOtrasId(id);
+		
+		RegistroActividadesTecnicas registroActividad = new RegistroActividadesTecnicas();
+		registroActividad.setMes(otraActividad.getMes());
+		registroActividad.setYear(otraActividad.getYear());
+		
+		ActividadesTecnicas act = new ActividadesTecnicas();
+		act = otraActividad.getActividadTecnica();
+		registroActividad.setPuntajeTotal(actividadOn.obtenerPuntaje(act.getId_actividad()));
+		
+		registroActividad.setActivadesTotales(1);
+		
+		Empleado tecnicoCampo = new Empleado();
+		tecnicoCampo = otraActividad.getTecnico();
+		registroActividad.setTecnico(tecnicoCampo);
+		regActTecON.saveNewRegistro(registroActividad);
+		
+		String direccion = "listaOtrasActividades?faces-redirect=true";
+		return direccion;
+	}
 	
 	
 }

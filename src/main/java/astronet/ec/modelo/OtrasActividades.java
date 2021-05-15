@@ -57,7 +57,10 @@ public class OtrasActividades implements Serializable{
 	@NotNull
 	private int year;
 	
-
+	@Column(name = "otros_solucionado")
+	@NotNull
+	private boolean solucionado;
+	
 	public OtrasActividades() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -126,6 +129,15 @@ public class OtrasActividades implements Serializable{
 	public void setYear(int year) {
 		this.year = year;
 	}
+
+	public boolean isSolucionado() {
+		return solucionado;
+	}
+
+	public void setSolucionado(boolean solucionado) {
+		this.solucionado = solucionado;
+	}
+	
 	
 	
 
