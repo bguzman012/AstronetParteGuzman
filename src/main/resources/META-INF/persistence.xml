@@ -27,8 +27,9 @@
           can find it in the source at src/main/webapp/WEB-INF/CallCenterAstronet-ds.xml -->
 
       <!-- jta-data-source>java:/Astronet</jta-data-source-->
+      <jta-data-source>java:/Astronet</jta-data-source>
 
-      <jta-data-source>java:jboss/datasources/TeraWHARSDS</jta-data-source> 
+      <!-- <jta-data-source>java:jboss/datasources/TeraWHARSDS</jta-data-source> -->
       
       <properties>
          <!-- Properties for Hibernate -->

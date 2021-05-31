@@ -247,95 +247,20 @@
 						<div class="form-group col-md-12"></div>
 
 						<div class="form-group col-md-6">
-
-							<h:outputLabel for="planTmp">Dia Actual</h:outputLabel>
-
-
-							<h:inputText type="text" class="form-control" id="diaActual"
-								value="#{editarOtrasController.otra.dia}" a:placeholder=""
+							<h:outputLabel for="planTmp">Fecha Actual</h:outputLabel>
+							<h:inputText type="text" class="form-control" id="fechaActual"
+								value="#{editarOtrasController.otra.fecha}" a:placeholder=""
 								readonly="true">
-
-
-
 							</h:inputText>
-
-
-
 						</div>
+						
 						<div class="form-group col-md-6">
-
-							<h:selectOneMenu value="#{editarOtrasController.dia}" id="txtDia">
-								<f:selectItem itemLabel="Seleccione nuevo dia"
-									itemValue="#{0}" noSelectionOption="true" />
-								<f:selectItems
-									value="#{registroActividadesTecnicas_Controller.listaDias}"
-									var="day" itemLabel="#{day.dia}" itemValue="#{day.dia}" />
-
-							</h:selectOneMenu>
+							<div class="col-sm-2">
+								<p:outputLabel for="inline" value="Fecha:" />  
+								<p:calendar id="inline" value="#{otrasController.date}" mode="popup" pattern="dd/MM/yyyy"></p:calendar>								
+							</div>
 						</div>
-						<div class="form-group col-md-12"></div>
-
-						<div class="form-group col-md-6">
-
-							<h:outputLabel for="planTmp">Mes Actual</h:outputLabel>
-
-
-							<h:inputText type="text" class="form-control" id="mesActual"
-								value="#{editarOtrasController.otra.mes}" a:placeholder=""
-								readonly="true">
-
-
-
-							</h:inputText>
-
-
-
-						</div>
-						<div class="form-group col-md-6">
-
-							<h:selectOneMenu value="#{editarOtrasController.mes}" id="txtMes">
-								<f:selectItem itemLabel="Seleccione nuevo mes"
-									itemValue="#{null}" noSelectionOption="true" />
-								<f:selectItems
-									value="#{registroActividadesTecnicas_Controller.listaMeses}"
-									var="month"
-									itemLabel="#{registroActividadesTecnicas_Controller.mes}"
-									itemValue="#{registroActividadesTecnicas_Controller.mes}" />
-
-							</h:selectOneMenu>
-						</div>
-						<div class="form-group col-md-12"></div>
-
-						<div class="form-group col-md-6">
-
-							<h:outputLabel for="planTmp">Año Actual</h:outputLabel>
-
-
-							<h:inputText type="text" class="form-control" id="anioActual"
-								value="#{editarOtrasController.otra.year}" a:placeholder=""
-								readonly="true">
-
-
-
-							</h:inputText>
-
-
-
-						</div>
-						<div class="form-group col-md-6">
-
-							<h:selectOneMenu value="#{editarOtrasController.year}" id="txtYear">
-								<f:selectItem itemLabel="Seleccione nuevo año"
-									itemValue="#{0}" noSelectionOption="true" />
-								<f:selectItems
-									value="#{registroActividadesTecnicas_Controller.listaYears}"
-									var="years" itemLabel="#{years.year}" itemValue="years.year" />
-
-							</h:selectOneMenu>
-						</div>
-						<div class="form-group col-md-12"></div>
-
-
+						<div class="form-group col-md-12"></div>						
 
 					</div>
 				</div>

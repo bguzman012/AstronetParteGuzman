@@ -1,6 +1,8 @@
 package astronet.ec.vista;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+
+import org.primefaces.context.RequestContext;
 
 import astronet.ec.modelo.ActividadesTecnicas;
 import astronet.ec.modelo.Empleado;
@@ -33,6 +37,7 @@ public class OtrasController implements Serializable{
 	private int dia;
 	private int year;
 	private boolean solucionado;
+	private Date date;
 
 
 	private String antenaElegida;
@@ -171,6 +176,15 @@ public class OtrasController implements Serializable{
 	public void setSolucionado(boolean solucionado) {
 		this.solucionado = solucionado;
 	}
+	
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 	public String crearActividad() {
 		OtrasActividades otraActividad = new OtrasActividades();
@@ -184,9 +198,7 @@ public class OtrasController implements Serializable{
 		solucionado = false;
 		tecnicoCampo = empon.getEmpleadobyName(tecnicoElegido);
 		otraActividad.setTecnico(tecnicoCampo);
-		otraActividad.setDia(dia);
-		otraActividad.setMes(mes);
-		otraActividad.setYear(year);
+		otraActividad.setFecha(date);
 		otraActividad.setActividad(actividad);
 		otraActividad.setEmpleadoRegistra(empleadoAgenda);
 		otraActividad.setActividadTecnica(actividadTecnica);
@@ -211,13 +223,23 @@ public class OtrasController implements Serializable{
 		otrasOn.actualizarSolucionado(id);	
 		
 		OtrasActividades otraActividad = new OtrasActividades();
-		
-		
 		otraActividad = otrasOn.getOtrasId(id);
 		
+		Date fecha = otraActividad.getFecha();
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+		String cadena_fecha = formato.format(fecha);
+		String cad[] = cadena_fecha.split("/");
+		
+		
+		int num_mes = Integer.parseInt(cad[1]);
+		String meses[] = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+		String mes_select = meses[num_mes-1];
+		
 		RegistroActividadesTecnicas registroActividad = new RegistroActividadesTecnicas();
-		registroActividad.setMes(otraActividad.getMes());
-		registroActividad.setYear(otraActividad.getYear());
+		registroActividad.setMes(mes_select);
+		registroActividad.setYear(Integer.parseInt(cad[0]));
+		
+		
 		
 		ActividadesTecnicas act = new ActividadesTecnicas();
 		act = otraActividad.getActividadTecnica();
@@ -233,6 +255,5 @@ public class OtrasController implements Serializable{
 		String direccion = "listaOtrasActividades?faces-redirect=true";
 		return direccion;
 	}
-	
 	
 }
