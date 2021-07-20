@@ -80,7 +80,10 @@ public class Visita implements Serializable {
 	private Empleado empleado;
 	
 	
-	
+	@OneToOne
+	@JoinColumn(name="activadotros_fk")
+	//@JsonIgnore
+	private ActividadesTecnicas actividadestecnicas;
 	
 	
 	public int getId() {
@@ -135,6 +138,13 @@ public class Visita implements Serializable {
 	}
 
 
+	public ActividadesTecnicas getActividadestecnicas() {
+		return actividadestecnicas;
+	}
+
+	public void setActividadestecnicas(ActividadesTecnicas actividadestecnicas) {
+		this.actividadestecnicas = actividadestecnicas;
+	}
 
 
 
