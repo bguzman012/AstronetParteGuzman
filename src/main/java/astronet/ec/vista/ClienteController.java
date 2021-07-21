@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +33,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import astronet.ec.modelo.ActividadesTecnicas;
 import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
@@ -38,9 +42,11 @@ import astronet.ec.modelo.EquipoServicio;
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Plan;
 import astronet.ec.modelo.Registro;
+import astronet.ec.modelo.RegistroActividadesTecnicas;
 import astronet.ec.modelo.Servicio;
 import astronet.ec.modelo.Telefono;
 import astronet.ec.modelo.Visita;
+import astronet.ec.on.ActividadesTecnicasON;
 import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
@@ -48,6 +54,7 @@ import astronet.ec.on.EquipoOn;
 import astronet.ec.on.EquipoServicioON;
 import astronet.ec.on.InstalacionON;
 import astronet.ec.on.PlanON;
+import astronet.ec.on.RegistroActividadesTecnicasOn;
 import astronet.ec.on.RegistroON;
 import astronet.ec.on.ServicioON;
 import astronet.ec.on.TelefonoON;
@@ -78,7 +85,7 @@ public class ClienteController implements Serializable {
 	private Instalacion instalacion = new Instalacion();
 	private Agendamiento agendamiento = new Agendamiento();
 	private Visita visita = new Visita();
-
+	private RegistroActividadesTecnicasOn registroOn;
 	public EmpleadoController getUbean() {
 		return ubean;
 	}
@@ -124,7 +131,10 @@ public class ClienteController implements Serializable {
 	private Telefono telefono;
 	private List<Telefono> telefonos;
 	private Telefono nuevoTelefono;
-
+ 
+	private ActividadesTecnicasON actividad;
+	@Inject
+	
 	private String nuevoNumero;
 	private String nuevoTipoTelefono;
 	private List<EquipoServicio> serviciosCliente;
@@ -249,7 +259,7 @@ public class ClienteController implements Serializable {
 		ubn = new EmpleadoController();
 		ejemploLista = regon.problemitas();
 		registros = regon.getListadoRegistro();
-
+		
 		nuevoTelefono = new Telefono();
 
 		servicioTmp = new Servicio();
@@ -260,7 +270,8 @@ public class ClienteController implements Serializable {
 
 		telefonos = new ArrayList<Telefono>();
 		listadoPlanesTmp = new ArrayList<Plan>();
-
+		
+		
 		listadoPlanes = new ArrayList<Plan>();
 		equipo = new Equipo();
 		servicioElegido = "Fibra";
@@ -301,6 +312,15 @@ public class ClienteController implements Serializable {
 
 	}
 
+	
+	public ActividadesTecnicasON getActividad() {
+		return actividad;
+	}
+
+	public void setActividad(ActividadesTecnicasON actividad) {
+		this.actividad = actividad;
+	}
+	
 	public String getIpcallcenter() {
 		return ipcallcenter;
 	}
@@ -376,7 +396,16 @@ public class ClienteController implements Serializable {
 	public void setTipoServicio(String tipoServicio) {
 		this.tipoServicio = tipoServicio;
 	}
+	private int idactividad;
+	
 
+	public int getIdactividad() {
+		return idactividad;
+	}
+
+	public void setIdactividad(int idactividad) {
+		this.idactividad = idactividad;
+	}
 	public EquipoServicio clienteip;
 
 	@Inject
@@ -414,7 +443,10 @@ public class ClienteController implements Serializable {
 
 	@Inject
 	private EquipoServicioON eqServOn;
+	 
 
+	@Inject
+	private ActividadesTecnicasON acton;
 	/**
 	 * Metodo para la accion para realizar las revisiones
 	 */
@@ -446,6 +478,13 @@ public class ClienteController implements Serializable {
 
 		this.ip = this.eqServEdit.getIp();
 
+	}
+	public RegistroActividadesTecnicasOn getRegistroOn() {
+		return registroOn;
+	}
+
+	public void setRegistroOn(RegistroActividadesTecnicasOn registroOn) {
+		this.registroOn = registroOn;
 	}
 
 	public Equipo getEquipo() {
@@ -2303,6 +2342,10 @@ public class ClienteController implements Serializable {
 //	}
 	public String ingresaVisita() {
 		empleado = empon.getEmpleadobyName(tecnicoElegido);
+		
+	
+		System.out.println("holaaaaa aqui" + idactividad);
+		empleado = empon.getEmpleadobyName(tecnicoElegido);
 		System.out.println(empleado.getId());
 		System.out.println("Id del cliente" + registro.getCliente().getId());
 		Cliente cli = clion.getCliente(registro.getCliente().getId());
@@ -2310,11 +2353,40 @@ public class ClienteController implements Serializable {
 		visita.setCliente(cli);
 		visita.setRegistro(registro);
 		visita.setEmpleado(empleado);
-		// visita.setCliente(cli);
+	System.out.println("holaaaaa aqui2 "+this.idactividad);
+		ActividadesTecnicas act =new ActividadesTecnicas();
+		
+		act=actividad.read(this.getIdactividad());
+		visita.setActividadestecnicas(act);
+		 visita.setCliente(cli);
+		
 		visita.setChequeo(false);
 		visitaOn.guardar(visita);
 		return "listadoVisitaTecnica?faces-redirect=true&id=" + registro.getEmpleado().getId();
+	}
+	public String obtener_mes()
+	{
+		 Calendar fecha = new GregorianCalendar();
+		 String fech="";
+	        int anio = fecha.get(Calendar.YEAR);
+	        int mes = fecha.get(Calendar.MONTH)+1;
+	        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+	        Month mes1 = LocalDate.now().getMonth();
 
+	    
+	     String nombre = mes1.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+	        fech=nombre.toUpperCase();
+	        return fech;
+	}
+	public int obtener_anio()
+	{
+		 Calendar fecha = new GregorianCalendar();
+		 int fech=0;
+	        int anio = fecha.get(Calendar.YEAR);
+	        int mes = fecha.get(Calendar.MONTH);
+	        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+	        fech=anio;
+	        return fech;
 	}
 
 	public String cargarDatosRegistro1(int codigo, int codiguito) {
@@ -2470,7 +2542,23 @@ public class ClienteController implements Serializable {
 			// visita.setChequeo(trueVisita);Visita
 			// Visita v= visitaOn.actualizar(visita);;
 			visitaOn.guardar(vi);
+			Visita visitas= new Visita();
 			regon.guardar(re);
+			visitas=visitaOn.consultarVIsita(id);
+			ActividadesTecnicas ac=new ActividadesTecnicas();
+			ac=visitas.getActividadestecnicas();
+			
+			RegistroActividadesTecnicas registroactividades = new RegistroActividadesTecnicas();
+			registroactividades.setMes(this.obtener_mes());
+			registroactividades.setYear(this.obtener_anio());
+			registroactividades.setPuntajeTotal(actividad.obtenerPuntaje(ac.getId_actividad()));
+			System.out.println("este es el puntajetotal" + registroactividades.getPuntajeTotal());
+			registroactividades.setActivadesTotales(1);
+			
+			Empleado emp=new Empleado();
+			emp=visitas.getEmpleado();
+			registroactividades.setTecnico(emp);
+			registroOn.saveNewRegistro(registroactividades);
 			init();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
