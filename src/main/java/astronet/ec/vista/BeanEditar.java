@@ -1260,13 +1260,13 @@ public class BeanEditar implements Serializable {
 			System.out.println(this.antenaElegida + "another");
 			if (planElegida != null)
 
-				planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
+				planTmp.setId(Integer.parseInt(planElegida));
 			else
 				planTmp = planOn.getPlanByName(this.planTmp);
 
 			if (antenaElegida != null)
-
-				equipo = eqOn.buscarAntena(Integer.parseInt(this.antenaElegida));
+			
+				equipo.setId(Integer.parseInt(this.antenaElegida));
 			else
 				equipo = eqOn.getAntenaByName(this.antenaTmp);
 
@@ -1278,15 +1278,16 @@ public class BeanEditar implements Serializable {
 			seron.update(this.servicioEdit);
 
 			this.eqServEdit.setEquipo(equipo);
-			System.out.println(this.eqServEdit.getIp() + "DonManuel");
+			
 			eqServOn.actualizar(this.eqServEdit);
 
 			this.antenaTmp = "";
 			this.planTmp = "";
 			this.router = "";
-			init();
+		
 			String direccion="listCliente?faces-redirect=true";
 			 //cedula = " ";
+			System.out.println(this.eqServEdit.getIp() + "Don Miguelito y el Maooooooooooooooooooooo");
 			return direccion;
 		} catch (Exception e) {
 			// TODO: handle exception

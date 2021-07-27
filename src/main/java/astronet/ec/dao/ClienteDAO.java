@@ -35,7 +35,7 @@ public class ClienteDAO {
 	
 	public void save(Cliente cli) {
 		if (this.read(cli.getId())!=null) {
-			this.update(cli);
+			this.update1(cli);
 		}else 
 			this.create(cli);
 		
@@ -66,12 +66,22 @@ public class ClienteDAO {
 		
 	}
 	
-	public void update1(int cli) {
-		String jpql = "UPDATE public.cliente\r\n" + 
-				"	SET cli_cedula=?, cli_celular=?, cli_convencional=?, cli_dirprincipal=?, cli_dirreferencia=?, cli_dirsecundaria=?, cli_email=?, cli_latitud=?, cli_longitud=?, cli_nombre=?, antcliente_fk=?\r\n" + 
-				"	WHERE cli_id= :id;";
-		Query q = em.createQuery(jpql, Cliente.class);
-		q.setParameter("id", cli);
+	public void update1(Cliente cli) {
+		
+		/***
+		 * cli_id=?, cli_apellidos=?, cli_cedula=?, cli_dirprincipal=?, 
+       cli_dirreferencia=?, cli_dirsecundaria=?, cli_email=?, cli_latitud=?, 
+       cli_longitud=?, cli_nombres=?, cli_eliminado=?, cli_migrado=?
+		 */
+		System.out.println("Abramohvic");
+		
+		Query query = em.createNativeQuery("UPDATE cliente SET cli_apellidos='" + cli.getApellidos() + "', cli_cedula='"+ cli.getCedula() + "', cli_dirprincipal='"+ cli.getDireccionPrincipal() +
+				"',cli_dirreferencia='"+cli.getDireccionReferencia()+"',cli_dirsecundaria='"+ cli.getDireccionSecundaria()+ 
+				"',cli_email='"+cli.getEmail()+"',cli_latitud="+ cli.getLatitud()+ 
+				",cli_longitud="+cli.getLongitud()+",cli_nombres='"+ cli.getNombre()+ 
+				"' WHERE cli_id=" + cli.getId());
+		query.executeUpdate();
+		System.out.println("Consulta Actualizacion: " + query);	
 	}
 	
 	public void delete(int id) {

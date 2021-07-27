@@ -39,7 +39,7 @@ public class ServicioDAO {
 	}
 	
 	public void update(Servicio ser) {
-		em.merge(ser);
+		this.updateFIn(ser);
 	}
 	
 	public void delete(int id) {
@@ -60,5 +60,22 @@ public class ServicioDAO {
 		return em.createQuery(criteriaQuery).getResultList();
 		
 	}
+public void updateFIn(Servicio servicio) {
+	
+	/**
+	 * UPDATE public.servicio
+   SET ser_fechacontrato=?, ser_numcontrato=?, ser_observaciones=?, 
+       ser_routervendido=?, ser_tiposervicio=?, cliservicio_fk=?, planservicio_fk=?
+ WHERE <condition>;
+	 */
+	
+	System.out.println("Tame impala");
+	Query query = em.createNativeQuery("UPDATE servicio SET ser_observaciones='" + servicio.getObservaciones()  +
+			"',ser_routervendido='"+servicio.getRouterVendido()+"',ser_tiposervicio='"+ servicio.getTipoServicio()+ 
+			"',planservicio_fk="+servicio.getPlan().getId()+ 
+			" WHERE serv_id=" + servicio.getId());
+	query.executeUpdate();
+	System.out.println("Consulta Actualizacion: " + query);	
 
+}
 }

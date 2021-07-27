@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -27,7 +28,15 @@ public class SerivicioEquipoDAO {
 
 	public void update(EquipoServicio EquipoServicio) {
 		// System.out.println("registro "+cli.getRegistro().get(0).toString());
-		em.merge(EquipoServicio);
+		//em.merge(EquipoServicio);
+
+		System.out.println("Noos");
+		
+		Query query = em.createNativeQuery("UPDATE equiposervicio SET equiposervi_ip='" + EquipoServicio.getIp() +
+				"',equiposervi_passwd='"+EquipoServicio.getPassword()+"',equipo_equi_id="+ EquipoServicio.getEquipo().getId()+ 
+				" WHERE equi_serv_id=" + EquipoServicio.getId());
+		query.executeUpdate();
+		System.out.println("Consulta Actualizacion: " + query);	
 
 	}
 
