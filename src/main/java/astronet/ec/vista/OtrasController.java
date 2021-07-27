@@ -1,6 +1,8 @@
 package astronet.ec.vista;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+
+import org.primefaces.context.RequestContext;
 
 import astronet.ec.modelo.ActividadesTecnicas;
 import astronet.ec.modelo.Empleado;
@@ -32,6 +36,8 @@ public class OtrasController implements Serializable{
 	private String mes;
 	private int dia;
 	private int year;
+	private boolean solucionado;
+	private Date date;
 
 
 	private String antenaElegida;
@@ -60,7 +66,6 @@ public class OtrasController implements Serializable{
 		this.tecnicos = tecnicos;
 	}
 
-	
 
 	public List<OtrasActividades> getOtras() {
 		return otras;
@@ -164,7 +169,23 @@ public class OtrasController implements Serializable{
 		this.year = year;
 	}
 
+	public boolean isSolucionado() {
+		return solucionado;
+	}
+
+	public void setSolucionado(boolean solucionado) {
+		this.solucionado = solucionado;
+	}
 	
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	public String crearActividad() {
 		OtrasActividades otraActividad = new OtrasActividades();
 		Empleado tecnicoCampo = new Empleado();
@@ -174,27 +195,16 @@ public class OtrasController implements Serializable{
 				
 		actividadTecnica.setId_actividad(Integer.parseInt(this.antenaElegida));
 		System.out.println("Hola33sss " + actividadTecnica.getId_actividad());
-
+		solucionado = false;
 		tecnicoCampo = empon.getEmpleadobyName(tecnicoElegido);
 		otraActividad.setTecnico(tecnicoCampo);
-		otraActividad.setDia(dia);
-		otraActividad.setMes(mes);
-		otraActividad.setYear(year);
+		otraActividad.setFecha(date);
 		otraActividad.setActividad(actividad);
 		otraActividad.setEmpleadoRegistra(empleadoAgenda);
 		otraActividad.setActividadTecnica(actividadTecnica);
-		
-		otrasOn.guardar(otraActividad);
-		
-		RegistroActividadesTecnicas registroActividad = new RegistroActividadesTecnicas();
-		registroActividad.setMes(mes);
-		registroActividad.setYear(year);
-		registroActividad.setPuntajeTotal(actividadOn.obtenerPuntaje(actividadTecnica.getId_actividad()));
-		registroActividad.setActivadesTotales(1);
-		registroActividad.setTecnico(tecnicoCampo);
-		
-		regActTecON.saveNewRegistro(registroActividad);
-		
+		otraActividad.setSolucionado(solucionado);
+
+		otrasOn.guardar(otraActividad);	
 		System.out.println("------ REGISTRO GUARDADO ------- ");
 		String direccion = "listaOtrasActividades?faces-redirect=true";
 		return direccion;
@@ -209,7 +219,41 @@ public class OtrasController implements Serializable{
 		return direccion;
 	}
 
-
-	
+	public String actividadSolucionada(int id) {
+		otrasOn.actualizarSolucionado(id);	
+		
+		OtrasActividades otraActividad = new OtrasActividades();
+		otraActividad = otrasOn.getOtrasId(id);
+		
+		Date fecha = otraActividad.getFecha();
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+		String cadena_fecha = formato.format(fecha);
+		String cad[] = cadena_fecha.split("/");
+		
+		
+		int num_mes = Integer.parseInt(cad[1]);
+		String meses[] = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+		String mes_select = meses[num_mes-1];
+		
+		RegistroActividadesTecnicas registroActividad = new RegistroActividadesTecnicas();
+		registroActividad.setMes(mes_select);
+		registroActividad.setYear(Integer.parseInt(cad[0]));
+		
+		
+		
+		ActividadesTecnicas act = new ActividadesTecnicas();
+		act = otraActividad.getActividadTecnica();
+		registroActividad.setPuntajeTotal(actividadOn.obtenerPuntaje(act.getId_actividad()));
+		
+		registroActividad.setActivadesTotales(1);
+		
+		Empleado tecnicoCampo = new Empleado();
+		tecnicoCampo = otraActividad.getTecnico();
+		registroActividad.setTecnico(tecnicoCampo);
+		regActTecON.saveNewRegistro(registroActividad);
+		
+		String direccion = "listaOtrasActividades?faces-redirect=true";
+		return direccion;
+	}
 	
 }

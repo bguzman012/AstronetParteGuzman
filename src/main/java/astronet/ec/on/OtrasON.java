@@ -36,8 +36,11 @@ public class OtrasON {
 	}
 	
 	public OtrasActividades getOtrasId(int id) {
-		
 		return otrasDao.read(id);
+	}
+	
+	public void actualizarSolucionado(int id) {
+		otrasDao.actualizarSolucionado(id);
 	}
 
 }

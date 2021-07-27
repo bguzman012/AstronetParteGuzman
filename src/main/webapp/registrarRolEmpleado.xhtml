@@ -115,9 +115,9 @@
 						</p:menuButton>
 
 						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
-							<p:menuitem value="Nueva actividad" outcome="crearActividadTecnica"
+							<p:menuitem value="Crear o eliminar actividad" outcome="crearActividadTecnica"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							<p:menuitem value="Editar o eliminar actividad" outcome="crearActividadTecnica"
+							<p:menuitem value="Registro de actividades realizadas" outcome="registroActividadesTecnicas"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 						</p:menuButton>
 						

@@ -56,6 +56,10 @@ public class Visita implements Serializable {
 	@Column(name = "vis_chequear")
 	private boolean chequeo= false;
 
+	@OneToOne
+	@JoinColumn(name="activadotros_fk")
+	//@JsonIgnore
+	private ActividadesTecnicas actividadestecnicas;
 	
 	
 	public String getObservaciones() {
@@ -135,6 +139,13 @@ public class Visita implements Serializable {
 	}
 
 
+	public ActividadesTecnicas getActividadestecnicas() {
+		return actividadestecnicas;
+	}
+
+	public void setActividadestecnicas(ActividadesTecnicas actividadestecnicas) {
+		this.actividadestecnicas = actividadestecnicas;
+	}
 
 
 

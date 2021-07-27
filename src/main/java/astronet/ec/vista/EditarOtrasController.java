@@ -1,6 +1,7 @@
 package astronet.ec.vista;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -29,9 +30,7 @@ public class EditarOtrasController implements Serializable{
 	private int tecnicoElegido;
 	private int id_actividad;
 	private String actividad;
-	private String mes;
-	private int dia;
-	private int year;
+	private Date fecha;
 
 
 	private String antenaElegida;
@@ -109,9 +108,13 @@ public class EditarOtrasController implements Serializable{
 		this.actividad = actividad;
 	}
 
+	public Date getFecha() {
+		return fecha;
+	}
 
-	
-
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 
 	public EmpleadoON getEmpon() {
 		return empon;
@@ -152,10 +155,6 @@ public class EditarOtrasController implements Serializable{
 		
 	}
 
-	public String getMes() {
-		return mes;
-	}
-
 	public OtrasActividades getOtra() {
 		return otra;
 	}
@@ -164,39 +163,9 @@ public class EditarOtrasController implements Serializable{
 		this.otra = otra;
 	}
 
-	public void setMes(String mes) {
-		this.mes = mes;
-	}
-
-	public int getDia() {
-		return dia;
-	}
-
-	public void setDia(int dia) {
-		this.dia = dia;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
 	
 	public String editar() {
 		
-		if(dia!=0) {
-			otra.setDia(dia);
-		}
-		
-		if(mes!=null) {
-			otra.setMes(mes);
-		}
-		
-		if(year!=0) {
-			otra.setYear(year);
-		}
 		if(tecnicoElegido!=0) {
 			Empleado empleado = new Empleado();
 			empleado.setId(tecnicoElegido);
@@ -208,6 +177,7 @@ public class EditarOtrasController implements Serializable{
 			otra.setActividadTecnica(actividadTmp);
 			
 		}
+		otra.setFecha(fecha);
 		otrasOn.actualizar(otra);
 		String direccion = "listaOtrasActividades?faces-redirect=true";
 		return direccion;

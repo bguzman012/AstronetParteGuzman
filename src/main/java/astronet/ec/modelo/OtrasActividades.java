@@ -1,6 +1,7 @@
 package astronet.ec.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,20 +45,15 @@ public class OtrasActividades implements Serializable{
 	@Column(name = "otros_actividad")
 	@NotNull
 	private String actividad;
-		
-	@Column(name = "otros_dia")
+			
+	@Column(name = "otros_fecha")
 	@NotNull
-	private int dia;
+	private Date fecha;
 	
-	@Column(name = "otros_mes")
+	@Column(name = "otros_solucionado")
 	@NotNull
-	private String mes;
+	private boolean solucionado;
 	
-	@Column(name = "otros_year")
-	@NotNull
-	private int year;
-	
-
 	public OtrasActividades() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -102,30 +98,23 @@ public class OtrasActividades implements Serializable{
 	public void setActividadTecnica(ActividadesTecnicas actividadTecnica) {
 		this.actividadTecnica = actividadTecnica;
 	}
+		
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public boolean isSolucionado() {
+		return solucionado;
+	}
+
+	public void setSolucionado(boolean solucionado) {
+		this.solucionado = solucionado;
+	}
 	
-	public int getDia() {
-		return dia;
-	}
-
-	public void setDia(int dia) {
-		this.dia = dia;
-	}
-
-	public String getMes() {
-		return mes;
-	}
-
-	public void setMes(String mes) {
-		this.mes = mes;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
 	
 	
 

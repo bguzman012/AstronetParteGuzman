@@ -157,9 +157,9 @@
 						</p:menuButton>
 
 						<p:menuButton value="Actividades Tecnicas" styleClass="styleGreen">
-							<p:menuitem value="Crear actividad técnica" outcome="crearActividadTecnica"
+							<p:menuitem value="Crear o eliminar actividad" outcome="crearActividadTecnica"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
-							<p:menuitem value="Registro de las actividades" outcome="registroActividadesTecnicas"
+							<p:menuitem value="Registro de actividades realizadas" outcome="registroActividadesTecnicas"
 							rendered="#{loginBean.empleado.rolEmpleado.nombre == 'TECNICO OFICINA' || loginBean.empleado.rolEmpleado.nombre == 'ADMINISTRADOR'}" />
 						</p:menuButton>
 						
@@ -199,7 +199,7 @@
 		<h2>Registro de las Actividades Técnicas</h2>
 	</div>
 	
-	<div class="container">
+	<!-- <div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="well well-sm">
@@ -237,6 +237,7 @@
 			</div>
 		</div>
 	</div>
+	-->
 
 	<!--Ejemplo tabla con DataTables-->
 	<div class="container">
